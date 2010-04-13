@@ -1,20 +1,18 @@
 /*
- * jQuery MultiSelect UI Widget 1.0
+ * jQuery MultiSelect UI Widget 1.0pre
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-multiselect-plugin-with-themeroller-support/
  * Inspired by Cory S.N. LaViska's implementation, A Beautiful Site (http://abeautifulsite.net/) 2009
  *
  * Depends:
- *   - jQuery 1.4.3pre+
+ *   - jQuery 1.4.2
  *   - jQuery UI 1.8 (widget, position, and effects if you want to use them)
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- *
- * **** NOT READY FOR PRODUCTION ****
 */
 (function($){
 
@@ -50,7 +48,7 @@ $.widget("ui.multiselect", {
 			html = [], 
 			optgroups = [], 
 			title = el.attr('title')
-			id = el.attr('id') || multiselectID++, // unique ID for the label & option tags
+			id = el.id || multiselectID++, // unique ID for the label & option tags
 			name = el.attr('name');
 		
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
