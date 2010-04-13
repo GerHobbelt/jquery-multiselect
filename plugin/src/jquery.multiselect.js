@@ -19,6 +19,7 @@
 		});
 	};
 	
+	// counter to dynamically generate label/option IDs if they don't exist
 	var multiselectID = 0;
 	
 	var MultiSelect = function(select,o){
@@ -61,12 +62,10 @@
 				title = $this.html(), 
 				value = this.value, 
 				inputID = this.id || "ui-multiselect-"+id+"-option-"+i, 
-				len = value.length, 
 				$parent = $this.parent(), 
 				hasOptGroup = $parent.is('optgroup'), 
 				isDisabled = $this.is(':disabled'), 
-				labelClasses = ['ui-corner-all'], 
-				liClasses = [];
+				labelClasses = ['ui-corner-all'];
 			
 			if(hasOptGroup){
 				var label = $parent.attr('label');
@@ -77,21 +76,20 @@
 				}
 			}
 		
-			if(len > 0){
+			if(value.length > 0){
 				if(isDisabled){
 					labelClasses.push('ui-state-disabled');
-					liClasses.push('ui-multiselect-disabled');
 				}
 				
-				html.push('<li class="' + liClasses.join(' ') + '">');
-				html.push('<label for="'+inputID+'" class="' + labelClasses.join(' ') + '"><input id="'+inputID+'" type="checkbox" name="' + select.name + '" value="' + value + '" title="' + title + '"');
+				html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') +'">');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+'"><input id="'+inputID+'" type="checkbox" name="'+select.name+'" value="'+value+'" title="'+title+'"');
 				if($this.is(':selected')){
 					html.push(' checked="checked"');
 				}
 				if(isDisabled){
 					html.push(' disabled="disabled"');
 				}
-				html.push(' />' + title + '</label></li>');
+				html.push(' />'+title+'</label></li>');
 			}
 		});
 		html.push('</ul></div>');
