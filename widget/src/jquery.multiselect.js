@@ -152,12 +152,12 @@ $.widget("ui.multiselect", {
 			button = this.button;
 
 		// expose custom events
-		this.element.bind({
+		/* this.element.bind({
 			'multiselectclose': function(){
 				self.close();
 			},
-			'multiselectopen': function(){
-				self.open();
+			'multiselectopen': function(e){
+				self.open(e);
 			},
 			'multiselectcheckall': function(){
 				self.checkAll();
@@ -165,7 +165,7 @@ $.widget("ui.multiselect", {
 			'multiselectuncheckall': function(){
 				self.uncheckAll();
 			}
-		});
+		}); */
 		
 		// button events
 		button.bind({
@@ -358,13 +358,12 @@ $.widget("ui.multiselect", {
 	},
 	
 	// open the menu
-	open: function(){
+	open: function(e){
 		
 		// bail if this widget is disabled
 		if( this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
-		
 		// allow multiple selects to be open if autoOpen is true, i suppose.
 		if(!this.options.autoOpen){
 			this.close('others');
