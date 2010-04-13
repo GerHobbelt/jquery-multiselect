@@ -360,10 +360,11 @@ $.widget("ui.multiselect", {
 	// open the menu
 	open: function(e){
 		
-		// bail if this widget is disabled
-		if( this.button.hasClass('ui-state-disabled') || this._isOpen ){
+		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
+		if( this._trigger("open", e) === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
+		
 		// allow multiple selects to be open if autoOpen is true, i suppose.
 		if(!this.options.autoOpen){
 			this.close('others');
@@ -407,6 +408,11 @@ $.widget("ui.multiselect", {
 	
 	// close the menu
 	close: function(which){
+		
+		// TODO does the which var matter here?
+		if(this._trigger("close") === false){
+			return;
+		}
 		
 		// close all but the open one
 		if(which === "others" || which === "all"){
