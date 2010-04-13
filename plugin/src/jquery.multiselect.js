@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect Plugin 0.5
+ * jQuery MultiSelect Plugin 0.6pre
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-multiselect-plugin-with-themeroller-support/
@@ -19,10 +19,17 @@
 		});
 	};
 	
+	var multiselectID = 0;
+	
 	var MultiSelect = function(select,o){
-		var $select = $original = $(select), $options, $header, $labels, html = [], optgroups = [], isDisabled = $select.is(':disabled');
+		var $select = $original = $(select), 
+			$options, $header, $labels, 
+			html = [], 
+			optgroups = [], 
+			isDisabled = $select.is(':disabled'), 
+			id = select.id || multiselectID++; // unique ID for the label & option tags
 		
-		html.push('<a id="'+ select.id +'" class="ui-multiselect ui-widget ui-state-default ui-corner-all' + (isDisabled || o.disabled ? ' ui-state-disabled' : '') + '">');
+		html.push('<a id="ui-multiselect-'+ select.id +'" class="ui-multiselect ui-widget ui-state-default ui-corner-all' + (isDisabled || o.disabled ? ' ui-state-disabled' : '') + '">');
 		html.push('<input readonly="readonly" type="text" class="ui-state-default" value="'+ o.noneSelectedText +'" title="'+ select.title +'" /><span class="ui-icon ui-icon-triangle-1-s"></span></a>');
 		html.push('<div class="ui-multiselect-options' + (o.shadow ? ' ui-multiselect-shadow' : '') + ' ui-widget ui-widget-content ui-corner-all">');
 	
@@ -49,8 +56,17 @@
 			$select.removeAttr("disabled");
 		}
 		
-		$select.find('option').each(function(){
-			var $this = $(this), title = $this.html(), value = this.value, len = value.length, $parent = $this.parent(), hasOptGroup = $parent.is('optgroup'), isDisabled = $this.is(':disabled'), labelClasses = ['ui-corner-all'], liClasses = [];
+		$select.find('option').each(function(i){
+			var $this = $(this), 
+				title = $this.html(), 
+				value = this.value, 
+				inputID = this.id || "ui-multiselect-"+id+"-option-"+i, 
+				len = value.length, 
+				$parent = $this.parent(), 
+				hasOptGroup = $parent.is('optgroup'), 
+				isDisabled = $this.is(':disabled'), 
+				labelClasses = ['ui-corner-all'], 
+				liClasses = [];
 			
 			if(hasOptGroup){
 				var label = $parent.attr('label');
@@ -68,7 +84,7 @@
 				}
 				
 				html.push('<li class="' + liClasses.join(' ') + '">');
-				html.push('<label class="' + labelClasses.join(' ') + '"><input type="checkbox" name="' + select.name + '" value="' + value + '" title="' + title + '"');
+				html.push('<label for="'+inputID+'" class="' + labelClasses.join(' ') + '"><input id="'+inputID+'" type="checkbox" name="' + select.name + '" value="' + value + '" title="' + title + '"');
 				if($this.is(':selected')){
 					html.push(' checked="checked"');
 				}
@@ -292,11 +308,6 @@
 				$labels.removeClass('ui-state-hover');
 				$(this).addClass('ui-state-hover').find('input').focus();
 			},
-			click: function(e,caller){
-				// if the label was clicked, trigger the click event on the checkbox.  IE6 fix
-				e.preventDefault();
-				$(this).find('input').trigger('click', [true]); 
-			},
 			keyup: function(e){
 				switch(e.keyCode){
 					case 27: // esc
@@ -318,18 +329,7 @@
 			}
 		})
 		.find('input')
-		.bind('click', function(e, label){
-			label = label || false;
-			
-			// stop this click from bubbling up to the label
-			e.stopPropagation();
-
-			// if the click originated from the label, stop the click event and manually toggle the checked state
-			if(label){
-				e.preventDefault();
-				this.checked = this.checked ? false : true;
-			}
-		
+		.bind('click', function(e){
 			o.onCheck.call(this);
 			updateSelected();
 		});
