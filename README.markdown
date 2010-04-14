@@ -1,4 +1,6 @@
-** this jQuery plugin is actively being converted to a jQuery UI widget.  Follow that development [here](http://github.com/ehynds/jquery-ui-multiselect-widget)  **
+** This jQuery plugin is actively being converted to a jQuery UI widget.  Follow that development [here](http://github.com/ehynds/jquery-ui-multiselect-widget).  
+Both versions are (and will be) actively maintained and supported.  This jQuery plugin does NOT require jQuery UI dependencies, but is not nearly as 
+robust as the widget version. **
 
 # jQuery MultiSelect Plugin
 
