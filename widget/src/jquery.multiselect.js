@@ -33,6 +33,7 @@ $.widget("ui.multiselect", {
 		show: '',
 		hide: '',
 		autoOpen: false,
+		multiple: true,
 		check: function(){}, /* when an individual checkbox is clicked */
 		checkAll: function(){}, /* when the check all link is clicked */
 		uncheckAll: function(){}, /* when the uncheck all link is clicked */
@@ -99,7 +100,7 @@ $.widget("ui.multiselect", {
 				}
 				
 				html.push('<li class="'+(isDisabled ? 'ui-multiselect-disabled' : '')+'">');
-				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="checkbox" name="'+name+'" value="'+value+'" title="'+title+'"');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" name="'+name+'" value="'+value+'" title="'+title+'"');
 				if($this.is(':selected')){
 					html.push(' checked="checked"');
 				}

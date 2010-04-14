@@ -79,6 +79,17 @@ $(function(){
 		$widget.multiselect(state ? 'disable' : 'enable');
 	});
 	
+	// radio
+	$("#example-radio").multiselect({ 
+		multiple: false,
+		noneSelectedText: "Select an option",
+		header: false,
+		selectedText: function(numChecked,numInputs,input){
+			return $(input).attr("title") + " selected";
+		}
+
+	});
+	
 	$("form").submit(function(e){
 		var data = $(this).serialize();
 		alert( data.length ? data : 'Nothing to serialize; check a box or two' );
@@ -219,7 +230,20 @@ $(function(){
 			<option value="option7">Option 7</option>
 			</select>
 		</p>
-
+	
+		<h2>Single select (radio buttons instead of checkboxes)</h2>
+		<p>Force users to select only one option by using radio buttons instead of checkboxes.</p>
+		<p>
+			<select id="example-radio" name="example-radio" multiple="multiple" size="5">
+			<option value="option1">Option 1</option>
+			<option value="option2">Option 2</option>
+			<option value="option3">Option 3</option>
+			<option value="option4">Option 4</option>
+			<option value="option5">Option 5</option>
+			<option value="option6">Option 6</option>
+			<option value="option7">Option 7</option>
+			</select>
+		</p>
 	
 		<p>&nbsp;</p>
 		<select><option value="">Select to test IE6 bgiframe</option></select><br /><br />
