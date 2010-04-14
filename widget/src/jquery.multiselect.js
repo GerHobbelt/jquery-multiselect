@@ -33,8 +33,7 @@ $.widget("ui.multiselect", {
 		show: '',
 		hide: '',
 		autoOpen: false,
-		multiple: true,
-		optgroupToggle: function(){} /* when the optgroup heading is clicked */
+		multiple: true
 	},
 
 	_create: function(){
@@ -201,9 +200,15 @@ $.widget("ui.multiselect", {
 		
 		// optgroup label toggle support
 		menu.find('li.ui-multiselect-optgroup-label a').bind('click', function(e){
-			var $inputs = $(this).parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
+			var $this = $(this),
+				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
+				
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
-			self.options.optgroupToggle.call(this, $inputs.get());
+			self._trigger('optgroupToggle', e, {
+				inputs: $inputs.get(),
+				label: $this.parent().text()
+			});
+			
 			e.preventDefault();
 		});
 		
