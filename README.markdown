@@ -1,9 +1,8 @@
-# jQuery MultiSelect Plugin & UI Widget
+** this jQuery plugin is actively being converted to a jQuery UI widget.  Follow that development [here](http://github.com/ehynds/jquery-ui-multiselect-widget)  **
 
-This plugin turns an ordinary HTML select control into elegant drop down list of checkboxes, stylable with ThemeRoller.  
+# jQuery MultiSelect Plugin
 
-**There are currently two versions being developed in this repository.**  The "plugin" branch (not actually a Git branch) is the original MultiSelect
-plugin (requires only jQuery and a theme).  The "widget" branch is a rewrite of the plugin using the jQuery UI widget factory.  Both are actively maintained.
+This plugin progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.  
 
 Demos and documentation @ [http://www.erichynds.com/jquery/jquery-multiselect-plugin-with-themeroller-support/](http://www.erichynds.com/jquery/jquery-multiselect-plugin-with-themeroller-support/)  
 
