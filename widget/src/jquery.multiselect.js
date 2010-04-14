@@ -34,8 +34,6 @@ $.widget("ui.multiselect", {
 		hide: '',
 		autoOpen: false,
 		check: function(){}, /* when an individual checkbox is clicked */
-		open: function(){}, /* when the select menu is opened */
-		close: function(){}, /* when the select menu is closed */
 		checkAll: function(){}, /* when the check all link is clicked */
 		uncheckAll: function(){}, /* when the uncheck all link is clicked */
 		optgroupToggle: function(){} /* when the optgroup heading is clicked */
@@ -150,22 +148,6 @@ $.widget("ui.multiselect", {
 			menu = this.menu,
 			labels = this.labels,
 			button = this.button;
-
-		// expose custom events
-		/* this.element.bind({
-			'multiselectclose': function(){
-				self.close();
-			},
-			'multiselectopen': function(e){
-				self.open(e);
-			},
-			'multiselectcheckall': function(){
-				self.checkAll();
-			},
-			'multiselectuncheckall': function(){
-				self.uncheckAll();
-			}
-		}); */
 		
 		// button events
 		button.bind({
@@ -270,7 +252,7 @@ $.widget("ui.multiselect", {
 			var $target = $(e.target);
 
 			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
-				self.close('all');
+				self.close(true);
 			}
 		});
 	},
@@ -361,13 +343,17 @@ $.widget("ui.multiselect", {
 	open: function(e){
 		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
-		if( this._trigger("open", e) === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
+		if( this._trigger("open") === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
 		
-		// allow multiple selects to be open if autoOpen is true, i suppose.
+		// close other open widgets, unless they're set to autoOpen.  calling close() automatically triggers the close event,
+		// so we want to be careful which widget's we call it on.  otherwise a close event will be triggered each time an
+		// open event is triggered.
 		if(!this.options.autoOpen){
-			this.close('others');
+			$('button.ui-multiselect.ui-state-active').not(this.button).each(function(){
+				$(this).data('selectelement').multiselect('close');
+			});
 		}
 		
 		// use position() if inside ui-widget-content, because offset() won't cut it.
@@ -402,28 +388,20 @@ $.widget("ui.multiselect", {
 		
 		// set the scroll of the checkbox container
 		$container.scrollTop(0).height(o.height);
-		
-		o.open.call( this.menu[0] );
 	},
 	
 	// close the menu
-	close: function(which){
+	close: function(all){
+		all = all || false;
 		
-		// TODO does the which var matter here?
 		if(this._trigger("close") === false){
 			return;
 		}
 		
 		// close all but the open one
-		if(which === "others" || which === "all"){
-			var $open = $('button.ui-multiselect.ui-state-active');
-			
-			// do not include this instance if closing others
-			if(which === "others"){
-				$open = $open.not(this.button);
-			}
-			
-			$open.each(function(){
+		if(all){
+		
+			$('button.ui-multiselect.ui-state-active').each(function(){
 				$(this).data('selectelement').multiselect('close');
 			});
 			
@@ -441,8 +419,6 @@ $.widget("ui.multiselect", {
 			this.menu.hide(effect, speed);
 			this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
 			self._isOpen = false;
-		
-			o.close.call( this.menu[0] );
 		}
 	},
 
