@@ -34,7 +34,6 @@ $.widget("ui.multiselect", {
 		hide: '',
 		autoOpen: false,
 		multiple: true,
-		check: function(){}, /* when an individual checkbox is clicked */
 		checkAll: function(){}, /* when the check all link is clicked */
 		uncheckAll: function(){}, /* when the uncheck all link is clicked */
 		optgroupToggle: function(){} /* when the optgroup heading is clicked */
@@ -244,7 +243,10 @@ $.widget("ui.multiselect", {
 			
 			// set the original option tag to selected
 			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
-			self.options.check.call(this);
+			self._trigger('click', e, {
+				value: this.value,
+				text: this.title
+			});
 			self._updateSelected();
 		});
 		
