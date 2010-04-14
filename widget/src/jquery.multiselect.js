@@ -34,8 +34,6 @@ $.widget("ui.multiselect", {
 		hide: '',
 		autoOpen: false,
 		multiple: true,
-		checkAll: function(){}, /* when the check all link is clicked */
-		uncheckAll: function(){}, /* when the uncheck all link is clicked */
 		optgroupToggle: function(){} /* when the optgroup heading is clicked */
 	},
 
@@ -433,14 +431,14 @@ $.widget("ui.multiselect", {
 		this._toggleDisabled(true);
 	},
 	
-	checkAll: function(){
+	checkAll: function(e){
 		this._toggleChecked(true);
-		this.options.checkAll();
+		this._trigger('checkAll');
 	},
 	
 	uncheckAll: function(){
 		this._toggleChecked(false);
-		this.options.uncheckAll();
+		this._trigger('uncheckAll');
 	},
 	
 	destroy: function(){

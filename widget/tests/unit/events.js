@@ -88,18 +88,18 @@
 		.appendTo("body")
 		.multiselect({
 			click: function(e,ui){
-				ok( true, 'click option: triggering the click event on one of the checkboxes triggers this multiselectclick' );
-				equals(this, el[0], "click option: context of callback");
-				equals(e.type, 'multiselectclick', 'click option: event type in callback');
-				equals(ui.value, "1", "click option: ui.value equals");
-				equals(ui.text, "Option 1", "click option: ui.title equals");
+				ok( true, 'option: triggering the click event on one of the checkboxes fires the click callback' );
+				equals(this, el[0], "option: context of callback");
+				equals(e.type, 'multiselectclick', 'option: event type in callback');
+				equals(ui.value, "1", "option: ui.value equals");
+				equals(ui.text, "Option 1", "option: ui.title equals");
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
-			ok(true, 'binding to multiselectclick: triggering the click event on one of the checkboxes triggers multiselectclick');
-			equals(this, el[0], 'binding to multiselectclick: context of event');
-			equals(ui.value, "1", "binding to multiselectclick: ui.value equals");
-			equals(ui.text, "Option 1", "binding to multiselectclick: ui.title equals");
+			ok(true, 'binding: triggering the click event on one of the checkboxes triggers multiselectclick');
+			equals(this, el[0], 'binding: context of event');
+			equals(ui.value, "1", "binding: ui.value equals");
+			equals(ui.text, "Option 1", "binding: ui.title equals");
 		})
 		.multiselect("open");
 		
@@ -108,5 +108,27 @@
 		
 		el.multiselect("destroy").remove();
 	});
-	
+
+	test("multiselectcheckall", function(){
+		expect(5);
+	 
+	 	// inject widget
+		el = $('<select><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo("body");
+		el.multiselect({
+			checkAll: function(e,ui){
+				ok( true, 'option: multiselect("checkAll") fires checkall callback' );
+				equals(this, el[0], "option: context of callback");
+				equals(e.type, 'multiselectcheckall', 'option: event type in callback');
+			}
+		})
+		.bind("multiselectcheckall", function(e,ui){
+			ok( true, 'option: multiselect("checkall") fires multiselectcheckall event' );
+			equals(this, el[0], 'binding: context of event');
+		})
+		.multiselect("open")
+		.multiselect("checkAll");
+		
+		
+		el.multiselect("destroy").remove();
+	});
 })(jQuery);
