@@ -96,6 +96,15 @@ $(function(){
 		state: 'open'
 	});
 	
+	// radio buttons instead of checkboxes
+	$("#example-radio").multiSelect({
+		multiple: false,
+		showHeader: false,
+		selectedText: function(numChecked, numTotal, checkedItem){
+			return $(checkedItem).attr("title");
+		}
+	});
+	
 	$("#examples").submit(function(e){
 		var data = $(this).serialize();
 		alert( data.length ? data : 'Nothing to serialize; check a box or two' );
@@ -291,6 +300,18 @@ $(function(){
 		</select>
 
 		<select name="example8-3" class="multiselect" multiple="multiple" size="5">
+		<option value="option1">Option 1</option>
+		<option value="option2">Option 2</option>
+		<option value="option3">Option 3</option>
+		<option value="option4">Option 4</option>
+		<option value="option5">Option 5</option>
+		</select>
+	</p>
+	
+	<h2>Example 11: Radio boxes instead of checkboxes.</h2>
+	<p>This is a quick way to force only one option being chosen.  The <code>multiple</code> and <code>showHeader</code> options are set to false, with a custom <code>selectedText</code> callback.</p>
+	<p>
+		<select id="example-radio" name="example-radio" multiple="multiple" size="5">
 		<option value="option1">Option 1</option>
 		<option value="option2">Option 2</option>
 		<option value="option3">Option 3</option>

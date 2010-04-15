@@ -82,7 +82,7 @@
 				}
 				
 				html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') +'">');
-				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+'"><input id="'+inputID+'" type="checkbox" name="'+select.name+'" value="'+value+'" title="'+title+'"');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+'"><input id="'+inputID+'" type="'+(o.multiple ? 'checkbox' : 'radio')+'" name="'+select.name+'" value="'+value+'" title="'+title+'"');
 				if($this.is(':selected')){
 					html.push(' checked="checked"');
 				}
@@ -215,7 +215,7 @@
 				}
 				
 				// use position() if inside ui-widget-content, because offset() won't cut it.
-				var offset = $select[ $select.closest('div.ui-widget-content').length ? 'position' : 'offset'](), 
+				var offset = $select.position(),
 					$container = $options.find('ul:last'), 
 					top, width;
 				
@@ -373,6 +373,7 @@
 		fadeSpeed: 200,
 		disabled: false,
 		state: 'closed',
+		multiple: true, 
 		onCheck: function(){}, /* when an individual checkbox is clicked */
 		onOpen: function(){}, /* when the select menu is opened */
 		onCheckAll: function(){}, /* when the check all link is clicked */
