@@ -58,10 +58,10 @@ Version 0.5 - 03/13/2010
 
 Version 0.6pre - Unreleased
 ==============================================
-- Added: "multiple" option.
+- Added: "multiple" option (thx rooki).
 - Added: began unit & visual tests.
 - Fixed: the "title" attribute of the widget now inherits from the original select menu.
-- Fixed: reverting back to position() from offset() - introduced too many issues.
+- Fixed: reverted back to position() from offset() - offset introduced too many regressions.
 - Modified: unique IDs are now generated for each label/checkbox combo, and added to the "for"
   attribute of the label.  Doing so triggers native label click functionality in IE6, allowing me to
   refactor and speed up a lot of the click events.
