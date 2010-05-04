@@ -1,7 +1,0 @@
-				
-				// if the options aren't going to be in view, change the positioning
-				/*
-				console.log( $(document).height()-offset.top, o.maxHeight  );
-				if( $(document).height()-offset.top < o.maxHeight ){
-					o.position = 'top';
-				};*/
