@@ -57,7 +57,7 @@ $.widget("ech.multiselect", {
 				.insertAfter( el ),
 			
 			buttonlabel = (this.buttonlabel = $('<span />'))
-				.html( o.noneSelectedText )
+				.html( $.isFunction(o.noneSelectedText) ? o.noneSelectedText.call(el) : o.noneSelectedText )
 				.appendTo( button ),
 				
 			menu = (this.menu = $('<div />'))
