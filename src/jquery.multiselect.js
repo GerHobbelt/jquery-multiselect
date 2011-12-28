@@ -342,10 +342,8 @@ $.widget("ech.multiselect", {
 					val = this.value,
 					checked = this.checked,
 					tags = self.element.find('option'),
-					clickArguments = {};
+					clickArguments = { value: val, text: this.title, checked: checked };
 				
-				// set arguments for click event. 
-				clickArguments = { value: val, text: this.title, checked: checked };
 				// if trigger sent extra parameters we pass them on.
 				if (extraParameters) {
 					clickArguments.extraParameters = extraParameters;
