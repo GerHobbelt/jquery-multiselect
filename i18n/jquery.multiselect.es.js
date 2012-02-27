@@ -2,8 +2,8 @@
 /* Written by Vinius Fontoura Correa(vinusfc@gmail.com). */
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Marca todas',
-	uncheckAllText: 'Desmarque todas',
+	checkAllText: 'Marcar todas',
+	uncheckAllText: 'Desmarcar todas',
 	noneSelectedText: 'Seleccione las opciones',
 	selectedText: '# seleccionado'
 });
