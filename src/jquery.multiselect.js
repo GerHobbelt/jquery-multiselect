@@ -35,6 +35,7 @@ $.widget("ech.multiselect", {
 		noneSelectedText: 'Select options',
 		selectedText: '# selected',
 		selectedList: 0,
+		selectedListSeparator: ', ',
 		show: '',
 		hide: '',
 		autoOpen: false,
@@ -213,7 +214,7 @@ $.widget("ech.multiselect", {
 			if($.isFunction( o.selectedText )){
 				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
 			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
-				value = $checked.map(function(){ return $(this).next().html(); }).get().join(', ');
+				value = $checked.map(function(){ return $(this).next().html(); }).get().join(o.selectedListSeparator);
 			} else {
 				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
 			}
