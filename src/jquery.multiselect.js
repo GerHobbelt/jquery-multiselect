@@ -30,6 +30,7 @@
       header: true,
       height: 175,
       minWidth: 225,
+      menuWidth: null,
       classes: '',
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
@@ -458,7 +459,16 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-      m.outerWidth(this.button.outerWidth());
+      var o = this.options;
+      var width;
+
+      if(/\d/.test(o.menuWidth)) {
+        width = o.menuWidth;
+      } else {
+        width = this.button.outedWidth();
+      }
+
+      m.outerWidth(width);
     },
 
     // move up or down within the menu
@@ -723,6 +733,10 @@
           break;
         case 'height':
           menu.find('div').last().height(parseInt(value, 10));
+          break;
+        case 'menuWidth':
+          this.options[key] = parseInt(value, 10);
+          this._setMenuWidth();
           break;
         case 'minWidth':
           this.options[key] = parseInt(value, 10);
