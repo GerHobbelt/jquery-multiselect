@@ -164,7 +164,7 @@
 
             optLabel = parent.getAttribute( 'label' );
             if( optLabel ) {
-              html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabel + '</a></li>';
+              html += '<li class="ui-multiselect-optgroup-label"><a href="#">' + optLabel + '</a></li>';
             }
 
           }
