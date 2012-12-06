@@ -1,21 +1,18 @@
 var el;
 var body = document.body;
 
-function widget(){
-	return el.multiselect("widget");
-}
-
 function button(){
 	return el.next();
 }
 
 function menu(){
-	return button().next();
+	return el.multiselect("widget");
 }
 
 function header(){
 	return menu().find('.ui-multiselect-header');
 }
+
 QUnit.done = function(){
 	$("select").hide();
 };
@@ -49,7 +46,7 @@ QUnit.done = function(){
 			.multiselect("checkAll");
 			
 		data = form.serialize();
-		equals( data, 'test=foo&test=bar&multiselect_test=foo&multiselect_test=bar', 'after checking all and serializing the form, the correct keys were serialized');
+		equals( data, 'test=foo&test=bar', 'after checking all and serializing the form, the correct keys were serialized');
 		
 		el.multiselect("uncheckAll");
 		data = form.serialize();
@@ -75,7 +72,7 @@ QUnit.done = function(){
 			.multiselect("checkAll");
 			
 		data = form.serialize();
-		equals( data, 'test=foo&test=bar&test=baz&test=bax&multiselect_test=foo&multiselect_test=bar&multiselect_test=baz&multiselect_test=bax', 'after checking all and serializing the form, the correct keys were serialized');
+		equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all and serializing the form, the correct keys were serialized');
 		
 		el.multiselect("uncheckAll");
 		data = form.serialize();
@@ -87,7 +84,7 @@ QUnit.done = function(){
 		equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 		
 		// reset option tags
-		el.find("option").removeAttr("selected").each(function(){
+		el.find("option").each(function(){
 			this.selected = false;
 		});
 		
@@ -100,7 +97,7 @@ QUnit.done = function(){
 		});
 		
 		data = form.serialize();
-		equals( data, 'test=foo&test=baz&multiselect_test=foo&multiselect_test=baz', 'after manually checking one input in each group, the correct two are serialized');
+		equals( data, 'test=foo&test=baz', 'after manually checking one input in each group, the correct two are serialized');
 		
 		el.multiselect('destroy');
 		form.remove();
@@ -114,7 +111,7 @@ QUnit.done = function(){
 		
 		el = $('<select id="test" name="test" multiple="multiple"><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>')
 			.appendTo(form)
-			.multiselect({ multiple:false });
+			.multiselect({ multiple: false });
 		
 		// select multiple radios to ensure that, in the underlying select, only one
 		// will remain selected
@@ -124,7 +121,7 @@ QUnit.done = function(){
 		radios[1].click();
 		
 		data = form.serialize();
-		equals( data, 'test=bar&multiselect_test=bar', 'the form serializes correctly after clicking on multiple radio buttons');
+		equals( data, 'test=bar', 'the form serializes correctly after clicking on multiple radio buttons');
 		equals( radios.filter(":checked").length, 1, 'Only one radio button is selected');
 		
 		// uncheckAll method
@@ -186,27 +183,6 @@ QUnit.done = function(){
 		setTimeout(function(){
 			equals( menu().find(":checked").length, 2, "two checked checkboxes" );
 			equals( button().text(), "2 of 2 selected", "selected text" );
-			el.multiselect('destroy');
-			form.remove();
-			start();
-		}, 10);
-	});
-	
-	asyncTest("form reset, single select", function(){
-		expect(2);
-		
-		var form = $('<form></form>').appendTo(body);
-		
-		el = $('<select name="test"><option value="foo">foo</option><option value="bar">bar</option></select>')
-			.appendTo(form)
-			.multiselect({ multiple: false });
-			
-		// trigger reset
-		form.trigger("reset");
-		
-		setTimeout(function(){
-			equals( menu().find(":checked").length, 1, "one checked radio button (browser default)" );
-			equals( menu().find('.ui-state-active').length, 1, "one elements with the class ui-state-active");
 			el.multiselect('destroy');
 			form.remove();
 			start();

@@ -123,26 +123,22 @@
 		});
 		
 		el.multiselect('open').multiselect('close');
-		ok( widget().is(':visible') && el.multiselect("isOpen"), "returning false inside callback prevents menu from closing" );
+		ok( menu().is(':visible') && el.multiselect("isOpen"), "returning false inside callback prevents menu from closing" );
 		el.multiselect("destroy").remove();
 	});
 	
 	test("multiselectclick", function(){
-		expect(26);
+		expect(24);
 	 
 	 	var times = 0;
 
-	 	// inject widget.  test will use the second option tag because the
-	 	// first will be selected by default by some (if not all) browsers
+	 	// inject widget
 		el = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>")
 			.appendTo(body);
 		
-		// quick check to prove that the second option tag is NOT selected.
-		ok( el.find("option").eq(1).is(":selected") === false, "option tag is not selected." );
-		
 		el.multiselect({
 			click: function(e,ui){
-				ok( true, 'option: triggering the click event on the second checkbox fires the click callback' );
+				ok(true, 'option: triggering the click event on the second checkbox fires the click callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
@@ -156,10 +152,10 @@
 			equals(ui.text, "Option 2", "event: ui.title equals");
 		})
 		.bind("change", function(e){
-			if( ++times === 1 ){
-				equals( el.val().join(), "2", "event: select element val() within the change event is correct" );
+			if(++times === 1){
+				equals(el.val().join(), "2", "event: select element val() within the change event is correct" );
 			} else {
-				equals( el.val(), null, "event: select element val() within the change event is correct" );
+				equals(el.val(), null, "event: select element val() within the change event is correct" );
 			}
 
 			ok(true, "event: the select's change event fires");
@@ -167,24 +163,23 @@
 		.multiselect("open");
 		
 		// trigger a click event on the input
-		var lastOption = menu().find("input:last")[0];
-		lastOption.click();
-		
-		// make sure the option we just selected has the selected attr
-		equals(el.find('option[value="2"]')[0].getAttribute("selected"), "selected", "Option has the checked attribute");
+		var lastInput = menu().find("input").last();
+		lastInput[0].click();
 
-		// make sure the option we just selected has the selected attr
-		lastOption.click();
-		equals(el.find('option[value="2"]')[0].getAttribute("selected"), null, "After checking the option again, the selected attribute is removed");
+		// trigger once more.
+		lastInput[0].click();
+
+		// make sure it has focus
+		equals(true, lastInput.is(":focus"), "The input has focus");
 
 		// make sure menu isn't closed automatically
 		equals( true, el.multiselect('isOpen'), 'menu stays open' );
-		
+
 		el.multiselect("destroy").remove();
 	});
 
 	test("multiselectcheckall", function(){
-		expect(9);
+		expect(10);
 	 
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
@@ -208,13 +203,14 @@
 		})
 		.multiselect("open")
 		.multiselect("checkAll");
-		
+
+		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
 		
 		el.multiselect("destroy").remove();
 	});
 	
 	test("multiselectuncheckall", function(){
-		expect(9);
+		expect(10);
 	 
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
@@ -239,24 +235,28 @@
 		.multiselect("open")
 		.multiselect("uncheckAll");
 		
-		
+		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
+
 		el.multiselect("destroy").remove();
 	});
 	
 	
 	test("multiselectbeforeoptgrouptoggle", function(){
-		expect(11);
-		
-		// inject widget
-		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
+		expect(10);
 
-		el.multiselect({
+		// inject widget
+		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>')
+          .appendTo(body);
+
+		el.bind("change", function(){
+			ok(true, "the select's change event fires");
+		})
+		.multiselect({
 			beforeoptgrouptoggle: function(e,ui){
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectbeforeoptgrouptoggle', 'option: event type in callback');
 				equals(ui.label, "Set One", 'option: ui.label equals');
 				equals(ui.inputs.length, 2, 'option: number of inputs in the ui.inputs key');
-				ok(true, "option: the select's change event fires");
 			}
 		})
 		.bind("multiselectbeforeoptgrouptoggle", function(e,ui){
@@ -264,16 +264,18 @@
 			equals(this, el[0], 'event: context of event');
 			equals(ui.label, "Set One", 'event: ui.label equals');
 			equals(ui.inputs.length, 2, 'event: number of inputs in the ui.inputs key');
-			ok(true, "event: the select's change event fires");
 		})
 		.multiselect("open");
 		
 		menu().find("li.ui-multiselect-optgroup-label a").click();
 		
 		el.multiselect("destroy").remove();
+		el = el.clone();
 		
 		// test return false preventing checkboxes from activating
-		el.multiselect({
+		el.bind("change", function(){
+			ok( true ); // should not fire
+		}).multiselect({
 			beforeoptgrouptoggle: function(){
 				return false;
 			},
@@ -282,15 +284,14 @@
                 ok( true );
             }
 		}).appendTo( body );
-		
-		menu().find("li.ui-multiselect-optgroup-label a").click();
-		equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
-		
-		el.multiselect("destroy").remove();
+
+        var label = menu().find("li.ui-multiselect-optgroup-label a").click();
+        equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
+        el.multiselect("destroy").remove();
 	});
 
 	test("multiselectoptgrouptoggle", function(){
-		expect(11);
+		expect(12);
 		
 		// inject widget
 		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
@@ -315,7 +316,9 @@
 		
 		// trigger native click event on optgroup
 		menu().find("li.ui-multiselect-optgroup-label a").click();
-		equals( menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
+		equals(menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
+
+		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
 		
 		el.multiselect("destroy").remove();
 	});
