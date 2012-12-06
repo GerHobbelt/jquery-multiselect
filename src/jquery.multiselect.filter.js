@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget Filtering Plugin 1.2
+ * jQuery MultiSelect UI Widget Filtering Plugin 1.3
  * Copyright (c) 2011 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -137,11 +137,6 @@
 				// account for optgroups
 				if( this.tagName.toLowerCase() === "optgroup" ){
 					self = self.children();
-				}
-				
-				// see _create() in jquery.multiselect.js
-				if( !self.val().length ){
-					return null;
 				}
 				
 				return self.map(function(){
