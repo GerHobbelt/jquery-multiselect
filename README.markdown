@@ -1,1 +1,3 @@
-** This plugin has been converted to a jQuery UI widget and is no longer maintained.  Follow that development [here](http://github.com/ehynds/jquery-ui-multiselect-widget).
+# jQuery UI MultiSelect Widget
+
+This is a rewrite of my original jQuery MultiSelect Plugin (found in the "plugin" folder), using UI's widget factory and other idioms.
