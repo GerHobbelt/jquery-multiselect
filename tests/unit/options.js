@@ -61,6 +61,64 @@
 		el.multiselect("destroy");
 	});
 
+	test("selectedList", function(){
+		expect(2);
+		
+		var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>';
+		
+		el = $(html).multiselect({
+			selectedList: 3
+		});
+		
+		el.multiselect("checkAll");
+		equals( button().text(), 'foo, bar, baz', 'after checkAll, button text is a list of all options in the select');
+		el.multiselect("destroy");
+		
+		el = $(html).multiselect({
+			selectedList: 2
+		});
+		
+		el.multiselect("checkAll");
+		equals( button().text(), '3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
+		el.multiselect("destroy").remove();
+	});
+
+	function asyncSelectedList( useTrigger, message ){
+		expect(1);
+		stop();
+		
+		var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>',
+			checkboxes;
+		
+		el = $(html).appendTo("body").multiselect({
+			selectedList: 2
+		});
+		
+		checkboxes = el.multiselect("widget").find(":checkbox");
+		
+		if( useTrigger ){
+			checkboxes.eq(0).trigger('click');
+			checkboxes.eq(1).trigger('click');
+		} else {
+			checkboxes.eq(0)[0].click();
+			checkboxes.eq(1)[0].click();
+		}
+		
+		setTimeout(function(){
+			equals( button().text(), 'foo, bar', message);
+			el.multiselect("destroy").remove();
+			start();
+		}, 10);
+	}
+	
+	test("selectedList - manual trigger - jQuery", function(){
+		asyncSelectedList( true, 'manually checking items with trigger()' );
+	});
+
+	test("selectedList - manual trigger - native", function(){
+		asyncSelectedList( false, 'manually checking items with element.click()' );
+	});
+	
 	test("height", function(){
 		expect(2);
 		
@@ -144,13 +202,17 @@
 		// no built in support for change on the fly; not testing it.
 	});
 	
-	test("multiple", function(){
-		expect(6);
+	test("multiple (false - single select)", function(){
+		expect(9);
 		
 		el = $("select").multiselect({ multiple:false });
 		
-		var $menu = menu();
+		// get some references
+		var $menu = menu(), $header = header();
 		
+		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden' );
+		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select none link is hidden' );
+		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
 		ok( !$menu.find(":checkbox").length, 'no checkboxes are present');
 		ok( $menu.find(":radio").length > 0, 'but radio boxes are');
 		
@@ -169,7 +231,7 @@
 		
 		el.multiselect("uncheckAll");
 		equals( $menu.find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
-
+		
 		// check/uncheck all links
 		equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 		

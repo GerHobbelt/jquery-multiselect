@@ -15,19 +15,26 @@ function menu(){
 function header(){
 	return menu().find('.ui-multiselect-header');
 }
+QUnit.done = function(){
+	$("select").hide();
+};
 
 (function($){
-
+	
 	module("core");
-
+	
 	test("init", function(){
-		expect(1);
+		expect(5);
 	 
-		el = $("select").multiselect();
-			ok( el.is(":hidden"), 'Original select is hidden');
+		el = $("select").multiselect(), $header = header();
+		ok( $header.find('a.ui-multiselect-all').css('display') !== 'hidden', 'select all is visible' );
+		ok( $header.find('a.ui-multiselect-all').is(':visible') !== 'hidden', 'select none is visible' );
+		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
+		ok( menu().is(':hidden'), 'menu is hidden');
+		ok( el.is(":hidden"), 'Original select is hidden');
 		el.multiselect("destroy");
 	});
-
+	
 	test("form submission", function(){
 		expect(3);
 		
@@ -49,8 +56,10 @@ function header(){
 		el.multiselect("checkAll").multiselect("destroy");
 		data = form.serialize();
 		equals( data, 'test=foo&test=bar', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
+		
+		form.remove();
 	});
-
+	
 	test("form submission, single select", function(){
 		expect(7);
 		
@@ -88,7 +97,7 @@ function header(){
 		data = form.serialize();
 		equals( data, 'test=foo&test=bar&test=baz', 'after destroying the widget and serializing the form, the correct key was serialized: ' + data);
 		
-		el.remove()
+		form.remove();
 	});
 	
 	asyncTest("form reset, nothing pre-selected", function(){
