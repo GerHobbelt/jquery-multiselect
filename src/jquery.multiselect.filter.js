@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget Filtering Plugin
+ * jQuery MultiSelect UI Widget Filtering Plugin 1.0
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -30,18 +30,26 @@
 				header = (this.header = instance.menu.find(".ui-multiselect-header").addClass("ui-multiselect-hasfilter")),
 				
 				// wrapper elem
-				wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">'+(opts.label.length ? opts.label : '')+'<input placeholder="'+opts.placeholder+'" type="text"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo( this.header ));
+				wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">'+(opts.label.length ? opts.label : '')+'<input placeholder="'+opts.placeholder+'" type="search"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo( this.header ));
 
 			// reference to the actual inputs
 			this.inputs = instance.menu.find(":checkbox, :radio");
 			
 			// build the input box
-			this.input = wrapper.find("input").bind("keydown", function( e ){
+			this.input = wrapper
+			.find("input")
+			.bind("keydown", function( e ){
 				// prevent the enter key from submitting the form / closing the widget
 				if( e.which === 13 ){
-					return false;
+					e.preventDefault();
 				}
-			}).bind("keyup", $.proxy(self._handler, self) );
+			})
+			.bind("keyup", $.proxy(self._handler, self) )
+			.bind("click", function(){
+				if( !this.value.length ){
+					self._handler();
+				}
+			});
 			
 			// cache input values for searching
 			this.updateCache();
@@ -79,7 +87,7 @@
 			} else {
 				rows.hide();
 
-				var regex = new RegExp('\\b' + term, 'i');
+				var regex = new RegExp(term, 'gi');
 				this._trigger( "filter", e, $.map(cache, function(v,i){
 					if( v.search(regex) !== -1 ){
 						rows.eq(i).show();
@@ -92,18 +100,15 @@
 		},
 		
 		updateCache: function(){
-			var optiontags = this.element.children(),
-				isOptgroup = optiontags[0].tagName === "OPTGROUP" || false;
-			
-			this.cache = optiontags.map(function(){
+			this.cache = this.element.children().map(function(){
 				var self = $(this);
 				
 				// account for optgroups
-				if( isOptgroup ){
+				if( this.tagName.toLowerCase() === "optgroup" ){
 					self = self.children();
 				}
 				
-				// see _create() in jquery.multiselect.js around line 96
+				// see _create() in jquery.multiselect.js
 				if( !self.val().length ){
 					return null;
 				}
