@@ -39,11 +39,42 @@
 		el.multiselect("destroy").remove();
 	});
 	
+	test("enabling w/ pre-disabled tags (#216)", function(){
+		expect(5);
+	 
+	 	el = $('<select><option disabled value="foo">foo</option><option value="bar">bar</option>')
+			.appendTo(document.body)
+			.multiselect();
+
+		var boxes = menu().find("input")
+		var disabled = boxes.first();
+		var enabled = boxes.last();
+		var key = "ech-multiselect-disabled";
+
+		equals(disabled.is(":disabled"), true, "The first option is disabled");
+		el.multiselect("disable");
+		equals(disabled.data(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
+		equals(enabled.data(key), true, "and the enabled option is flagged to be re-enable");
+		el.multiselect("enable");
+		equals(disabled.is(":disabled"), true, "After enabling, the first option is still disabled");
+		equals(disabled.data(key), undefined, "and the option no longer has the stored data flag");
+		el.multiselect("destroy").remove();
+	});
+	
 	test("widget", function(){
 		expect(1);
 	 
 		el = $("select").multiselect();
 			ok( menu().is("div.ui-multiselect-menu"), 'Widget is the menu element');
+		el.multiselect("destroy");
+	});
+	
+	test("getButton", function(){
+		expect(1);
+	 
+		el = $("select").multiselect();
+		var button = el.multiselect("getButton");
+			ok( button.is("button.ui-multiselect"), 'Button is the button element');
 		el.multiselect("destroy");
 	});
 	
@@ -86,7 +117,7 @@
 		expect(2);
 	 
 		el = $("select").multiselect().multiselect("checkAll");
-			equals( el.multiselect("getChecked").length, 7, 'number of checkboxes returned after checking all and calling getChecked');
+			equals( el.multiselect("getChecked").length, 9, 'number of checkboxes returned after checking all and calling getChecked');
 		el.multiselect("uncheckAll");
 			equals( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
 		el.multiselect("destroy");

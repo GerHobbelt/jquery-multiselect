@@ -48,7 +48,7 @@
 		equals( button().text(), numOptions+' of '+numOptions+' selected', 'after checkAll, button reflects the total number of checked boxes');
 		
 		// change option value
-		el.multiselect("option","selectedText", function( numChecked ){
+		el.multiselect("option", "selectedText", function( numChecked ){
 			return numChecked + ' options selected';
 		});
 		
@@ -57,7 +57,7 @@
 		// uncheck all
 		el.multiselect("uncheckAll");
 		equals( button().text(), el.multiselect("option","noneSelectedText"), 'after unchecking all, button text now reflects noneSelectedText option value');
-		
+
 		el.multiselect("destroy");
 	});
 
@@ -119,6 +119,16 @@
 		asyncSelectedList( false, 'manually checking items with element.click()' );
 	});
 	
+	test("selectedList - encoding", function() {
+		el = $('<select><option value="A&amp;E">A&amp;E</option></select>')
+			.appendTo(document.body)
+			.multiselect({ selectedList: 1 });
+
+		equals(button().text(), 'A&E');
+		equals(button().find("span").last().html(), 'A&amp;E');
+		el.multiselect("destroy").remove();
+	});
+
 	test("height", function(){
 		expect(2);
 		
@@ -237,6 +247,26 @@
 		equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 		
 		el.multiselect("destroy");
+	});
+
+	test("multiple (changing dynamically)", function(){
+		expect(6);
+		
+		el = $('<select multiple><option value="foo">foo</option></select>')
+			.appendTo("body")
+			.multiselect();
+		
+		el.multiselect("option", "multiple", false);
+		equals(el[0].multiple, false, "When changing a multiple select to a single select, the select element no longer has the multiple property");
+		equals(menu().hasClass("ui-multiselect-single"), true, "...and the menu now has the single select class");
+		equals(menu().find('input[type="radio"]').length, 1, "...and the checkbox is now a radio button");
+
+		el.multiselect("option", "multiple", true);
+		equals(el[0].multiple, true, "When changing a single select to a multiple select, the select element has the multiple property");
+		equals(menu().hasClass("ui-multiselect-single"), false, "...and the menu doesn't have the single select class");
+		equals(menu().find('input[type="checkbox"]').length, 1, "...and the radio button is now a checkbox");
+
+		el.multiselect("destroy").remove();
 	});
 
 	test("classes", function(){

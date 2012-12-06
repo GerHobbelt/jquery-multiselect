@@ -1,11 +1,11 @@
 /* Brazilian initialisation for the jQuery UI multiselect plugin. */
-/* Written by Vinícius Fontoura Corrêa (vinusfc@gmail.com). */
+/* Written by Yusuf Özer (realsby@gmail.com). */
 
 (function ( $ ) {
 
 $.extend($.ech.multiselectfilter.prototype.options, {
-	label: "Filtro:",
-	placeholder: "Entre com a palavra"
+  label: "Filtre:",
+  placeholder: "Bir kelime yazın"
 });
 
 })( jQuery );
