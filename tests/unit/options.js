@@ -203,7 +203,7 @@
 	});
 	
 	test("multiple (false - single select)", function(){
-		expect(9);
+		expect(10);
 		
 		el = $("select").multiselect({ multiple:false });
 		
@@ -211,7 +211,7 @@
 		var $menu = menu(), $header = header();
 		
 		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden' );
-		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select none link is hidden' );
+		ok( $header.find('a.ui-multiselect-none').is(':hidden'), 'select none link is hidden' );
 		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
 		ok( !$menu.find(":checkbox").length, 'no checkboxes are present');
 		ok( $menu.find(":radio").length > 0, 'but radio boxes are');
@@ -219,8 +219,9 @@
 		// simulate click on ALL radios
 		var radios = $menu.find(":radio").trigger("click");
 		
-		// at the end of that, only one radio should be checked
+		// at the end of that, only one radio should be checked and the menu closed
 		equals( radios.filter(":checked").length, 1, 'After checking all radios, only one is actually checked');
+		equals( false, el.multiselect('isOpen'), 'Menu is closed' );
 		
 		// uncheck boxes... should only be one
 		radios.filter(":checked").trigger("click");

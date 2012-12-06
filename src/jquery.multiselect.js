@@ -1,6 +1,6 @@
 /*
- * jQuery MultiSelect UI Widget 1.8
- * Copyright (c) 2010 Eric Hynds
+ * jQuery MultiSelect UI Widget 1.9
+ * Copyright (c) 2011 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
  *
@@ -55,7 +55,7 @@ $.widget("ech.multiselect", {
 				.attr({ 'title':el.attr('title'), 'aria-haspopup':true })
 				.insertAfter( el ),
 
-			buttonlabel = (this.buttonlabel = $('<span></span>'))
+			buttonlabel = (this.buttonlabel = $('<span />'))
 				.html( o.noneSelectedText )
 				.appendTo( button ),
 
@@ -91,6 +91,11 @@ $.widget("ech.multiselect", {
 
 		// build menu
 		this.refresh( true );
+
+		// some addl. logic for single selects
+		if( !o.multiple ){
+			menu.addClass('ui-multiselect-single');
+		}
 	},
 
 	_init: function(){
@@ -128,7 +133,7 @@ $.widget("ech.multiselect", {
 				$parent = $this.parent(),
 				isDisabled = $this.is(':disabled'),
 				labelClasses = ['ui-corner-all'],
-				label, input, li;
+				label, li;
 
 			// is this an optgroup?
 			if( $parent.is('optgroup') ){
@@ -217,7 +222,9 @@ $.widget("ech.multiselect", {
 		}
 
 		// webkit doesn't like it when you click on the span :(
-		button.find('span').bind('click.multiselect', clickHandler);
+		button
+			.find('span')
+			.bind('click.multiselect', clickHandler);
 
 		// button events
 		button.bind({
@@ -271,28 +278,29 @@ $.widget("ech.multiselect", {
 		// optgroup label toggle support
 		this.menu
 			.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e){
+				e.preventDefault();
+
 				var $this = $(this),
 					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
 
+				// trigger event and bail if the return is false
+				if( self._trigger('optgrouptoggle', e, { inputs:$inputs.get(), label:$this.parent().text(), checked:$inputs[0].checked }) === false ){
+					return;
+				}
+
 				// toggle inputs
-				self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
-
-				// trigger event
-				self._trigger('optgrouptoggle', e, {
-					inputs: $inputs.get(),
-					label: $this.parent().text(),
-					checked: $inputs[0].checked
-				});
-
-				e.preventDefault();
+				self._toggleChecked(
+					$inputs.filter(':checked').length !== $inputs.length,
+					$inputs
+				);
 			})
-			.delegate('label', 'mouseenter', function(){
+			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
 					self.labels.removeClass('ui-state-hover');
 					$(this).addClass('ui-state-hover').find('input').focus();
 				}
 			})
-			.delegate('label', 'keydown', function(e){
+			.delegate('label', 'keydown.multiselect', function(e){
 				switch(e.which){
 					case 9: // tab
 					case 27: // esc
@@ -307,11 +315,11 @@ $.widget("ech.multiselect", {
 						break;
 					case 13: // enter
 						e.preventDefault();
-						$(this).find('input').trigger('click');
+						$(this).find('input')[0].click();
 						break;
 				}
 			})
-			.delegate(':checkbox, :radio', 'click', function(e){
+			.delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e){
 				var $this = $(this),
 					val = this.value,
 					checked = this.checked,
@@ -323,14 +331,6 @@ $.widget("ech.multiselect", {
 					return;
 				}
 
-				// make sure the original option tags are unselected first
-				// in a single select
-				if( !self.options.multiple ){
-					tags.not(function(){
-						return this.value === val;
-					}).removeAttr('selected');
-				}
-
 				// toggle aria state
 				$this.attr('aria-selected', checked);
 
@@ -339,16 +339,28 @@ $.widget("ech.multiselect", {
 					return this.value === val;
 				}).attr('selected', (checked ? 'selected' : ''));
 
+				// make sure the original option tags are unselected first
+				// in a single select
+				if( !self.options.multiple ){
+					tags.not(function(){
+						return this.value === val;
+					}).removeAttr('selected');
+
+					self.labels.removeClass('ui-state-active');
+					$this.closest('label').toggleClass('ui-state-active', checked );
+
+					// close menu
+					self.close();
+				}
+
 				// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
 				// http://bugs.jquery.com/ticket/3827
 				setTimeout($.proxy(self.update, self), 10);
 			});
 
 		// close each widget when clicking on any other element/anywhere else on the page
-		$(document).bind('click.multiselect', function(e){
-			var $target = $(e.target);
-
-			if(self._isOpen && !$.contains(self.menu[0], e.target) && !$target.is('button.ui-multiselect')){
+		$(document).bind('mousedown.multiselect', function(e){
+			if(self._isOpen && !$.contains(self.menu[0], e.target) && e.target !== self.button[0]){
 				self.close();
 			}
 		});
@@ -357,7 +369,7 @@ $.widget("ech.multiselect", {
 		// restored to their defaultValue prop on form reset, and the reset
 		// handler fires before the form is actually reset.  delaying it a bit
 		// gives the form inputs time to clear.
-		$(this.element[0].form).bind('reset', function(){
+		$(this.element[0].form).bind('reset.multiselect', function(){
 			setTimeout(function(){ self.update(); }, 10);
 		});
 	},
@@ -457,15 +469,6 @@ $.widget("ech.multiselect", {
 		if( this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
-
-		// close other instances
-		$(':ech-multiselect').not(this.element).each(function(){
-			var $this = $(this);
-
-			if( $this.multiselect('isOpen') ){
-				$this.multiselect('close');
-			}
-		});
 
 		var $container = menu.find('ul:last'),
 			effect = o.show,

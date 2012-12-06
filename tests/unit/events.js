@@ -125,7 +125,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(10);
+		expect(11);
 	 
 	 	// inject widget.  test will use the second option tag because the
 	 	// first will be selected by default by some (if not all) browsers
@@ -155,6 +155,9 @@
 		
 		// trigger a click event on the input
 		menu().find("input:last").trigger("click");
+		
+		// make sure menu isn't closed automatically
+		equals( true, el.multiselect('isOpen'), 'menu stays open' );
 		
 		el.multiselect("destroy").remove();
 	});
@@ -211,12 +214,12 @@
 	
 	
 	test("multiselectoptgrouptoggle", function(){
-		expect(0);
-	 
-	 	// inject widget
+		expect(10);
+		
+		// inject widget
 		el = $('<select><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo("body");
 		el.multiselect({
-			optgroupToggle: function(e,ui){
+			optgrouptoggle: function(e,ui){
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectoptgrouptoggle', 'option: event type in callback');
 				equals(ui.label, "Set One", 'option: ui.label equals');
@@ -233,7 +236,20 @@
 		
 		// trigger native click event on optgroup
 		menu().find("li.ui-multiselect-optgroup-label a").click();
-
+		equals( menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
+		
+		el.multiselect("destroy").remove();
+		
+		// test return false preventing checkboxes from activating
+		el.multiselect({
+			optgrouptoggle: function(){
+				return false;
+			}
+		}).appendTo( document.body );
+		
+		menu().find("li.ui-multiselect-optgroup-label a").click();
+		equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
+		
 		el.multiselect("destroy").remove();
 	});
 })(jQuery);
