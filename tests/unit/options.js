@@ -90,7 +90,7 @@
 		var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>',
 			checkboxes;
 		
-		el = $(html).appendTo("body").multiselect({
+		el = $(html).appendTo(body).multiselect({
 			selectedList: 2
 		});
 		
@@ -235,8 +235,6 @@
 		
 		// check/uncheck all links
 		equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
-		
-		// not testing change on the fly here - IE doesn't support that.
 		
 		el.multiselect("destroy");
 	});
