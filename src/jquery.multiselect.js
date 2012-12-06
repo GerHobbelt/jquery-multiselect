@@ -1,12 +1,12 @@
 /*
- * jQuery MultiSelect UI Widget 1.1
+ * jQuery MultiSelect UI Widget 1.2
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery-ui-multiselect-widget/
  *
  * Depends:
  *   - jQuery 1.4.2
- *   - jQuery UI 1.8 (core, widget factory, and effects if you want to use them)
+ *   - jQuery UI 1.8 (widget factory and effects if you want to use them)
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -17,7 +17,7 @@
 
 var multiselectID = 0;
 
-$.widget("ui.multiselect", {
+$.widget("ech.multiselect", {
 
 	// default options
 	options: {
@@ -47,6 +47,7 @@ $.widget("ui.multiselect", {
 
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
 		this._isOpen = false; // assume no
+		this.optiontags = el.children(); // remember the original options/optgroups
 
 		// the actual button
 		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all"');
@@ -114,10 +115,9 @@ $.widget("ui.multiselect", {
 		html.push('</ul></div>');
 
 		// cache elements
-		this.button		= el.after( html.join('') ).hide().next('button');
+		this.button		= el.children().remove().end().after( html.join('') ).hide().next('button');
 		this.menu		= this.button.next('div.ui-multiselect-menu');
 		this.labels		= this.menu.find('label');
-		this.optiontags	= this.element.find('option');
 
 		// set widths
 		this._setButtonWidth();
@@ -127,7 +127,7 @@ $.widget("ui.multiselect", {
 		this._bindEvents();
 
 		// remember instance
-		$.ui.multiselect.instances.push(this.element);
+		$.ech.multiselect.instances.push(this.element);
 
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this.update();
@@ -140,7 +140,7 @@ $.widget("ui.multiselect", {
 		if(this.options.autoOpen){
 			this.open();
 		}
-		if(this.element.is(':disabled')){
+		if(this.element.is(":disabled")){
 			this.disable();
 		}
 	},
@@ -208,7 +208,7 @@ $.widget("ui.multiselect", {
 				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
 
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
-			self._trigger('optgroupToggle', e, {
+			self._trigger('optgrouptoggle', e, {
 				inputs: $inputs.get(),
 				label: $this.parent().text(),
 				checked: $inputs[0].checked
@@ -247,14 +247,16 @@ $.widget("ui.multiselect", {
 			var $this = $(this), val = this.value;
 
 			// bail if this input is disabled or the event is cancelled
+			// TODO rename click - it can fire on keyboard events as well
 			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:this.checked }) === false ){
 				e.preventDefault();
 				return;
 			}
 
-			// set the original option tag to selected
-			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
 			self.update();
+
+			// set the original option tag to selected
+			$(self.optiontags).filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
 		});
 
 		// close each widget when clicking on any other element/anywhere else on the page
@@ -288,7 +290,8 @@ $.widget("ui.multiselect", {
 				-parseInt(m.css('padding-right'),10)
 				-parseInt(m.css('border-right-width'),10)
 				-parseInt(m.css('border-left-width'),10);
-		m.width( width );
+
+		m.width( width || this.button.outerWidth() );
 	},
 
 	// updates the number of selected items in the button
@@ -352,7 +355,7 @@ $.widget("ui.multiselect", {
 	_getOtherInstances: function(){
 		var element = this.element;
 
-		return $.grep($.ui.multiselect.instances, function(el){
+		return $.grep($.ech.multiselect.instances, function(el){
 			return el !== element;
 		});
 	},
@@ -362,7 +365,7 @@ $.widget("ui.multiselect", {
 		var self = this;
 
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open
-		if( this._trigger('open') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
+		if( this._trigger('beforeopen') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
 
@@ -405,12 +408,14 @@ $.widget("ui.multiselect", {
 		// set the scroll of the checkbox container
 		$container.scrollTop(0).height(o.height);
 
+		this._trigger('open');
+
 		return this;
 	},
 
 	// close the menu
 	close: function(){
-		if(this._trigger('close') === false){
+		if(this._trigger('beforeclose') === false){
 			return;
 		}
 
@@ -425,6 +430,8 @@ $.widget("ui.multiselect", {
 		this.menu.hide(effect, speed);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
 		self._isOpen = false;
+
+		this._trigger('close');
 
 		return this;
 	},
@@ -456,16 +463,18 @@ $.widget("ui.multiselect", {
 
 		// remove from instances array
 		var element = this.element,
-			position = $.inArray(element, $.ui.multiselect.instances);
+			position = $.inArray(element, $.ech.multiselect.instances);
 
 		// if this instance was found, splice it off
 		if(position > -1){
-			$.ui.multiselect.instances.splice(position, 1);
+			$.ech.multiselect.instances.splice(position, 1);
 		}
 
 		this.button.remove();
 		this.menu.remove();
-		this.element.show();
+		this.element.show().find("option").removeAttr("disabled");
+		this.element.append( this.optiontags );
+
 		return this;
 	},
 
@@ -508,7 +517,7 @@ $.widget("ui.multiselect", {
 	}
 });
 
-$.extend($.ui.multiselect, {
+$.extend($.ech.multiselect, {
 	instances: []
 });
 
