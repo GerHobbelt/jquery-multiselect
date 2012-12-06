@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget 1.4
+ * jQuery MultiSelect UI Widget 1.4.1
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -43,8 +43,7 @@ $.widget("ech.multiselect", {
 			html = [],
 			optgroups = [],
 			title = el.attr('title'),
-			id = el.id || multiselectID++, // unique ID for the label & option tags
-			name = el.attr('name');
+			id = el.id || multiselectID++; // unique ID for the label & option tags
 
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
 		this._isOpen = false; // assume no
@@ -100,7 +99,7 @@ $.widget("ech.multiselect", {
 				}
 
 				html.push('<li class="'+(isDisabled ? 'ui-multiselect-disabled' : '')+'">');
-				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" name="'+name+'" value="'+value+'" title="'+title+'"');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 				if($this.is(':selected')){
 					html.push(' checked="checked"');
 				}
@@ -118,7 +117,7 @@ $.widget("ech.multiselect", {
 		this.button			= el.hide().after( html.join('') ).next('button');
 		this.menu			= this.button.next('div.ui-multiselect-menu');
 		this.labels			= this.menu.find('label');
-		this.buttonlabel 	= this.button.find("span").eq(-1);
+		this.buttonlabel 	= this.button.find('span').eq(-1);
 
 		// set widths
 		this._setButtonWidth();
@@ -127,7 +126,9 @@ $.widget("ech.multiselect", {
 		// perform event bindings
 		this._bindEvents();
 
-		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
+		// update the number of selected elements when the page initially loads,
+		// and use that as the defaultValue.  necessary for form resets when
+		// options are pre-selected.
 		this.button[0].defaultValue = this.update();
 	},
 
@@ -138,7 +139,7 @@ $.widget("ech.multiselect", {
 		if(this.options.autoOpen){
 			this.open();
 		}
-		if(this.element.is(":disabled")){
+		if(this.element.is(':disabled')){
 			this.disable();
 		}
 	},
@@ -223,7 +224,7 @@ $.widget("ech.multiselect", {
 		// labels/checkbox events
 		.end()
 		.delegate('label', 'mouseenter', function(){
-			if(!$(this).hasClass('ui-state-disabled')){
+			if( !$(this).hasClass('ui-state-disabled') ){
 				self.labels.removeClass('ui-state-hover');
 				$(this).addClass('ui-state-hover').find('input').focus();
 			}
@@ -258,7 +259,7 @@ $.widget("ech.multiselect", {
 			}
 
 			// set the original option tag to selected
-			self.element.find("option").filter(function(){
+			self.element.find('option').filter(function(){
 				return this.value === val;
 			}).attr('selected', (checked ? 'selected' : ''));
 
@@ -337,7 +338,7 @@ $.widget("ech.multiselect", {
 		this.update();
 
 		// toggle state on original option tags
-		this.element.find("option").not(':disabled').attr('selected', (flag ? 'selected' : ''));
+		this.element.find('option').not(':disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
@@ -380,10 +381,10 @@ $.widget("ech.multiselect", {
 		}
 
 		// close other instances
-		$(":ech-multiselect").not(this.element).each(function(){
+		$(':ech-multiselect').not(this.element).each(function(){
 			var $this = $(this);
 
-			if($this.multiselect('isOpen')){
+			if( $this.multiselect('isOpen') ){
 				$this.multiselect('close');
 			}
 		});
@@ -394,14 +395,14 @@ $.widget("ech.multiselect", {
 			speed = this.speed,
 			pos = this.button.position();
 
-		// calling select is active
-		this.button.addClass('ui-state-active');
-
 		// figure out opening effects/speeds
 		if( $.isArray(o.show) ){
 			effect = o.show[0];
 			speed = o.show[1] || self.speed;
 		}
+
+		// set the scroll of the checkbox container
+		$container.scrollTop(0).height(o.height);
 
 		// position and show menu
 		if( $.ui.position && !$.isEmptyObject(o.position) ){
@@ -426,12 +427,8 @@ $.widget("ech.multiselect", {
 		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
 		this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 
-		// remember this thing is opened
+		this.button.addClass('ui-state-active');
 		this._isOpen = true;
-
-		// set the scroll of the checkbox container
-		$container.scrollTop(0).height(o.height);
-
 		this._trigger('open');
 	},
 
@@ -444,16 +441,15 @@ $.widget("ech.multiselect", {
 		var self = this, o = this.options, effect = o.hide, speed = this.speed;
 
 		// figure out opening effects/speeds
-		if($.isArray(o.hide)){
+		if( $.isArray(o.hide) ){
 			effect = o.hide[0];
 			speed = o.hide[1] || this.speed;
 		}
 
 		this.menu.hide(effect, speed);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
-		self._isOpen = false;
-
 		this._trigger('close');
+		this._isOpen = false;
 	},
 
 	enable: function(){
@@ -475,7 +471,7 @@ $.widget("ech.multiselect", {
 	},
 
 	getChecked: function(){
-		return this.menu.find("input").filter(":checked");
+		return this.menu.find('input').filter(':checked');
 	},
 
 	destroy: function(){
