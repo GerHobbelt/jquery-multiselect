@@ -131,7 +131,7 @@
       var checkboxContainer = this.checkboxContainer;
       var optgroups = [];
       var html = "";
-      var id = el.attr('id') || multiselectID; // unique ID for the label & option tags
+      var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
       var inOptGroup = false;
       var inUl = false;
 
