@@ -404,6 +404,7 @@
             this.selected = checked;
           } else if(!self.options.multiple) {
             this.selected = false;
+            this.removeAttribute('selected'); // this.selected = false; does not remove the 'selected' attr
           }
         });
 
