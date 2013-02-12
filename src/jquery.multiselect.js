@@ -373,14 +373,20 @@
           break;
         }
       })
-      .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
+      .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e, extraParameters) {
         var $this = $(this);
         var val = this.value;
         var checked = this.checked;
         var tags = self.element.find('option');
+        var clickArguments = { value: val, text: this.title, checked: checked };
 
+        // if trigger sent extra parameters we pass them on.
+        if(extraParameters) {
+            clickArguments.extraParameters = extraParameters;
+        }
+				
         // bail if this input is disabled or the event is cancelled
-        if(this.disabled || self._trigger('click', e, { value: val, text: this.title, checked: checked }) === false) {
+        if(this.disabled || self._trigger('click', e, clickArguments) === false) {
           e.preventDefault();
           return;
         }

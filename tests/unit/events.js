@@ -128,7 +128,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(28);
+		expect(30);
 	 
 	 	var times = 0;
 
@@ -145,10 +145,12 @@
 				equals(ui.text, "Option 2", "option: ui.title equals");
 
 				if(times === 0) {
-          equals(ui.checked, true, "option: ui.checked equals");
+					equals(ui.checked, true, "option: ui.checked equals");
 				} else if(times === 1) {
-          equals(ui.checked, false, "option: ui.checked equals");
+					equals(ui.checked, false, "option: ui.checked equals");
 				}
+				
+				equals(ui.extraParameters, undefined, "option: ui.extraParameters equals");
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
@@ -157,11 +159,13 @@
 			equals(ui.value, "2", "event: ui.value equals");
 			equals(ui.text, "Option 2", "event: ui.title equals");
 
-      if(times === 0) {
-        equals(ui.checked, true, "option: ui.checked equals");
-      } else if(times === 1) {
-        equals(ui.checked, false, "option: ui.checked equals");
-      }
+			if(times === 0) {
+				equals(ui.checked, true, "option: ui.checked equals");
+			} else if(times === 1) {
+				equals(ui.checked, false, "option: ui.checked equals");
+			}
+			
+			equals(ui.extraParameters, undefined, "option: ui.extraParameters equals");
 		})
 		.bind("change", function(e){
 			if(++times === 1){
@@ -181,6 +185,61 @@
 		// trigger once more.
 		lastInput[0].click();
 
+		// make sure it has focus
+		equals(true, lastInput.is(":focus"), "The input has focus");
+
+		// make sure menu isn't closed automatically
+		equals( true, el.multiselect('isOpen'), 'menu stays open' );
+
+		el.multiselect("destroy").remove();
+	});
+	
+	test("multiselectclick, with extraParameters", function(){
+		expect(28);
+	 
+	 	var times = 0;
+
+	 	// inject widget
+		el = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>")
+			.appendTo(body);
+		
+		el.multiselect({
+			click: function(e,ui){
+				ok(true, 'option: triggering the click event on the second checkbox fires the click callback' );
+				equals(this, el[0], "option: context of callback");
+				equals(e.type, 'multiselectclick', 'option: event type in callback');
+				equals(ui.value, "2", "option: ui.value equals");
+				equals(ui.text, "Option 2", "option: ui.title equals");
+				equals(ui.extraParameters, "test parameter", "option: ui.extraParameters equals");
+			}
+		})
+		.bind("multiselectclick", function(e,ui){
+			ok(true, 'event: triggering the click event on the second checkbox triggers multiselectclick');
+			equals(this, el[0], 'event: context of event');
+			equals(ui.value, "2", "event: ui.value equals");
+			equals(ui.text, "Option 2", "event: ui.title equals");
+			equals(ui.extraParameters, "test parameter", "option: ui.extraParameters equals");
+		})
+		.bind("change", function(e){
+			if(times === 1){
+				equals(el.val().join(), "2", "event: select element val() within the change event is correct" );
+			} else {
+				equals(el.val(), null, "event: select element val() within the change event is correct" );
+			}
+
+			times++;
+			
+			ok(true, "event: the select's change event fires");
+		})
+		.multiselect("open");
+		
+		// trigger a click event on the input with extra parameter
+		var lastInput = menu().find("input").last();
+		$(lastInput[0]).trigger('click', 'test parameter');
+
+		// trigger once more.
+		$(lastInput[0]).trigger('click', 'test parameter');
+		
 		// make sure it has focus
 		equals(true, lastInput.is(":focus"), "The input has focus");
 
