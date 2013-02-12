@@ -171,12 +171,14 @@
 
         // create the label
         html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
-  	if( $this.attr("data-image")){
-			html += '<img src="'+$this.attr("data-image")+'" class="data-image" />';
+			
+        if($this.attr("data-image")) {
+            html += '<img src="' + $this.attr("data-image") + '" class="data-image" />';
 		}
+			
         html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
-		if( $this.attr("data-image")){
-			html += 'data-image="'+$this.attr("data-image")+'"';
+		if($this.attr("data-image")) {
+			html += 'data-image="' + $this.attr("data-image") + '"';
 		}
 
         // pre-selected?
