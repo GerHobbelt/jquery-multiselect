@@ -34,8 +34,8 @@
       classes: '',
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
-      noneSelectedText: 'Select options',
-      selectedText: '# selected',
+      noneSelectedText: 'Select options',  // may be text of function which produces text
+      selectedText: '# selected',          // may be text of function which produces text
       selectedList: 0,
       selectedListSeparator: ', ',
       show: null,
@@ -64,7 +64,7 @@
         .insertAfter(el),
 
         buttonlabel = (this.buttonlabel = $('<span />'))
-          .html(o.noneSelectedText)
+          .html($.isFunction(o.noneSelectedText) ? (o.noneSelectedText.call(el) || "") : o.noneSelectedText)
           .appendTo(button),
 
         menu = (this.menu = $('<div />'))
@@ -227,7 +227,7 @@
       var value;
 
       if(numChecked === 0) {
-        value = o.noneSelectedText;
+        value = $.isFunction(o.noneSelectedText) ? (o.noneSelectedText.call(this) || "") : o.noneSelectedText;
       } else {
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
