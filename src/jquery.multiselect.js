@@ -172,15 +172,15 @@
 
         // create the label
         html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
-			
+
         if($this.attr("data-image")) {
             html += '<img src="' + $this.attr("data-image") + '" class="data-image" />';
-		}
-			
+		    }
+
         html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
-		if($this.attr("data-image")) {
-			html += 'data-image="' + $this.attr("data-image") + '"';
-		}
+		    if($this.attr("data-image")) {
+			    html += 'data-image="' + $this.attr("data-image") + '"';
+		    }
 
         // pre-selected?
         if(isSelected) {
@@ -232,16 +232,16 @@
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-			value = $checked.map(function(){ 
-				if ($(this).attr("data-image")) {
-					var html = '<img src="'+$(this).attr("data-image")+'" class="data-image" />';
-					html += $(this).next().html();
-					return html;
-				}
-				else {
-					return $(this).next().html();
-				}
-			}).get().join(o.selectedListSeparator);
+			    value = $checked.map(function() {
+				    if ($(this).attr("data-image")) {
+					    var html = '<img src="'+$(this).attr("data-image")+'" class="data-image" />';
+					    html += $(this).next().html();
+					    return html;
+				    }
+				    else {
+					    return $(this).next().html();
+				    }
+			    }).get().join(o.selectedListSeparator);
         } else {
           value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
         }
@@ -252,7 +252,7 @@
       return value;
     },
 
-    // this exists as a separate method so that the developer 
+    // this exists as a separate method so that the developer
     // can easily override it.
     _setButtonValue: function(value) {
       this.buttonlabel.text(value);
@@ -384,7 +384,7 @@
         if(extraParameters) {
             clickArguments.extraParameters = extraParameters;
         }
-				
+
         // bail if this input is disabled or the event is cancelled
         if(this.disabled || self._trigger('click', e, clickArguments) === false) {
           e.preventDefault();
