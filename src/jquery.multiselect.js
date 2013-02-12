@@ -56,7 +56,7 @@
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
       this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
 
-      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
+      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
         .attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
@@ -400,8 +400,15 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + this._namespaceID, function(e) {
-        if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]) {
+      $doc.bind('mousedown.' + this._namespaceID, function(event) {
+        var target = event.target;
+
+        if(self._isOpen
+            && !$.contains(self.menu[0], target)
+            && !$.contains(self.button[0], target)
+            && target !== self.button[0]
+            && target !== self.menu[0])
+        {
           self.close();
         }
       });
@@ -581,10 +588,10 @@
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
 
-      // select the first option
+      // select the first not disabled option
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-      this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 
       button.addClass('ui-state-active');
       this._isOpen = true;
