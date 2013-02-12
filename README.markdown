@@ -14,7 +14,7 @@ This clone includes a few additions and fixes from other people:
 
   + both `noneSelectedText` and `selectedText` options can be either strings or functions producing strings.
     The call to `noneSelectedText` will set the function's `this` to the <select> element.
-    The call to `selectedText` will do likewise and pass these parameters as function arguments:
+    The call to `selectedText` will do likewise and pass these parameters as function arguments: numChecked, numTotal, checkedItems
 
   + `selectedListSeparator`: (default: `', '`) can be set to any string which will be used as the separator when multiple selected values are joined to produce the selection result.
 
