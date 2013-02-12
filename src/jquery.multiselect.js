@@ -37,6 +37,7 @@
       noneSelectedText: 'Select options',
       selectedText: '# selected',
       selectedList: 0,
+      selectedListSeparator: ', ',
       show: null,
       hide: null,
       autoOpen: false,
@@ -240,7 +241,7 @@
 				else {
 					return $(this).next().html();
 				}
-			}).get().join(', ');
+			}).get().join(o.selectedListSeparator);
         } else {
           value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
         }
