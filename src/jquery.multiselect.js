@@ -442,7 +442,7 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + this._namespaceID, function (event) {
+      $doc.bind('mousedown.' + this._namespaceID ' touchstart' + this._namespaceID, function(event) {
         var target = event.target;
 
         if (self._isOpen
