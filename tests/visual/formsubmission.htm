@@ -5,9 +5,9 @@
 <title>jQuery MultiSelect Plugin Tests</title>
 <link rel="stylesheet" type="text/css" href="../../jquery.multiselect.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../../demos/assets/jquery-ui.css" />
+<script type="text/javascript" src="../../demos/assets/jquery.js"></script>
+<script type="text/javascript" src="../../demos/assets/jquery-ui.js"></script>
 <script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
 </head>
 <body>
