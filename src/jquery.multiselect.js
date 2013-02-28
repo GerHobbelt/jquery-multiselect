@@ -135,7 +135,7 @@
       el.find('option').each(function(i) {
         var $this = $(this);
         var parent = this.parentNode;
-        var title = this.innerText;
+        var title = $this.text();
         var description = this.title;
         var value = this.value;
         var inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i);
