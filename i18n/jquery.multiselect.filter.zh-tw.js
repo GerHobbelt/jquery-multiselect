@@ -4,8 +4,8 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselectfilter.prototype.options, {
-	label: '過濾:',
-	placeholder: '輸入關鍵字過濾'
+    label: '過濾:',
+    placeholder: '輸入關鍵字過濾'
 });
 
 })( jQuery );

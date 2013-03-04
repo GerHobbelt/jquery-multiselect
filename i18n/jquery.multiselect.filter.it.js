@@ -4,8 +4,8 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselectfilter.prototype.options, {
-	label: "Filtro:",
-	placeholder: "Digita una parola chiave"
+    label: "Filtro:",
+    placeholder: "Digita una parola chiave"
 });
 
 })( jQuery );

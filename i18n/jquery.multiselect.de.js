@@ -4,10 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Alle auswählen',
-	uncheckAllText: 'Alle abwählen',
-	noneSelectedText: 'Nichts ausgewählt',
-	selectedText: '# ausgewählt'
+    checkAllText: 'Alle auswählen',
+    uncheckAllText: 'Alle abwählen',
+    noneSelectedText: 'Nichts ausgewählt',
+    selectedText: '# ausgewählt'
 });
 
 })( jQuery );

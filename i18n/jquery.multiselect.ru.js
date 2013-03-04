@@ -4,10 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Отметить все',
-	uncheckAllText: 'Снять отметку со всех',
-	noneSelectedText: 'Выберите из списка',
-	selectedText: 'Выбрано #'
+    checkAllText: 'Отметить все',
+    uncheckAllText: 'Снять отметку со всех',
+    noneSelectedText: 'Выберите из списка',
+    selectedText: 'Выбрано #'
 });
-	
+
 })( jQuery );

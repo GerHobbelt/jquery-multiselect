@@ -14,16 +14,16 @@
 <script type="text/javascript">
 $(function(){
 
-	$("select#example-1").multiselect({
-		selectedList: 4
-	});
-	
-	$("select#example-2").multiselect({
-	   selectedText: function(numChecked, numTotal, checkedItems) {
-	      return numChecked + ' of ' + numTotal + ' checked';
-	   }
-	});
-	
+    $("select#example-1").multiselect({
+        selectedList: 4
+    });
+
+    $("select#example-2").multiselect({
+       selectedText: function(numChecked, numTotal, checkedItems) {
+          return numChecked + ' of ' + numTotal + ' checked';
+       }
+    });
+
 });
 </script>
 
@@ -40,17 +40,17 @@ $("select").multiselect({
 });
 </pre>
 <form>
-	<p>
-		<select id="example-1" name="example-list" multiple="multiple" style="width:400px">
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		<option value="option4">Option 4</option>
-		<option value="option5">Option 5</option>
-		<option value="option6">Option 6</option>
-		<option value="option7">Option 7</option>
-		</select>
-	</p>
+    <p>
+        <select id="example-1" name="example-list" multiple="multiple" style="width:400px">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        <option value="option4">Option 4</option>
+        <option value="option5">Option 5</option>
+        <option value="option6">Option 6</option>
+        <option value="option7">Option 7</option>
+        </select>
+    </p>
 </form>
 
 <h3>Passing a Function to <code>selectedText</code></h3>
@@ -68,17 +68,17 @@ $("select").multiselect({
 <p>The <code>selectedList</code> option is simply a convenience method for the <code>selectedText</code> option.</p>
 
 <form>
-	<p>
-		<select id="example-2" name="example-list" multiple="multiple" style="width:400px">
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		<option value="option4">Option 4</option>
-		<option value="option5">Option 5</option>
-		<option value="option6">Option 6</option>
-		<option value="option7">Option 7</option>
-		</select>
-	</p>
+    <p>
+        <select id="example-2" name="example-list" multiple="multiple" style="width:400px">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        <option value="option4">Option 4</option>
+        <option value="option5">Option 5</option>
+        <option value="option6">Option 6</option>
+        <option value="option7">Option 7</option>
+        </select>
+    </p>
 </form>
 
 

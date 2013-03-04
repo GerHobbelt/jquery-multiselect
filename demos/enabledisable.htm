@@ -14,11 +14,11 @@
 <script type="text/javascript">
 $(function(){
 
-	var $widget = $("select").multiselect(), state = true;
-	$("#toggle-disabled").click(function(){
-		state = !state;
-		$widget.multiselect(state ? 'disable' : 'enable');
-	});
+    var $widget = $("select").multiselect(), state = true;
+    $("#toggle-disabled").click(function(){
+        state = !state;
+        $widget.multiselect(state ? 'disable' : 'enable');
+    });
 
 });
 </script>
@@ -28,7 +28,7 @@ $(function(){
 <h2>Enable/Disable Widget</h2>
 <p>Programmatically calling the disable and enable methods.</p>
 <pre class="prettyprint">
-var $widget = $("select").multiselect(), 
+var $widget = $("select").multiselect(),
     state = true;
 
 $("#toggle-disabled").click(function(){

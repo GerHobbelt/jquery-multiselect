@@ -9,5 +9,5 @@ $.extend($.ech.multiselect.prototype.options, {
   noneSelectedText: 'Seçenekleri belirleyin',
   selectedText: '# adet seçildi'
 });
-	
+
 })( jQuery );

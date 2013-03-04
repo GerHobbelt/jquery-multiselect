@@ -4,10 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Selecteer alles',
-	uncheckAllText: 'Deselecteer alles',
-	noneSelectedText: 'Niets geselecteerd',
-	selectedText: '# geselecteerd'
+    checkAllText: 'Selecteer alles',
+    uncheckAllText: 'Deselecteer alles',
+    noneSelectedText: 'Niets geselecteerd',
+    selectedText: '# geselecteerd'
 });
 
 })( jQuery );

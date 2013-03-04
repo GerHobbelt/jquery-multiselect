@@ -4,8 +4,8 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselectfilter.prototype.options, {
-	label: "Фильтр:",
-	placeholder: "Введите запрос"
+    label: "Фильтр:",
+    placeholder: "Введите запрос"
 });
 
 })( jQuery );

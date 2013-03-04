@@ -4,10 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: '全选',
-	uncheckAllText: '清空',
-	noneSelectedText: '请选择',
-	selectedText: '# 已选择'
+    checkAllText: '全选',
+    uncheckAllText: '清空',
+    noneSelectedText: '请选择',
+    selectedText: '# 已选择'
 });
 
 })( jQuery );

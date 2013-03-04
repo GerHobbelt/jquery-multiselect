@@ -4,8 +4,8 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselectfilter.prototype.options, {
-	label: "Zoek:",
-	placeholder: "Geef zoektermen op"
+    label: "Zoek:",
+    placeholder: "Geef zoektermen op"
 });
 
 })( jQuery );

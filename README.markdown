@@ -1,6 +1,6 @@
 # jQuery UI MultiSelect Widget
 
-MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.  
+MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.
 
 ![Example](http://www.erichynds.com/examples/jquery-multiselect/screenshot-widget.gif)
 
@@ -8,9 +8,9 @@ MultiSelect progessively enhances an ordinary multiple select control into elega
 
 This clone includes a few additions and fixes from other people:
 
-- options: 
+- options:
 
-  + `menuWidth`: (number) when specified, you can set the menu's outerWidth to this fixed value. 
+  + `menuWidth`: (number) when specified, you can set the menu's outerWidth to this fixed value.
 
   + both `noneSelectedText` and `selectedText` options can be either strings or functions producing strings.
     The call to `noneSelectedText` will set the function's `this` to the <select> element.

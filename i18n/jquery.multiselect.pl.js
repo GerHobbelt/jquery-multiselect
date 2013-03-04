@@ -4,10 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Zaznacz wszystkie',
-	uncheckAllText: 'Odznacz wszystkie',
-	noneSelectedText: 'Wybierz opcje',
-	selectedText: 'Zaznaczono #'
+    checkAllText: 'Zaznacz wszystkie',
+    uncheckAllText: 'Odznacz wszystkie',
+    noneSelectedText: 'Wybierz opcje',
+    selectedText: 'Zaznaczono #'
 });
-	
+
 })( jQuery );

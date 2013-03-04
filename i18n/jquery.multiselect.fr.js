@@ -4,10 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Tout cocher',
-	uncheckAllText: 'Tout décocher',
-	noneSelectedText: 'Sélectionner les options',
-	selectedText: '# selectionnés'
+    checkAllText: 'Tout cocher',
+    uncheckAllText: 'Tout décocher',
+    noneSelectedText: 'Sélectionner les options',
+    selectedText: '# selectionnés'
 });
 
 })( jQuery );

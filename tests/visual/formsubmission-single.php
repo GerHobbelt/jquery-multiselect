@@ -41,7 +41,7 @@
 $("select").multiselect({ multiple: false });
 
 $("form").bind("submit", function(){
-	alert( $(this).serialize() );
+    alert( $(this).serialize() );
 });
 </script>
 
