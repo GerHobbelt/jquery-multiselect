@@ -32,7 +32,7 @@
       // get the multiselect instance
       var instance = (this.instance = (elem.data('echMultiselect') || elem.data("multiselect")));
 
-	  if (!instance.menu) {
+	  if (!instance || !instance.menu) {
 		  return this;
 	  }
 
