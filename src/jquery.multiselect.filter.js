@@ -30,7 +30,7 @@
       var elem = $(this.element);
 
       // get the multiselect instance
-      var instance = (this.instance = (elem.data('echMultiselect') || elem.data("multiselect")));
+      var instance = (this.instance = (elem.data('echMultiselect') || elem.data("multiselect") || elem.data("ech-multiselect")));
 
 	  if (!instance || !instance.menu) {
 		  return this;
