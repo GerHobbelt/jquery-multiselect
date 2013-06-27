@@ -37,6 +37,7 @@
       noneSelectedText: 'Select options',
       selectedText: '# selected',
       selectedList: 0,
+      htmlButtonValue: false,
       show: null,
       hide: null,
       autoOpen: false,
@@ -238,7 +239,11 @@
     // this exists as a separate method so that the developer 
     // can easily override it.
     _setButtonValue: function(value) {
-      this.buttonlabel.text(value);
+      if (this.options.htmlButtonValue === true) {
+        this.buttonlabel.html(value);
+      } else {
+        this.buttonlabel.text(value);
+      }
     },
 
     // binds events
