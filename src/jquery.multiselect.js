@@ -54,6 +54,8 @@
       var el = this.element.hide();
       var o = this.options;
 
+      if( !o.appendTo ) o.appendTo = document.body;
+
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
 
