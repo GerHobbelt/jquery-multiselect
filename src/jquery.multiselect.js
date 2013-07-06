@@ -664,7 +664,7 @@
       $.fn.show.apply(menu, args);
 
       // select the first not disabled option
-      // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
+      // triggering both mouseover and mouseenter because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
       this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 
