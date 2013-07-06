@@ -236,10 +236,10 @@
           value = $checked.map(function() {
             if ($(this).attr("data-image")) {
               var html = '<img src="'+$(this).attr("data-image")+'" class="data-image" />';
-              html += $(this).next().html();
+              html += $(this).next().text();
               return html;
             } else {
-              return $(this).next().html();
+              return $(this).next().text();
             }
           }).get().join(o.selectedListSeparator);
         } else {
