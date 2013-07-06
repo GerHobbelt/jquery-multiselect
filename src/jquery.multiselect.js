@@ -147,7 +147,7 @@
         var $this = $(this);
         var parent = this.parentNode;
         var title = $this.text();
-        var description = this.title;
+        var description = this.title || title;
         var value = this.value;
         var inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i);
         var isDisabled = this.disabled;
@@ -162,7 +162,7 @@
 
           // has this optgroup been added already?
           if ($.inArray(optLabel, optgroups) === -1) {
-            html += '<li class="ui-multiselect-optgroup-label"><span class="ui-multiselect-header-icon ui-icon ' + o.icons.activeHeader + '"></span><a href="#">' + optLabel + '</a></li>';
+            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><span class="ui-multiselect-header-icon ui-icon ' + o.icons.activeHeader + '"></span><a href="#">' + optLabel + '</a></li>';
             optgroups.push(optLabel);
           }
         }
@@ -180,7 +180,7 @@
         html += '<li class="' + liClasses + '">';
 
         // create the label
-        html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';
+        html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
 
         if($this.attr("data-image")) {
           html += '<img src="' + $this.attr("data-image") + '" class="data-image" />';
