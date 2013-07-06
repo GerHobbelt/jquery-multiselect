@@ -123,13 +123,13 @@
         el.multiselect("destroy");
     });
 
-    test("getUnChecked", function(){
+    test("getUnchecked", function(){
         expect(2);
 
         el = $("select").multiselect().multiselect("checkAll");
-            equals( el.multiselect("getUnChecked").length, 0, 'number of checkboxes returned after checking all and calling getUnChecked');
+            equals( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
         el.multiselect("uncheckAll");
-            equals( el.multiselect("getUnChecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnChecked');
+            equals( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
         el.multiselect("destroy");
     });
 

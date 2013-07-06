@@ -9,8 +9,8 @@
     return el.multiselect("getChecked");
   }
 
-  function getUnChecked() {
-    return el.multiselect("getUnChecked");
+  function getUnchecked() {
+    return el.multiselect("getUnchecked");
   }
 
   function getSelected() {

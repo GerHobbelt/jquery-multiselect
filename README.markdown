@@ -36,7 +36,7 @@ This clone includes a few additions and fixes from other people:
   > WARNING! WARNING! WARNING!
   > This `extraParameters` feature isn't working as the extra parameters passed to jQuery's `.trigger()` don't make it past the browser-native .click() handler which is invoked in there (jQuery 1.10.x (and below?))
 
-- the class now also provides the `getUnChecked()` API which logically returns the set of UNchecked options.
+- the class now also provides the `getUnchecked()` API which logically returns the set of UNchecked options.
 
 - we popup on top of the button if the menu would otherwise be cut off by the bottom of the window.
 
