@@ -704,7 +704,7 @@
       return this.menu.find('input').filter(':checked');
     },
 
-    getUnChecked: function() {
+    getUnchecked: function() {
       return this.menu.find('input[type="checkbox"]').filter(':not(:checked)');
     },
 
