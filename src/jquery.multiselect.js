@@ -369,9 +369,13 @@
             self._traverse(e.which, this);
           break;
           case 13: // enter
+          case 32: // space
             $(this).find('input')[0].click();
           break;
         }
+      })
+      .delegate('label', 'keyup.multiselect', function(e) {
+          e.preventDefault();
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e, extraParameters) {
         var $this = $(this);
