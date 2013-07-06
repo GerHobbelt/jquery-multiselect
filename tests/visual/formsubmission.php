@@ -16,7 +16,19 @@
 <p>Testing to ensure the correct values are actually passed when the form is submitted.</p>
 
 <pre>
-<?php var_dump( $_POST['foo'], $_POST['bar'] ); ?>
+<?php 
+if (isset($_POST['foo'])) {
+	$foo = $_POST['foo'];
+} else {
+	$foo = "no/empty selection submitted";
+}
+if (isset($_POST['bar'])) {
+	$bar = $_POST['bar'];
+} else {
+	$bar = "no/empty selection submitted";
+}
+var_dump( $foo, $bar ); 
+?>
 </pre>
 
 <form action="formsubmission.php" method="post" style="margin-top:20px">

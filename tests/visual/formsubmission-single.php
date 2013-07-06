@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="stylesheet" type="text/css" href="../../demos/assets/jquery-ui.css" />
 <script type="text/javascript" src="../../demos/assets/jquery.js"></script>
-<script type="text/javascript" src="../../demos/assets/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../demos/assets/jquery-ui.js"></script>
 <script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
 </head>
 <body>
@@ -16,7 +16,19 @@
 <p>Testing to ensure the correct values are actually passed when the form is submitted.</p>
 
 <pre>
-<?php var_dump( $_POST['foo'], $_POST['bar'] ); ?>
+<?php 
+if (isset($_POST['foo'])) {
+	$foo = $_POST['foo'];
+} else {
+	$foo = "no/empty selection submitted";
+}
+if (isset($_POST['bar'])) {
+	$bar = $_POST['bar'];
+} else {
+	$bar = "no/empty selection submitted";
+}
+var_dump( $foo, $bar ); 
+?>
 </pre>
 
 <form action="formsubmission-single.php" method="post" style="margin-top:20px">
