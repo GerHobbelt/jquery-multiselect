@@ -1,7 +1,7 @@
 {
   "name": "jQuery-UI-MultiSelect-Widget",
-  "version": "1.0.0-m4",
-  "main": ["/src/jquery.multiselect.js",'src/jquery.multiselect.filter.js']
+  "version": "1.0.1-m4",
+  "main": ["/src/jquery.multiselect.js","src/jquery.multiselect.filter.js"]
   "ignore": [
   ],
   "dependencies": {
