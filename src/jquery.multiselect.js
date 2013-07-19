@@ -18,7 +18,42 @@
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-(function ($, undefined) {
+
+(function ( window, factory ) {
+
+  if ( typeof module === "object" && typeof module.exports === "object" ) {
+    // Expose a factory as module.exports in loaders that implement the Node
+    // module pattern (including browserify).
+    // This accentuates the need for a real window in the environment
+    // e.g. var jQuery = require("jquery")(window);
+    module.exports = function( w ) {
+      w = w || window;
+      if ( !w.document ) {
+        throw new Error("jQuery plugin requires a window with a document");
+      }
+      return factory( w, w.jQuery ) || w.jQuery;
+    };
+  } else {
+    // Register as a named AMD module, since jQuery can be concatenated with other
+    // files that may use define, but not via a proper concatenation script that
+    // understands anonymous AMD modules. A named AMD is safest and most robust
+    // way to register. Lowercase jquery is used because AMD module names are
+    // derived from file names, and jQuery is normally delivered in a lowercase
+    // file name. Do this after creating the global so that if an AMD module wants
+    // to call noConflict to hide this version of jQuery, it will work.
+    if ( typeof define === "function" && define.amd ) {
+      // AMD. Register as a named module.
+      define( "jquery.multiselect", [ "jquery", "jquery-ui" ], function(jQuery) {
+        return factory(window, jQuery) || jQuery;
+      });
+    } else {
+        // Browser globals
+        factory(window, window.jQuery);
+    }
+  }
+
+// Pass this, window may not be defined yet
+}(this, function ( window, $, undefined ) {
 
   var multiselectID = 0;
   var $doc = $(document);
@@ -839,4 +874,5 @@
     }
   });
 
-})(jQuery);
+}));
+
