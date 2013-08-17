@@ -82,6 +82,8 @@
       autoOpen: false,
       multiple: true,
       position: {},
+      highlightSelected: false,
+      enableCloseIcon: true,
       appendTo: "body",
       icons: {
         activeHeader: "ui-icon-triangle-1-s",
@@ -133,7 +135,7 @@
               return '';
             }
           })
-          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
+				.append(!o.enableCloseIcon ? '' : '<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
           .appendTo(header),
 
         checkboxContainer = (this.checkboxContainer = $('<ul />'))
@@ -171,6 +173,7 @@
     },
 
     refresh: function (init) {
+      var self = this;
       var el = this.element;
       var o = this.options;
       var menu = this.menu;
@@ -215,6 +218,11 @@
         }
 
         html += '<li class="' + liClasses + '">';
+
+		// if pre-selected, add the highlight class to the label class list.
+		if (isSelected) {
+			labelClasses.push('ui-state-highlight');
+		}
 
         // create the label
         html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
@@ -404,7 +412,7 @@
       .delegate('label', 'mouseenter.multiselect', function () {
         if (!$(this).hasClass('ui-state-disabled')) {
           self.labels.removeClass('ui-state-hover');
-          $(this).addClass('ui-state-hover').find('input').focus();
+					$(this).addClass('ui-state-hover');
         }
       })
       .delegate('label', 'keydown.multiselect', function (e) {
@@ -454,6 +462,15 @@
 
         // toggle aria state
         $this.attr('aria-selected', checked);
+
+		// if selected, add the highlight class to the label class list.
+		if (self.options.highlightSelected) {
+			if (checked) {
+				$this.closest('label').addClass('ui-state-highlight');
+			} else {
+				$this.closest('label').removeClass('ui-state-highlight');
+			}
+		}
 
         // change state on the original option tags
         tags.each(function () {
@@ -545,20 +562,24 @@
       var moveToLast = which === 38 || which === 37;
 
       // select the first li that isn't an optgroup label / disabled
-      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)').first();
+      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label):visible')[moveToLast ? 'last' : 'first']();
 
       // if at the first/last element
       if (!$next.length) {
         var $container = this.menu.find('ul').last();
 
         // move to the first/last
-        this.menu.find('label')[moveToLast ? 'last' : 'first']().trigger('mouseover');
+		var label = this.menu.find('li:visible label')[ moveToLast ? 'last' : 'first' ]();
+		label.find('input').focus();
+		label.trigger('mouseover');
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
 
       } else {
-        $next.find('label').trigger('mouseover');
+		var label = $next.find('label');
+		label.find('input').focus();
+		label.trigger('mouseover');
       }
     },
 
@@ -566,7 +587,7 @@
     // other related attributes of a checkbox.
     //
     // The context of this function should be a checkbox; do not proxy it.
-    _toggleState: function (prop, flag) {
+	_toggleState: function( prop, flag, highlightSelected ) {
       return function () {
         if (!this.disabled) {
           this[prop] = flag;
@@ -574,8 +595,12 @@
 
         if (flag) {
           this.setAttribute('aria-selected', true);
+		  if (highlightSelected)
+			$(this).closest('label').addClass('ui-state-highlight');
         } else {
           this.removeAttribute('aria-selected');
+		  if (highlightSelected)
+			$(this).closest('label').removeClass('ui-state-highlight');
         }
       };
     },
@@ -585,7 +610,7 @@
       var self = this;
 
       // toggle state on inputs
-      $inputs.each(this._toggleState('checked', flag));
+	  $inputs.each(this._toggleState('checked', flag, self.options.highlightSelected));
 
       // give the first input focus
       $inputs.eq(0).focus();
@@ -622,7 +647,7 @@
       if (flag) {
         // remember which elements this widget disabled (not pre-disabled)
         // elements, so that they can be restored if the widget is re-enabled.
-        inputs = inputs.filter(':enabled').data(key, true)
+        inputs = inputs.filter(':enabled').data(key, true);
       } else {
         inputs = inputs.filter(function () {
           return $.data(this, key) === true;

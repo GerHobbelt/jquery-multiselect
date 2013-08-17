@@ -97,9 +97,12 @@
         var $inputs = (group && group.length) ? group : this.labels.find('input');
         var _self = this;
 
-        $inputs = $inputs
-          .not(":disabled, .ui-multiselect-filtered")
-          .each(this._toggleState('checked', flag));
+        // do not include hidden elems if the menu isn't open.
+		var selector = self.instance._isOpen ?
+						":disabled, :hidden, .ui-multiselect-filtered" :
+						":disabled, .ui-multiselect-filtered";
+
+        $inputs = $inputs.not( selector ).each(this._toggleState('checked', flag, _self.options.highlightSelected));
 
         // update text
         this.update();
