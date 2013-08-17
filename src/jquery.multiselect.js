@@ -66,6 +66,7 @@
     options: {
       header: true,
       height: 175,
+      width: undefined,
       minWidth: 225,
       menuWidth: null,
       classes: '',
@@ -501,15 +502,21 @@
 
     // set button width
     _setButtonWidth: function () {
-      var width = this.element.outerWidth();
       var o = this.options;
+      if (typeof o.width === 'undefined') {
+        var width = this.element.outerWidth();
 
-      if (/\d/.test(o.minWidth) && width < o.minWidth) {
-        width = o.minWidth;
+        if (/\d/.test(o.minWidth) && width < o.minWidth) {
+          width = o.minWidth;
+        }
+
+        // set widths
+        this.button.outerWidth(width);
+      } else {
+        var width = typeof o.width === 'function' ? o.width() : o.width;
+        if (/\d$/.test(width)) width = width+'px';
+        this.button.css('width',width);
       }
-
-      // set widths
-      this.button.outerWidth(width);
     },
 
     // set menu width
