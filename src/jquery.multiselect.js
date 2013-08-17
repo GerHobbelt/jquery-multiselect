@@ -76,6 +76,7 @@
       selectedText: '# selected',          // may be text of function which produces text
       selectedList: 0,
       selectedListSeparator: ', ',
+      htmlButtonValue: false,
       show: null,
       hide: null,
       autoOpen: false,
@@ -299,7 +300,11 @@
     // this exists as a separate method so that the developer
     // can easily override it.
     _setButtonValue: function (value) {
-      this.buttonlabel.text(value);
+      if (this.options.htmlButtonValue === true) {
+        this.buttonlabel.html(value);
+      } else {
+        this.buttonlabel.text(value);
+      }
       this._trigger('buttonvaluechanged');
     },
 
