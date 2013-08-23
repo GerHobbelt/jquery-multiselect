@@ -68,6 +68,7 @@
       height: 175,
       width: undefined,
       minWidth: 225,
+	  minMenuWidth: 225,
       menuWidth: null,
       classes: '',
       checkAllText: 'Check all',
@@ -553,6 +554,10 @@
         width = this.button.outerWidth();
       }
 
+	  if (/\d/.test(o.minMenuWidth) && width < o.minMenuWidth) {
+		  width = o.minMenuWidth;
+	  }
+
       m.outerWidth(width);
     },
 
@@ -863,6 +868,19 @@
     },
 
     // react to option changes after initialization
+	//
+	// Options which are not supported here (yet?): 
+	//
+	//     width
+	//     htmlButtonValue
+	//     show
+	//     hide
+	//     autoOpen
+	//     highlightSelected
+	//     enableCloseIcon
+	//     appendTo
+	//     icons
+	//
     _setOption: function (key, value) {
       var menu = this.menu;
 
@@ -888,9 +906,14 @@
           this._setButtonWidth();
           this._setMenuWidth();
           break;
+        case 'minMenuWidth':
+          this.options[key] = parseInt(value, 10);
+          this._setMenuWidth();
+          break;
         case 'selectedText':
         case 'selectedList':
         case 'noneSelectedText':
+		case 'selectedListSeparator':
           this.options[key] = value; // these all needs to update immediately for the update() call
           this.update();
           break;
@@ -905,6 +928,7 @@
           break;
         case 'position':
           this.position();
+		  break;
       }
 
       $.Widget.prototype._setOption.apply(this, arguments);
