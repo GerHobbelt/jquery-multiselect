@@ -68,7 +68,7 @@
       height: 175,
       width: undefined,
       minWidth: 225,
-	  minMenuWidth: 225,
+      minMenuWidth: 225,
       menuWidth: null,
       classes: '',
       checkAllText: 'Check all',
@@ -136,7 +136,7 @@
               return '';
             }
           })
-				.append(!o.enableCloseIcon ? '' : '<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
+          .append(!o.enableCloseIcon ? '' : '<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
           .appendTo(header),
 
         checkboxContainer = (this.checkboxContainer = $('<ul />'))
@@ -220,10 +220,10 @@
 
         html += '<li class="' + liClasses + '">';
 
-		// if pre-selected, add the highlight class to the label class list.
-		if (isSelected) {
-			labelClasses.push('ui-state-highlight');
-		}
+        // if pre-selected, add the highlight class to the label class list.
+        if (isSelected) {
+          labelClasses.push('ui-state-highlight');
+        }
 
         // create the label
         html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
@@ -413,7 +413,7 @@
       .delegate('label', 'mouseenter.multiselect', function () {
         if (!$(this).hasClass('ui-state-disabled')) {
           self.labels.removeClass('ui-state-hover');
-					$(this).addClass('ui-state-hover');
+          $(this).addClass('ui-state-hover');
         }
       })
       .delegate('label', 'keydown.multiselect', function (e) {
@@ -464,14 +464,14 @@
         // toggle aria state
         $this.attr('aria-selected', checked);
 
-		// if selected, add the highlight class to the label class list.
-		if (self.options.highlightSelected) {
-			if (checked) {
-				$this.closest('label').addClass('ui-state-highlight');
-			} else {
-				$this.closest('label').removeClass('ui-state-highlight');
-			}
-		}
+        // if selected, add the highlight class to the label class list.
+        if (self.options.highlightSelected) {
+          if (checked) {
+            $this.closest('label').addClass('ui-state-highlight');
+          } else {
+            $this.closest('label').removeClass('ui-state-highlight');
+          }
+        }
 
         // change state on the original option tags
         tags.each(function () {
@@ -554,9 +554,9 @@
         width = this.button.outerWidth();
       }
 
-	  if (/\d/.test(o.minMenuWidth) && width < o.minMenuWidth) {
-		  width = o.minMenuWidth;
-	  }
+      if (/\d/.test(o.minMenuWidth) && width < o.minMenuWidth) {
+        width = o.minMenuWidth;
+      }
 
       m.outerWidth(width);
     },
@@ -574,17 +574,17 @@
         var $container = this.menu.find('ul').last();
 
         // move to the first/last
-		var label = this.menu.find('li:visible label')[ moveToLast ? 'last' : 'first' ]();
-		label.find('input').focus();
-		label.trigger('mouseover');
+        var label = this.menu.find('li:visible label')[ moveToLast ? 'last' : 'first' ]();
+        label.find('input').focus();
+        label.trigger('mouseover');
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
 
       } else {
-		var label = $next.find('label');
-		label.find('input').focus();
-		label.trigger('mouseover');
+        var label = $next.find('label');
+        label.find('input').focus();
+        label.trigger('mouseover');
       }
     },
 
@@ -592,7 +592,7 @@
     // other related attributes of a checkbox.
     //
     // The context of this function should be a checkbox; do not proxy it.
-	_toggleState: function( prop, flag, highlightSelected ) {
+    _toggleState: function( prop, flag, highlightSelected ) {
       return function () {
         if (!this.disabled) {
           this[prop] = flag;
@@ -600,12 +600,14 @@
 
         if (flag) {
           this.setAttribute('aria-selected', true);
-		  if (highlightSelected)
-			$(this).closest('label').addClass('ui-state-highlight');
+          if (highlightSelected) {
+            $(this).closest('label').addClass('ui-state-highlight');
+		  }
         } else {
           this.removeAttribute('aria-selected');
-		  if (highlightSelected)
-			$(this).closest('label').removeClass('ui-state-highlight');
+          if (highlightSelected) {
+            $(this).closest('label').removeClass('ui-state-highlight');
+		  }
         }
       };
     },
@@ -615,7 +617,7 @@
       var self = this;
 
       // toggle state on inputs
-	  $inputs.each(this._toggleState('checked', flag, self.options.highlightSelected));
+      $inputs.each(this._toggleState('checked', flag, self.options.highlightSelected));
 
       // give the first input focus
       $inputs.eq(0).focus();
@@ -868,19 +870,19 @@
     },
 
     // react to option changes after initialization
-	//
-	// Options which are not supported here (yet?): 
-	//
-	//     width
-	//     htmlButtonValue
-	//     show
-	//     hide
-	//     autoOpen
-	//     highlightSelected
-	//     enableCloseIcon
-	//     appendTo
-	//     icons
-	//
+    //
+    // Options which are not supported here (yet?):
+    //
+    //     width
+    //     htmlButtonValue
+    //     show
+    //     hide
+    //     autoOpen
+    //     highlightSelected
+    //     enableCloseIcon
+    //     appendTo
+    //     icons
+    //
     _setOption: function (key, value) {
       var menu = this.menu;
 
@@ -913,7 +915,7 @@
         case 'selectedText':
         case 'selectedList':
         case 'noneSelectedText':
-		case 'selectedListSeparator':
+        case 'selectedListSeparator':
           this.options[key] = value; // these all needs to update immediately for the update() call
           this.update();
           break;
@@ -928,7 +930,7 @@
           break;
         case 'position':
           this.position();
-		  break;
+          break;
       }
 
       $.Widget.prototype._setOption.apply(this, arguments);

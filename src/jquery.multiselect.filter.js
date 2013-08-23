@@ -68,9 +68,9 @@
       var elem = $(this.element);
       var instance = (this.instance = (elem.data("echMultiselect") || elem.data("multiselect") || elem.data("ech-multiselect")));
 
-	  if (!instance || !instance.menu) {
-		  return this;
-	  }
+      if (!instance || !instance.menu) {
+        return this;
+      }
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
       var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
@@ -103,9 +103,9 @@
         var _self = this;
 
         // do not include hidden elems if the menu isn't open.
-		var selector = self.instance._isOpen ?
-						":disabled, :hidden, .ui-multiselect-filtered" :
-						":disabled, .ui-multiselect-filtered";
+        var selector = self.instance._isOpen ?
+                        ":disabled, :hidden, .ui-multiselect-filtered" :
+                        ":disabled, .ui-multiselect-filtered";
 
         $inputs = $inputs.not( selector ).each(this._toggleState('checked', flag, _self.options.highlightSelected));
 
