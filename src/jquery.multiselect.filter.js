@@ -65,7 +65,9 @@
       var opts = this.options;
 
       // get the multiselect instance: must use the full name for jQuery 1.9+ to find the instance, cf. http://jqueryui.com/upgrade-guide/1.9/#changed-naming-convention-for-data-keys (see also the <jquery-ui.js> definition of $.widget where fullName is constructed)
-      var instance = (this.instance = $(this.element).data('ech-multiselect'));
+      var elem = $(this.element);
+      var instance = (this.instance = (elem.data("echMultiselect") || elem.data("multiselect") || elem.data("ech-multiselect")));
+      
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
       var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
