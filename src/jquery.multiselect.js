@@ -602,12 +602,12 @@
           this.setAttribute('aria-selected', true);
           if (highlightSelected) {
             $(this).closest('label').addClass('ui-state-highlight');
-		  }
+          }
         } else {
           this.removeAttribute('aria-selected');
           if (highlightSelected) {
             $(this).closest('label').removeClass('ui-state-highlight');
-		  }
+          }
         }
       };
     },
