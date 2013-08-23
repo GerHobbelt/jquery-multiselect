@@ -103,7 +103,7 @@
         var _self = this;
 
         // do not include hidden elems if the menu isn't open.
-        var selector = self.instance._isOpen ?
+        var selector = _self._isOpen ?
                         ":disabled, :hidden, .ui-multiselect-filtered" :
                         ":disabled, .ui-multiselect-filtered";
 
