@@ -46,16 +46,16 @@ QUnit.done = function(){
             .multiselect("checkAll");
 
         data = form.serialize();
-        equals( data, 'test=foo&test=bar', 'after checking all and serializing the form, the correct keys were serialized');
+        equal( data, 'test=foo&test=bar', 'after checking all and serializing the form, the correct keys were serialized');
 
         el.multiselect("uncheckAll");
         data = form.serialize();
-        equals( data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
+        equal( data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
 
         // re-check all and destroy, exposing original select
         el.multiselect("checkAll").multiselect("destroy");
         data = form.serialize();
-        equals( data, 'test=foo&test=bar', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
+        equal( data, 'test=foo&test=bar', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 
         form.remove();
     });
@@ -72,16 +72,16 @@ QUnit.done = function(){
             .multiselect("checkAll");
 
         data = form.serialize();
-        equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all and serializing the form, the correct keys were serialized');
+        equal( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all and serializing the form, the correct keys were serialized');
 
         el.multiselect("uncheckAll");
         data = form.serialize();
-        equals( data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
+        equal( data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
 
         // re-check all and destroy, exposing original select
         el.multiselect("checkAll").multiselect("destroy");
         data = form.serialize();
-        equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
+        equal( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 
         // reset option tags
         el.find("option").each(function(){
@@ -97,7 +97,7 @@ QUnit.done = function(){
         });
 
         data = form.serialize();
-        equals( data, 'test=foo&test=baz', 'after manually checking one input in each group, the correct two are serialized');
+        equal( data, 'test=foo&test=baz', 'after manually checking one input in each group, the correct two are serialized');
 
         el.multiselect('destroy');
         form.remove();
@@ -121,25 +121,25 @@ QUnit.done = function(){
         radios[1].click();
 
         data = form.serialize();
-        equals( data, 'test=bar', 'the form serializes correctly after clicking on multiple radio buttons');
-        equals( radios.filter(":checked").length, 1, 'Only one radio button is selected');
+        equal( data, 'test=bar', 'the form serializes correctly after clicking on multiple radio buttons');
+        equal( radios.filter(":checked").length, 1, 'Only one radio button is selected');
 
         // uncheckAll method
         el.multiselect("uncheckAll");
         data = form.serialize();
-        equals( data.length, 0, 'After unchecking all, nothing was serialized');
-        equals( radios.filter(":checked").length, 0, 'No radio buttons are selected');
+        equal( data.length, 0, 'After unchecking all, nothing was serialized');
+        equal( radios.filter(":checked").length, 0, 'No radio buttons are selected');
 
         // checkAll method
         el.multiselect("checkAll");
         data = form.serialize();
-        equals( el.multiselect("getChecked").length, 1, 'After checkAll, only one radio is selected');
-        equals( radios.filter(":checked").length, 1, 'One radio is selected');
+        equal( el.multiselect("getChecked").length, 1, 'After checkAll, only one radio is selected');
+        equal( radios.filter(":checked").length, 1, 'One radio is selected');
 
         // expose original
         el.multiselect("destroy");
         data = form.serialize();
-        equals( data, 'test=foo&test=bar&test=baz', 'after destroying the widget and serializing the form, the correct key was serialized: ' + data);
+        equal( data, 'test=foo&test=bar&test=baz', 'after destroying the widget and serializing the form, the correct key was serialized: ' + data);
 
         form.remove();
     });
@@ -159,8 +159,8 @@ QUnit.done = function(){
         form.trigger("reset");
 
         setTimeout(function(){
-            equals( menu().find(":checked").length, 0, "no checked checkboxes" );
-            equals( button().text(), noneSelected, "none selected text");
+            equal( menu().find(":checked").length, 0, "no checked checkboxes" );
+            equal( button().text(), noneSelected, "none selected text");
             el.multiselect('destroy');
             form.remove();
             start();
@@ -181,8 +181,8 @@ QUnit.done = function(){
         form.trigger("reset");
 
         setTimeout(function(){
-            equals( menu().find(":checked").length, 2, "two checked checkboxes" );
-            equals( button().text(), "2 of 2 selected", "selected text" );
+            equal( menu().find(":checked").length, 2, "two checked checkboxes" );
+            equal( button().text(), "2 of 2 selected", "selected text" );
             el.multiselect('destroy');
             form.remove();
             start();

@@ -7,7 +7,7 @@
 
         el = $("select").multiselect().multiselect("open");
             ok( el.multiselect("isOpen"), "isOpen parameter true" );
-            equals( menu().css("display"), "block", "Test display CSS property" );
+            equal( menu().css("display"), "block", "Test display CSS property" );
         el.multiselect("destroy");
     });
 
@@ -16,7 +16,7 @@
 
         el = $("select").multiselect().multiselect("open").multiselect("close");
             ok( !el.multiselect("isOpen"), "isOpen parameter false" );
-            equals( menu().css("display"), "none", "Test display CSS property" );
+            equal( menu().css("display"), "none", "Test display CSS property" );
         el.multiselect("destroy");
     });
 
@@ -51,13 +51,13 @@
         var enabled = boxes.last();
         var key = "ech-multiselect-disabled";
 
-        equals(disabled.is(":disabled"), true, "The first option is disabled");
+        equal(disabled.is(":disabled"), true, "The first option is disabled");
         el.multiselect("disable");
-        equals(disabled.data(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
-        equals(enabled.data(key), true, "and the enabled option is flagged to be re-enable");
+        equal(disabled.data(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
+        equal(enabled.data(key), true, "and the enabled option is flagged to be re-enable");
         el.multiselect("enable");
-        equals(disabled.is(":disabled"), true, "After enabling, the first option is still disabled");
-        equals(disabled.data(key), undefined, "and the option no longer has the stored data flag");
+        equal(disabled.is(":disabled"), true, "After enabling, the first option is still disabled");
+        equal(disabled.data(key), undefined, "and the option no longer has the stored data flag");
         el.multiselect("destroy").remove();
     });
 
@@ -117,9 +117,9 @@
         expect(2);
 
         el = $("select").multiselect().multiselect("checkAll");
-            equals( el.multiselect("getChecked").length, 9, 'number of checkboxes returned after checking all and calling getChecked');
+            equal( el.multiselect("getChecked").length, 9, 'number of checkboxes returned after checking all and calling getChecked');
         el.multiselect("uncheckAll");
-            equals( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
+            equal( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
         el.multiselect("destroy");
     });
 
@@ -127,9 +127,9 @@
         expect(2);
 
         el = $("select").multiselect().multiselect("checkAll");
-            equals( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
+            equal( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
         el.multiselect("uncheckAll");
-            equals( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
+            equal( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
         el.multiselect("destroy");
     });
 
@@ -145,15 +145,15 @@
             return hai;
         })();
 
-        equals( checkboxes.length, 2, "After clearing the select, adding 2 options, and refresh(), only 2 checkboxes exist");
-        equals( checkboxes.eq(0).val(), 'foo', 'first is foo' );
-        equals( checkboxes.eq(1).val(), 'bar', 'second is foo' );
+        equal( checkboxes.length, 2, "After clearing the select, adding 2 options, and refresh(), only 2 checkboxes exist");
+        equal( checkboxes.eq(0).val(), 'foo', 'first is foo' );
+        equal( checkboxes.eq(1).val(), 'bar', 'second is foo' );
 
         // add one more w/ append, just for safety's sake
         el.append('<option value="baz">baz</option>');
         el.multiselect('refresh');
         getCheckboxes();
-        equals( checkboxes.eq(2).val(), 'baz', 'after an append() call, the third option is now' );
+        equal( checkboxes.eq(2).val(), 'baz', 'after an append() call, the third option is now' );
 
         el.multiselect("destroy").remove();
     });
@@ -175,7 +175,7 @@
     el.multiselect("position");
 
     // make sure the new position is accurate
-    equals(menu().css("left"), left, "After calling position(), the menu has updated to the same left value as the button");
+    equal(menu().css("left"), left, "After calling position(), the menu has updated to the same left value as the button");
 
     el.multiselect("destroy").remove();
     });

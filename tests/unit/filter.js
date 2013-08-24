@@ -29,7 +29,7 @@
     message || (message = "searching for '#'");
     message = message.replace("#", term);
     searchFor(term);
-    equals( getVisible().length, expected, message );
+    equal( getVisible().length, expected, message );
   }
 
   module("filter widget - multiple select", {
@@ -84,56 +84,56 @@
     });
   });
 
-  test("filtering by node value", function(){
-    // searchTest( "100", 1);
-    // searchTest( "baz", 1);
-  });
+  // test("filtering by node value", function(){
+  //   searchTest( "100", 1);
+  //   searchTest( "baz", 1);
+  // });
 
   test("filtering & checking", function(){
     searchFor("ba");
 
     getVisible().each(triggerClick);
-    equals(getChecked().length, 2, "Two checkboxes are selected");
-    equals(getSelected().length, 2, "Two option tags are selected");
+    equal(getChecked().length, 2, "Two checkboxes are selected");
+    equal(getSelected().length, 2, "Two option tags are selected");
 
     getVisible().each(triggerClick);
-    equals(getChecked().length, 0, "After clicking again, no checkboxes are selected");
-    equals(getSelected().length, 0, "After clicking again, no tags are selected");
+    equal(getChecked().length, 0, "After clicking again, no checkboxes are selected");
+    equal(getSelected().length, 0, "After clicking again, no tags are selected");
   });
 
   test("checkAll / uncheckAll", function(){
     searchFor("ba");
 
     el.multiselect("checkAll");
-    equals(getChecked().length, 2, "checkAll: two checkboxes are selected");
-    equals(getSelected().length, 2, "checkAll: two option tags are selected");
+    equal(getChecked().length, 2, "checkAll: two checkboxes are selected");
+    equal(getSelected().length, 2, "checkAll: two option tags are selected");
 
     el.multiselect("uncheckAll");
-    equals(getChecked().length, 0, "uncheckAll: no checkboxes are selected");
-    equals(getSelected().length, 0, "uncheckAll: no option tags are selected");
+    equal(getChecked().length, 0, "uncheckAll: no checkboxes are selected");
+    equal(getSelected().length, 0, "uncheckAll: no option tags are selected");
   });
 
   test("combination of filtering/methods/click events", function(){
     searchFor("ba");
 
     getVisible().first().each(triggerClick);
-    equals(getChecked().length, 1, "selecting 1 of multiple results (checked)");
-    equals(getSelected().length, 1, "selecting 1 of multiple results (selected)");
+    equal(getChecked().length, 1, "selecting 1 of multiple results (checked)");
+    equal(getSelected().length, 1, "selecting 1 of multiple results (selected)");
 
     searchFor(" ");
-    equals(getChecked().length, 1, "clearing search, only 1 is still selected");
+    equal(getChecked().length, 1, "clearing search, only 1 is still selected");
     el.multiselect("uncheckAll");
-    equals(getChecked().length, 0, "uncheckAll, nothing is selected (checked)");
-    equals(getSelected().length, 0, "uncheckedAll, nothing is selected (selected)");
+    equal(getChecked().length, 0, "uncheckAll, nothing is selected (checked)");
+    equal(getSelected().length, 0, "uncheckedAll, nothing is selected (selected)");
 
     searchFor("one hundred")
     el.multiselect("checkAll");
-    equals(getChecked().length, 1, "checkAll on one matching result (checked)");
-    equals(getSelected().length, 1, "checkAll on one matching result (selected)");
+    equal(getChecked().length, 1, "checkAll on one matching result (checked)");
+    equal(getSelected().length, 1, "checkAll on one matching result (selected)");
 
     searchFor("foo");
     el.multiselect("checkAll");
-    equals(getChecked().length, 2, "checkAll on one matching result (checked)");
-    equals(getSelected().length, 2, "checkAll on one matching result (selected)");
+    equal(getChecked().length, 2, "checkAll on one matching result (checked)");
+    equal(getSelected().length, 2, "checkAll on one matching result (selected)");
   });
 })(jQuery);
