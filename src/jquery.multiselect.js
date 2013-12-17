@@ -42,7 +42,8 @@
       hide: null,
       autoOpen: false,
       multiple: true,
-      position: {}
+      position: {},
+      appendTo: document.body
     },
 
     _create: function() {
@@ -57,7 +58,7 @@
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
       this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
 
-      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
+      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
         .attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
@@ -70,7 +71,7 @@
         menu = (this.menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
-          .appendTo(document.body),
+          .appendTo(o.appendMenuTo),
 
         header = (this.header = $('<div />'))
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
@@ -429,8 +430,15 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + this._namespaceID, function(e) {
-        if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]) {
+      $doc.bind('mousedown.' + this._namespaceID, function(event) {
+        var target = event.target;
+
+        if(self._isOpen
+            && !$.contains(self.menu[0], target)
+            && !$.contains(self.button[0], target)
+            && target !== self.button[0]
+            && target !== self.menu[0])
+        {
           self.close();
         }
       });
