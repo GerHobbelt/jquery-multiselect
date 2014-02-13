@@ -40,6 +40,7 @@
       show: null,
       hide: null,
       autoOpen: false,
+	  fireChangeOnClose: false,
       multiple: true,
       position: {},
       appendTo: "body"
@@ -393,7 +394,12 @@
         }
 
         // fire change on the select box
-        self.element.trigger("change");
+		if (self.options.fireChangeOnClose) {
+			self.didChanged = true;
+		}
+		else {
+			self.element.trigger("change");
+		}
 
         // setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
         // http://bugs.jquery.com/ticket/3827
@@ -621,6 +627,11 @@
 
       $.fn.hide.apply(this.menu, args);
       this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
+		// fire change on the select box
+		if (o.fireChangeOnClose && this.didChanged) {
+			this.element.trigger('change');
+			this.didChanged = false;
+		}
       this._isOpen = false;
       this._trigger('close');
     },
