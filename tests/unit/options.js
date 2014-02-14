@@ -126,9 +126,32 @@
 			.appendTo("body")
 			.multiselect({ selectedList: 1 });
 
-		equals(button().text(), 'A&amp;E');
+		equals(button().text(), 'A&E');
 		el.multiselect("destroy").remove();
 	});
+
+    test("selectedList - custom separator", function(){
+        expect(2);
+
+        var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>';
+
+        el = $(html).appendTo("body").multiselect({
+            selectedList: 3,
+            separator: '|'
+        });
+
+        el.multiselect("checkAll");
+        equals( button().text(), 'foo|bar|baz', 'after checkAll, button text is a list of all options in the select, separated by a custom separator');
+        el.multiselect("destroy").remove();
+
+        el = $(html).appendTo("body").multiselect({
+            selectedList: 2
+        });
+
+        el.multiselect("checkAll");
+        equals( button().text(), '3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
+        el.multiselect("destroy").remove();
+    });
 
 	test("height", function(){
 		expect(2);
