@@ -226,7 +226,7 @@
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          value = $checked.map(function() { return $(this).next().html(); }).get().join(o.separator);
+          value = $checked.map(function() { return $(this).next().text(); }).get().join(o.separator);
         } else {
           value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
         }
