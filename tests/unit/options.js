@@ -340,5 +340,12 @@
 
         el.multiselect("destroy");
     });
-
+    
+	test("closeIcon", function(){
+		expect(1);
+		var icon = "ui-icon-search";
+		el = $("select").multiselect({ autoOpen:true, icons: { close: icon }});
+		equals(menu().find(".ui-multiselect-close").find("."+icon).length, 1);
+		el.multiselect("destroy");
+	});
 })(jQuery);

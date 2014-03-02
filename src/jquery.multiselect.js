@@ -87,6 +87,7 @@
       enableCloseIcon: true,
       appendTo: "body",
       icons: {
+        close: 'ui-icon-circle-close',
         activeHeader: "ui-icon-triangle-1-s",
         header: "ui-icon-triangle-1-e"
       }
@@ -136,7 +137,7 @@
               return '';
             }
           })
-          .append(!o.enableCloseIcon ? '' : '<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
+          .append(!o.enableCloseIcon ? '' : '<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ' + o.icons.close + '"></span></a></li>')
           .appendTo(header),
 
         checkboxContainer = (this.checkboxContainer = $('<ul />'))
