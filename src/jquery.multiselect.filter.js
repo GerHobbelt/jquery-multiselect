@@ -131,14 +131,14 @@
       };
 
       // rebuild cache when multiselect is updated
-      var doc = $(document).bind('multiselectrefresh', $.proxy(function() {
+      var doc = $(document).bind('multiselectrefresh.'+ instance._namespaceID, $.proxy(function() {
         this.updateCache();
         this._handler();
       }, this));
 
       // automatically reset the widget on close?
       if(this.options.autoReset) {
-        doc.bind('multiselectclose', $.proxy(this._reset, this));
+        doc.bind('multiselectclose.'+ instance._namespaceID, $.proxy(this._reset, this));
       }
     },
 

@@ -81,6 +81,7 @@
       show: null,
       hide: null,
       autoOpen: false,
+	  fireChangeOnClose: false,
       multiple: true,
       position: {},
       highlightSelected: false,
@@ -336,7 +337,7 @@
       // button events
       button.bind({
         click: clickHandler,
-        keypress: function (e) {
+        keydown: function(e) {
           switch (e.which) {
             case 27: // esc
             case 38: // up
@@ -424,6 +425,7 @@
           case 9: // tab
           case 27: // esc
             self.close();
+            button.focus();
             break;
           case 38: // up
           case 40: // down
@@ -494,7 +496,12 @@
         }
 
         // fire change on the select box
-        self.element.trigger("change");
+		if (self.options.fireChangeOnClose) {
+			self.didChanged = true;
+		}
+		else {
+			self.element.trigger("change");
+		}
 
         // setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
         // http://bugs.jquery.com/ticket/3827
@@ -519,7 +526,7 @@
       // restored to their defaultValue prop on form reset, and the reset
       // handler fires before the form is actually reset.  delaying it a bit
       // gives the form inputs time to clear.
-      $(this.element[0].form).bind('reset.multiselect', function () {
+      $(this.element[0].form).bind('reset.' + this._namespaceID, function() {
         setTimeout($.proxy(self.refresh, self), 10);
       });
     },
@@ -776,6 +783,11 @@
 
       $.fn.hide.apply(this.menu, args);
       this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
+		// fire change on the select box
+		if (o.fireChangeOnClose && this.didChanged) {
+			this.element.trigger('change');
+			this.didChanged = false;
+		}
       this._isOpen = false;
       this._trigger('close');
       //if the select value is changed,so provider the changed event
@@ -816,6 +828,7 @@
 
       // unbind events
       $doc.unbind(this._namespaceID);
+      $(this.element[0].form).unbind(this._namespaceID);
 
       this.button.remove();
       this.menu.remove();
