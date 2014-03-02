@@ -203,20 +203,18 @@
         var optLabel;
 
         // is this an optgroup?
-        if (parent.tagName === 'OPTGROUP') {
-          if (!$(parent).prop( 'jquery-multiselect-parsed')) { 
-            $(parent).prop( 'jquery-multiselect-parsed', true );
+        if (parent.tagName.toLowerCase() === 'optgroup') {
+          if (!$(parent).prop('jquery-multiselect-parsed')) { 
+            $(parent).prop('jquery-multiselect-parsed', true);
 
             inOptGroup = true;
-
             if (inUl) {
               html += '</ul>';
             }
-
             html += '<ul class="' + parent.className + '">';
             inUl = true;
 
-            optLabel = parent.getAttribute( 'label' );
+            optLabel = parent.getAttribute('label');
             if (optLabel) {
               html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><span class="ui-multiselect-header-icon ui-icon ' + o.icons.activeHeader + '"></span><a href="#">' + optLabel + '</a></li>';
             }
@@ -714,13 +712,13 @@
       if (flag) {
         //Collapse
         groups
-                    .removeClass(icons.activeHeader).addClass(icons.header)
-                    .parent().nextUntil('li.ui-multiselect-optgroup-label').addClass("ui-multiselect-collapsed");
+          .removeClass(icons.activeHeader).addClass(icons.header)
+          .parent().nextUntil('li.ui-multiselect-optgroup-label').addClass("ui-multiselect-collapsed");
       } else {
         //Expand
         groups
-                    .removeClass(icons.header).addClass(icons.activeHeader)
-                    .parent().nextUntil('li.ui-multiselect-optgroup-label').removeClass("ui-multiselect-collapsed");
+          .removeClass(icons.header).addClass(icons.activeHeader)
+          .parent().nextUntil('li.ui-multiselect-optgroup-label').removeClass("ui-multiselect-collapsed");
       }
     },
     //get select value
