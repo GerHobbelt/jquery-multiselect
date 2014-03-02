@@ -82,7 +82,7 @@
       show: null,
       hide: null,
       autoOpen: false,
-	  fireChangeOnClose: false,
+      fireChangeOnClose: false,
       multiple: true,
       position: {},
       highlightSelected: false,
@@ -99,7 +99,7 @@
       var el = this.element.hide();
       var o = this.options;
 
-      if( !o.appendTo ) o.appendTo = document.body;
+      if (!o.appendTo) o.appendTo = document.body;
 
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
@@ -143,7 +143,7 @@
           .appendTo(header),
 
         checkboxContainer = (this.checkboxContainer = $('<div />'))
-          .addClass('ui-multiselect-checkboxes ui-helper-reset')
+          .addClass('ui-multiselect-checkboxes')
           .appendTo(menu);
 
       // perform event bindings
@@ -211,7 +211,7 @@
             if (inUl) {
               html += '</ul>';
             }
-            html += '<ul class="' + parent.className + '">';
+            html += '<ul class="ui-helper-reset ' + parent.className + '">';
             inUl = true;
 
             optLabel = parent.getAttribute('label');
@@ -226,7 +226,7 @@
         }
 
         if (!inUl) {
-          html += '<ul>';
+          html += '<ul class="ui-helper-reset">';
           inUl = true;
         }
 
@@ -250,12 +250,12 @@
         // create the label
         html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
 
-        if($this.attr("data-image")) {
+        if ($this.attr("data-image")) {
           html += '<img src="' + $this.attr("data-image") + '" class="data-image" />';
         }
 
         html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
-        if($this.attr("data-image")) {
+        if ($this.attr("data-image")) {
           html += 'data-image="' + $this.attr("data-image") + '"';
         }
 
@@ -317,7 +317,7 @@
         } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
           value = $checked.map(function() {
             if ($(this).attr("data-image")) {
-              var html = '<img src="'+$(this).attr("data-image")+'" class="data-image" />';
+              var html = '<img src="' + $(this).attr("data-image") + '" class="data-image" />';
               html += $(this).next().text();
               return html;
             } else {
