@@ -1,45 +1,45 @@
-(function($){
+(function ($) {
 
     module("methods");
 
-    test("open", function(){
+    test("open", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("open");
-            ok( el.multiselect("isOpen"), "isOpen parameter true" );
-            equal( menu().css("display"), "block", "Test display CSS property" );
+            ok(el.multiselect("isOpen"), "isOpen parameter true");
+            equal(menu().css("display"), "block", "Test display CSS property");
         el.multiselect("destroy");
     });
 
-    test("close", function(){
+    test("close", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("open").multiselect("close");
-            ok( !el.multiselect("isOpen"), "isOpen parameter false" );
-            equal( menu().css("display"), "none", "Test display CSS property" );
+            ok(!el.multiselect("isOpen"), "isOpen parameter false");
+            equal(menu().css("display"), "none", "Test display CSS property");
         el.multiselect("destroy");
     });
 
-    test("enable", function(){
+    test("enable", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("disable").multiselect("enable");
-            ok( button().is(":disabled") === false, "Button is enabled" );
-            ok( el.is(":disabled") === false, "Original select is enabled" );
+            ok(button().is(":disabled") === false, "Button is enabled");
+            ok(el.is(":disabled") === false, "Original select is enabled");
         el.multiselect("destroy");
     });
 
-    test("disable", function(){
+    test("disable", function () {
         expect(2);
 
         // clone this one so the original is not affected
         el = $("select").clone(true).appendTo(body).multiselect().multiselect("disable");
-            ok( button().is(":disabled"), 'Button is disabled');
-            ok( el.is(":disabled"), 'Original select is disabled');
+            ok(button().is(":disabled"), 'Button is disabled');
+            ok(el.is(":disabled"), 'Original select is disabled');
         el.multiselect("destroy").remove();
     });
 
-    test("enabling w/ pre-disabled tags (#216)", function(){
+    test("enabling w/ pre-disabled tags (#216)", function () {
         expect(5);
 
         el = $('<select><option disabled value="foo">foo</option><option value="bar">bar</option>')
@@ -61,123 +61,123 @@
         el.multiselect("destroy").remove();
     });
 
-    test("widget", function(){
+    test("widget", function () {
         expect(1);
 
         el = $("select").multiselect();
-            ok( menu().is("div.ui-multiselect-menu"), 'Widget is the menu element');
+            ok(menu().is("div.ui-multiselect-menu"), 'Widget is the menu element');
         el.multiselect("destroy");
     });
 
-    test("getButton", function(){
+    test("getButton", function () {
         expect(1);
 
         el = $("select").multiselect();
         var button = el.multiselect("getButton");
-            ok( button.is("button.ui-multiselect"), 'Button is the button element');
+            ok(button.is("button.ui-multiselect"), 'Button is the button element');
         el.multiselect("destroy");
     });
 
-    test("checkAll", function(){
+    test("checkAll", function () {
         expect(1);
 
         el = $("select").multiselect().multiselect("checkAll");
         var inputs = menu().find("input");
-            ok( inputs.filter(":checked").length === inputs.length, 'All inputs selected on the widget?');
+            ok(inputs.filter(":checked").length === inputs.length, 'All inputs selected on the widget?');
         el.multiselect("destroy");
     });
 
-    test("uncheckAll", function(){
+    test("uncheckAll", function () {
         expect(1);
 
         el = $("select").multiselect().multiselect("checkAll").multiselect("uncheckAll");
-            ok( menu().find("input:checked").length === 0, 'All inputs unchecked on the widget?');
+            ok(menu().find("input:checked").length === 0, 'All inputs unchecked on the widget?');
         el.multiselect("destroy");
     });
 
-    test("isOpen", function(){
+    test("isOpen", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("open");
-            ok( el.multiselect("isOpen"), 'Testing isOpen method after calling open method');
+            ok(el.multiselect("isOpen"), 'Testing isOpen method after calling open method');
         el = $("select").multiselect("close");
-            ok( !el.multiselect("isOpen"), 'Testing isOpen method after calling close method');
+            ok(!el.multiselect("isOpen"), 'Testing isOpen method after calling close method');
         el.multiselect("destroy");
     });
 
-    test("destroy", function(){
+    test("destroy", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("destroy");
-            ok( !$(".ui-multiselect").length , 'button.ui-multiselect removed from the DOM');
-            ok( !el.data("multiselect") , 'no more multiselect obj attached to elem');
+            ok(!$(".ui-multiselect").length, 'button.ui-multiselect removed from the DOM');
+            ok(!el.data("multiselect"), 'no more multiselect obj attached to elem');
     });
 
-    test("getChecked", function(){
+    test("getChecked", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("checkAll");
-            equal( el.multiselect("getChecked").length, 9, 'number of checkboxes returned after checking all and calling getChecked');
+            equal(el.multiselect("getChecked").length, 13, 'number of checkboxes returned after checking all and calling getChecked');
         el.multiselect("uncheckAll");
-            equal( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
+            equal(el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
         el.multiselect("destroy");
     });
 
-    test("getUnchecked", function(){
+    test("getUnchecked", function () {
         expect(2);
 
         el = $("select").multiselect().multiselect("checkAll");
-            equal( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
+            equal(el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
         el.multiselect("uncheckAll");
-            equal( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
+            equal(el.multiselect("getUnchecked").length, 13, 'number of checkboxes returned after unchecking all and calling getUnchecked');
         el.multiselect("destroy");
     });
 
-    test("refresh", function(){
+    test("refresh", function () {
         expect(4);
 
         el = $("select").clone().appendTo(body).multiselect();
         el.empty().html('<option value="foo">foo</option><option value="bar">bar</option>');
         el.multiselect('refresh');
 
-        var checkboxes, getCheckboxes = (function hai(){
+        var checkboxes, getCheckboxes = (function hai() {
             checkboxes = menu().find('input[type="checkbox"]');
             return hai;
         })();
 
-        equal( checkboxes.length, 2, "After clearing the select, adding 2 options, and refresh(), only 2 checkboxes exist");
-        equal( checkboxes.eq(0).val(), 'foo', 'first is foo' );
-        equal( checkboxes.eq(1).val(), 'bar', 'second is foo' );
+        equal(checkboxes.length, 2, "After clearing the select, adding 2 options, and refresh(), only 2 checkboxes exist");
+        equal(checkboxes.eq(0).val(), 'foo', 'first is foo');
+        equal(checkboxes.eq(1).val(), 'bar', 'second is foo');
 
         // add one more w/ append, just for safety's sake
         el.append('<option value="baz">baz</option>');
         el.multiselect('refresh');
         getCheckboxes();
-        equal( checkboxes.eq(2).val(), 'baz', 'after an append() call, the third option is now' );
+        equal(checkboxes.eq(2).val(), 'baz', 'after an append() call, the third option is now');
 
         el.multiselect("destroy").remove();
     });
 
     test("position", function() {
-    expect(2);
+        expect(2);
 
-    var left = "500px";
+        var left = "500px";
 
-    el = $("select").clone().appendTo(body).multiselect();
+        el = $("select").clone().appendTo(body).multiselect();
 
-    // move the button
-    button().css({ position: "absolute", left: left });
+        // move the button
+        button().css({ position: "absolute", left: left });
 
-    // sanity check the fact that the menu and button are out of sync
-    notEqual(menu().css("left"), left, "After moving the button, the menu remains in its old position");
+        // sanity check the fact that the menu and button are out of sync
+        notEqual(menu().css("left"), left, "After moving the button, the menu remains in its old position");
 
-    // update the menu position
-    el.multiselect("position");
+        // update the menu position
+        el.multiselect("position");
 
-    // make sure the new position is accurate
-    equal(menu().css("left"), left, "After calling position(), the menu has updated to the same left value as the button");
+        // make sure the new position is accurate
+        equal(menu().css("left"), left, "After calling position(), the menu has updated to the same left value as the button");
 
-    el.multiselect("destroy").remove();
+        el.multiselect("destroy").remove();
     });
 
 })(jQuery);

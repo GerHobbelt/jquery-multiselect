@@ -21,7 +21,7 @@
 .ui-multiselect-checkboxes li.ui-multiselect-filtered { display:none }
 .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label { text-align:center; font-weight:bold; border-bottom:1px solid; position:relative; }
 .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a { display:block; padding:3px; margin:1px 0 0 16px; text-decoration:none; }
-.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label span.ui-icon { position: absolute;left: 0;top: 50%;margin-top: -8px; }
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label span.ui-icon { position: absolute; left: 0; top: 50%; margin-top: -8px; }
 
 /* remove label borders in IE6 because IE6 does not support transparency */
 * html .ui-multiselect-checkboxes label { border:none }

@@ -13,7 +13,7 @@ function header(){
     return menu().find('.ui-multiselect-header');
 }
 
-QUnit.done = function(){
+QUnit.done = function () {
     $("select").hide();
 };
 
@@ -21,7 +21,7 @@ QUnit.done = function(){
 
     module("core");
 
-    test("init", function(){
+    test("init", function () {
         expect(6);
 
         el = $("select").multiselect(), $header = header();
@@ -34,7 +34,7 @@ QUnit.done = function(){
         el.multiselect("destroy");
     });
 
-    test("form submission", function(){
+    test("form submission", function () {
         expect(3);
 
         var form = $('<form></form>').appendTo(body),
@@ -60,7 +60,7 @@ QUnit.done = function(){
         form.remove();
     });
 
-    test("form submission, optgroups", function(){
+    test("form submission, optgroups", function () {
         expect(4);
 
         var form = $('<form></form>').appendTo(body),
@@ -84,7 +84,7 @@ QUnit.done = function(){
         equal( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 
         // reset option tags
-        el.find("option").each(function(){
+        el.find("option").each(function () {
             this.selected = false;
         });
 
@@ -92,7 +92,7 @@ QUnit.done = function(){
         el.multiselect();
 
         // finds the first input in each optgroup (assumes 2 options per optgroup)
-        el.multiselect("widget").find('.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label) input:even').each(function( i ){
+        el.multiselect("widget").find('.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label) input:even').each(function (i) {
             this.click();
         });
 
@@ -103,7 +103,7 @@ QUnit.done = function(){
         form.remove();
     });
 
-    test("form submission, single select", function(){
+    test("form submission, single select", function () {
         expect(7);
 
         var form = $('<form></form>').appendTo("body"),
@@ -144,7 +144,7 @@ QUnit.done = function(){
         form.remove();
     });
 
-    asyncTest("form reset, nothing pre-selected", function(){
+    asyncTest("form reset, nothing pre-selected", function () {
         expect(2);
 
         var form = $('<form></form>').appendTo(body),
@@ -158,7 +158,7 @@ QUnit.done = function(){
         // trigger reset
         form.trigger("reset");
 
-        setTimeout(function(){
+        setTimeout(function () {
             equal( menu().find(":checked").length, 0, "no checked checkboxes" );
             equal( button().text(), noneSelected, "none selected text");
             el.multiselect('destroy');
@@ -167,7 +167,7 @@ QUnit.done = function(){
         }, 10);
     });
 
-    asyncTest("form reset, pre-selected options", function(){
+    asyncTest("form reset, pre-selected options", function () {
         expect(2);
 
         var form = $('<form></form>').appendTo(body);
@@ -180,7 +180,7 @@ QUnit.done = function(){
         // trigger reset
         form.trigger("reset");
 
-        setTimeout(function(){
+        setTimeout(function () {
             equal( menu().find(":checked").length, 2, "two checked checkboxes" );
             equal( button().text(), "2 of 2 selected", "selected text" );
             el.multiselect('destroy');
