@@ -82,13 +82,26 @@ module.exports = function (grunt) {
     },
 
     csslint: {
-      options: {
-        csslintrc: '.csslintrc'
+      library: {
+        options: {
+          csslintrc: '.csslintrc'
+        },
+        src: [
+          'jquery.multiselect.css',
+          'jquery.multiselect.rtl.css',
+          'jquery.multiselect.filter.css',
+          'jquery.multiselect.filter.rtl.css'
+        ]
       },
-      src: [
-        '*.css',
-        'demos/assets/style.css'
-      ]
+      demos: {
+        options: {
+          csslintrc: '.csslintrc',
+          ids: false
+        },
+        src: [
+          'demos/assets/style.css'
+        ]
+      }
     },
 
     concat: {
@@ -126,13 +139,13 @@ module.exports = function (grunt) {
           sourceMap: true,
           outputSourceFiles: true,
           sourceMapURL: '<%= pkg.name %>.css.map',
-          sourceMapFilename: 'dist/css/<%= pkg.name %>.css.map'
+          sourceMapFilename: '<%= pkg.name %>.css.map'
         },
         files: {
-          'dist/css/<%= pkg.name %>.css': 'jquery.multiselect.less',
-          'dist/css/<%= pkg.name %>.rtl.css': 'jquery.multiselect.rtl.less',
-          'dist/css/<%= pkg.name %>.filter.css': 'jquery.multiselect.filter.less',
-          'dist/css/<%= pkg.name %>.filter.rtl.css': 'jquery.multiselect.filter.rtl.less'
+          '<%= pkg.name %>.css': 'jquery.multiselect.less',
+          '<%= pkg.name %>.rtl.css': 'jquery.multiselect.rtl.less',
+          '<%= pkg.name %>.filter.css': 'jquery.multiselect.filter.less',
+          '<%= pkg.name %>.filter.rtl.css': 'jquery.multiselect.filter.rtl.less'
         }
       },
       minify: {
@@ -141,10 +154,10 @@ module.exports = function (grunt) {
           report: 'min'
         },
         files: {
-          'dist/css/<%= pkg.name %>.min.css': 'dist/css/<%= pkg.name %>.css',
-          'dist/css/<%= pkg.name %>.rtl.min.css': 'dist/css/<%= pkg.name %>.rtl.css',
-          'dist/css/<%= pkg.name %>.filter.min.css': 'dist/css/<%= pkg.name %>.filter.css',
-          'dist/css/<%= pkg.name %>.filter.rtl.min.css': 'dist/css/<%= pkg.name %>.filter.rtl.css'
+          '<%= pkg.name %>.min.css': '<%= pkg.name %>.css',
+          '<%= pkg.name %>.rtl.min.css': '<%= pkg.name %>.rtl.css',
+          '<%= pkg.name %>.filter.min.css': '<%= pkg.name %>.filter.css',
+          '<%= pkg.name %>.filter.rtl.min.css': '<%= pkg.name %>.filter.rtl.css'
         }
       }
     },
@@ -173,10 +186,10 @@ module.exports = function (grunt) {
         },
         files: {
           src: [
-            'dist/css/<%= pkg.name %>.css',
-            'dist/css/<%= pkg.name %>.min.css',
-            'dist/css/<%= pkg.name %>.rtl.css',
-            'dist/css/<%= pkg.name %>.rtl.min.css',
+            '<%= pkg.name %>.css',
+            '<%= pkg.name %>.min.css',
+            '<%= pkg.name %>.rtl.css',
+            '<%= pkg.name %>.rtl.min.css',
           ]
         }
       }
