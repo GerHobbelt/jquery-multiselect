@@ -52,7 +52,8 @@
   text-align: right;
 }
 .ui-multiselect-checkboxes {
-  position: relative /* fixes bug in IE6/7 */;
+  position: relative;
+  /* fixes bug in IE6/7 */
   overflow-y: auto;
 }
 .ui-multiselect-checkboxes label {
