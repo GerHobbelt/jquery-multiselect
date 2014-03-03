@@ -5,3 +5,8 @@
 # NPM/grunt
 node_modules/
 
+# ignore minified output and ditto LESS maps
+*.map
+*.min.css
+dist/
+
