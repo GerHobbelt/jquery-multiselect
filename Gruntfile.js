@@ -52,9 +52,11 @@ module.exports = function (grunt) {
       test: {
         src: 'test/unit/*.js'
       },
+      /*
       demos: {
         src: 'demos/assets/*.js'
       },
+      */
       i18n: {
         src: 'i18n/*.js'
       }
@@ -73,9 +75,11 @@ module.exports = function (grunt) {
       test: {
         src: 'test/unit/*.js'
       },
+      /*
       demos: {
         src: 'demos/assets/*.js'
       },
+      */
       i18n: {
         src: 'i18n/*.js'
       }
@@ -142,9 +146,42 @@ module.exports = function (grunt) {
           sourceMapFilename: '<%= pkg.name %>.css.map'
         },
         files: {
-          '<%= pkg.name %>.css': 'jquery.multiselect.less',
-          '<%= pkg.name %>.rtl.css': 'jquery.multiselect.rtl.less',
-          '<%= pkg.name %>.filter.css': 'jquery.multiselect.filter.less',
+          '<%= pkg.name %>.css': 'jquery.multiselect.less'
+        }
+      },
+      compileCoreRtl: {
+        options: {
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: '<%= pkg.name %>.rtl.css.map',
+          sourceMapFilename: '<%= pkg.name %>.rtl.css.map'
+        },
+        files: {
+          '<%= pkg.name %>.rtl.css': 'jquery.multiselect.rtl.less'
+        }
+      },
+      compileFilter: {
+        options: {
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: '<%= pkg.name %>.filter.css.map',
+          sourceMapFilename: '<%= pkg.name %>.filter.css.map'
+        },
+        files: {
+          '<%= pkg.name %>.filter.css': 'jquery.multiselect.filter.less'
+        }
+      },
+      compileFilterRtl: {
+        options: {
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: '<%= pkg.name %>.filter.rtl.css.map',
+          sourceMapFilename: '<%= pkg.name %>.filter.rtl.css.map'
+        },
+        files: {
           '<%= pkg.name %>.filter.rtl.css': 'jquery.multiselect.filter.rtl.less'
         }
       },
@@ -268,7 +305,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist', ['clean', 'dist-css', 'copy:fonts', 'dist-docs', 'dist-js']);
 
   // Default task.
-  grunt.registerTask('default', ['test', 'dist']);
+  grunt.registerTask('default', ['dist-css', 'lint']);
 
   // Code lint task.
   grunt.registerTask('lint', ['csslint', 'jshint', 'jscs']);
