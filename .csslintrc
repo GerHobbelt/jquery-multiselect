@@ -9,6 +9,7 @@
   "important": false,
   "known-properties": false,
   "outline-none": false,
+  "overqualified-elements": false,
   "qualified-headings": false,
   "regex-selectors": false,
   "shorthand": false,
