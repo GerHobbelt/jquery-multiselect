@@ -6,7 +6,7 @@
     "Eric Hynds"
   ],
   "description": "MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.",
-  "main": "src/jquery.multiselect.min.js",
+  "main": "./src/jquery.multiselect.min.js",
   "keywords": [
     "jquery",
     "multiselect",
