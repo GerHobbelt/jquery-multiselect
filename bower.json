@@ -1,0 +1,24 @@
+{
+  "name": "ui-multiselect",
+  "version": "1.4.1",
+  "homepage": "https://github.com/seferov/jquery-ui-multiselect-widget",
+  "authors": [
+    "Eric Hynds"
+  ],
+  "description": "MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.",
+  "main": "src/jquery.multiselect.min.js",
+  "keywords": [
+    "jquery",
+    "multiselect",
+    "select",
+    "widget"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
