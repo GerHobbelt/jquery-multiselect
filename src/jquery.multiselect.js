@@ -41,7 +41,8 @@
       autoOpen: false,
       multiple: true,
       position: {},
-      appendTo: "body"
+      appendTo: "body",
+      menuId: "multiselectMenu",
     },
 
     _create: function() {
@@ -69,6 +70,7 @@
         menu = (this.menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
+          .attr('id', o.menuId)
           .appendTo($(o.appendTo)),
 
         header = (this.header = $('<div />'))
