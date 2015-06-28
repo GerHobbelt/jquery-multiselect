@@ -223,7 +223,8 @@
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          value = $checked.map(function() { return $(this).next().html(); }).get().join(', ');
+            //Call text() method rather than html(), as the setButtonValue will call text() too.
+          value = $checked.map(function() { return $(this).next().text(); }).get().join(', ');
         } else {
           value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
         }
@@ -426,6 +427,10 @@
     _setButtonWidth: function() {
       var width = this.element.outerWidth();
       var o = this.options;
+
+      if (o.width && o.width <= o.minWidth) {
+          o.minWidth = o.width;
+      }
 
       if(/\d/.test(o.minWidth) && width < o.minWidth) {
         width = o.minWidth;
@@ -704,6 +709,7 @@
         case 'height':
           menu.find('ul').last().height(parseInt(value, 10));
           break;
+        case 'width':
         case 'minWidth':
           this.options[key] = parseInt(value, 10);
           this._setButtonWidth();
