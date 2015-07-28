@@ -1,0 +1,32 @@
+{
+  "name": "jquery-ui-multiselect-widget",
+  "version": "0.0.0",
+  "homepage": "http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/",
+  "authors": [
+    "Eric Hynds <eric@hynds.net>"
+  ],
+  "main": [
+    "src/jquery.multiselect.js",
+    "jquery.multiselect.css"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": [
+    "MIT",
+    "GPL"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "demos",
+    "screenshot.gif"
+  ],
+  "dependencies": {
+    "jquery": ">1.4.2",
+    "jquery.ui": ">1.8"
+  }
+}
