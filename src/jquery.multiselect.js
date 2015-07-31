@@ -35,16 +35,21 @@
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
       noneSelectedText: 'Select options',
+      allSelectedText: 'All selected',
       selectedText: '# selected',
       separator: ', ',
       selectedList: 0,
+      closeIcon: 'ui-icon-circle-close',
       show: null,
       hide: null,
       autoOpen: false,
 	  fireChangeOnClose: false,
       multiple: true,
+      selectOnSpace: false,
+      bShowAllSelectedText: false,
       position: {},
-      appendTo: "body"
+      appendTo: "body",
+      menuWidth: null
     },
 
     _create: function() {
@@ -89,7 +94,7 @@
               return '';
             }
           })
-          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
+          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon '+o.closeIcon+'"></span></a></li>')
           .appendTo(header),
 
         checkboxContainer = (this.checkboxContainer = $('<ul />'))
@@ -217,11 +222,14 @@
       var o = this.options;
       var $inputs = this.inputs;
       var $checked = $inputs.filter(':checked');
+      var numTotal = $inputs.length;
       var numChecked = $checked.length;
       var value;
 
       if(numChecked === 0) {
         value = o.noneSelectedText;
+      } else if ( numChecked === numTotal && o.bShowAllSelectedText ) {
+          value = o.allSelectedText;
       } else {
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
@@ -237,7 +245,7 @@
       return value;
     },
 
-    // this exists as a separate method so that the developer 
+    // this exists as a separate method so that the developer
     // can easily override it.
     _setButtonValue: function(value) {
       this.buttonlabel.text(value);
@@ -357,7 +365,17 @@
           case 32: // space
             $(this).find('input')[0].click();
           break;
+          case 32: // space
+            if ( self.options.selectOnSpace == true ) {
+                $( this ).find( 'input' )[0].click();
+            }
+          break;
         }
+      })
+      .delegate('label', 'keyup.multiselect', function(e) {
+          if ( self.options.selectOnSpace == true ) {
+              e.preventDefault();
+          }
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
         var $this = $(this);
@@ -437,7 +455,13 @@
       var width = this.element.outerWidth();
       var o = this.options;
 
-      if(/\d/.test(o.minWidth) && width < o.minWidth) {
+
+      if (o.minWidth === "auto")
+        width = o.minWidth;
+      else if ( /\d(%|em)/.test( o.minWidth ) ) {
+        width = o.minWidth;
+      }
+      else if (/\d/.test(o.minWidth) && width < o.minWidth) {
         width = o.minWidth;
       }
 
@@ -448,15 +472,7 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-	  var width = this.button.outerWidth();
-	  var o = this.options;
-	  
-	  if(/\d/.test(o.minMenuWidth) && width < o.minMenuWidth) {
-		width = o.minMenuWidth;
-	  }
-
-	  // set widths
-      m.outerWidth(width);
+      m.outerWidth(this.options.menuWidth || this.button.outerWidth());
     },
 
     // move up or down within the menu
@@ -648,11 +664,13 @@
     },
 
     checkAll: function(e) {
+      this._trigger('beforeCheckAll');
       this._toggleChecked(true);
       this._trigger('checkAll');
     },
 
     uncheckAll: function() {
+      this._trigger('beforeUncheckAll');
       this._toggleChecked(false);
       this._trigger('uncheckAll');
     },
@@ -691,7 +709,7 @@
     position: function() {
       var o = this.options;
 
-      // use the position utility if it exists and options are specifified
+      // use the position utility if it exists and options are specified
       if($.ui.position && !$.isEmptyObject(o.position)) {
         o.position.of = o.position.of || this.button;
 
@@ -703,9 +721,10 @@
         // otherwise fallback to custom positioning
       } else {
         var pos = this.button.offset();
-
+        var bottom = pos.top +  (o.height === 'auto' ? this.menu.height() : o.height) + this.button.outerHeight();
+        //popup on top of the button if menu will be cut off by the bottom of the window.
         this.menu.css({
-          top: pos.top + this.button.outerHeight(),
+          top: ( bottom < $(window).height() ) ? pos.top + this.button.outerHeight() : pos.top - this.menu.outerHeight(),
           left: pos.left
         });
       }
@@ -729,13 +748,18 @@
           menu.find('ul').last().height(parseInt(value, 10));
           break;
         case 'minWidth':
-          this.options[key] = parseInt(value, 10);
+          this.options[key] = value;
           this._setButtonWidth();
+          this._setMenuWidth();
+          break;
+        case 'menuWidth':
+          this.options[key] = value;
           this._setMenuWidth();
           break;
         case 'selectedText':
         case 'selectedList':
         case 'noneSelectedText':
+        case 'allSelectedText':
           this.options[key] = value; // these all needs to update immediately for the update() call
           this.update();
           break;
@@ -747,6 +771,10 @@
           this.options.multiple = value;
           this.element[0].multiple = value;
           this.refresh();
+          break;
+        case 'selectOnSpace':
+        case 'bShowAllSelectedText':
+          this.options[key] = !!value;
           break;
         case 'position':
           this.position();
