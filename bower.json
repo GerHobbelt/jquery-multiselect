@@ -1,0 +1,6 @@
+{
+  "name": "jquery-multiselect",
+  "version": "1.13.0.1",
+  "private": true,
+  "main": "src/jquery.multiselect.js"
+}
