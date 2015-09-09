@@ -47,10 +47,10 @@ module.exports = function (grunt) {
         src: 'Gruntfile.js'
       },
       src: {
-        src: 'js/*.js'
+        src: 'src/*.js'
       },
       test: {
-        src: 'test/unit/*.js'
+        src: 'tests/**/*.js'
       },
       /*
       demos: {
@@ -70,10 +70,10 @@ module.exports = function (grunt) {
         src: 'Gruntfile.js'
       },
       src: {
-        src: 'js/*.js'
+        src: 'src/*.js'
       },
       test: {
-        src: 'test/unit/*.js'
+        src: 'tests/**/*.js'
       },
       /*
       demos: {
