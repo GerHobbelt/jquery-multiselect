@@ -74,9 +74,9 @@
       classes: '',
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
-      noneSelectedText: 'Select options',  // may be text of function which produces text
-      allSelectedText: 'All selected',
-      selectedText: '# selected',          // may be text of function which produces text
+      noneSelectedText: 'Select options',  // may be text or function which produces text
+      allSelectedText: 'All selected',     // may be text or function which produces text
+      selectedText: '# selected',          // may be text or function which produces text
       selectedList: 0,
       selectedListSeparator: ', ',
       htmlButtonValue: false,
@@ -85,8 +85,8 @@
       autoOpen: false,
       fireChangeOnClose: false,
       multiple: true,
-      selectOnSpace: false,
-      bShowAllSelectedText: false,
+      selectOnSpace: true,
+      showAllSelectedText: false,
       position: {},
       highlightSelected: false,
       enableCloseIcon: true,
@@ -315,8 +315,8 @@
 
       if(numChecked === 0) {
         value = $.isFunction(o.noneSelectedText) ? (o.noneSelectedText.call(this) || "") : o.noneSelectedText;
-      } else if ( numChecked === numTotal && o.bShowAllSelectedText ) {
-        value = o.allSelectedText;
+      } else if (numChecked === numTotal && o.showAllSelectedText) {
+        value = $.isFunction(o.allSelectedText) ? (o.allSelectedText.call(this) || "") : o.allSelectedText;
       } else {
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
@@ -994,7 +994,7 @@
           this.refresh();
           break;
         case 'selectOnSpace':
-        case 'bShowAllSelectedText':
+        case 'showAllSelectedText':
           this.options[key] = !!value;
           break;
         case 'position':
