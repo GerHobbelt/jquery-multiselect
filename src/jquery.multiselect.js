@@ -75,6 +75,7 @@
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
       noneSelectedText: 'Select options',  // may be text of function which produces text
+      allSelectedText: 'All selected',
       selectedText: '# selected',          // may be text of function which produces text
       selectedList: 0,
       selectedListSeparator: ', ',
@@ -84,6 +85,8 @@
       autoOpen: false,
       fireChangeOnClose: false,
       multiple: true,
+      selectOnSpace: false,
+      bShowAllSelectedText: false,
       position: {},
       highlightSelected: false,
       enableCloseIcon: true,
@@ -306,11 +309,14 @@
       var o = this.options;
       var $inputs = this.inputs;
       var $checked = $inputs.filter(':checked');
+      var numTotal = $inputs.length;
       var numChecked = $checked.length;
       var value;
 
       if(numChecked === 0) {
         value = $.isFunction(o.noneSelectedText) ? (o.noneSelectedText.call(this) || "") : o.noneSelectedText;
+      } else if ( numChecked === numTotal && o.bShowAllSelectedText ) {
+        value = o.allSelectedText;
       } else {
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
@@ -460,13 +466,19 @@
             self._traverse(e.which, this);
             break;
           case 13: // enter
-          case 32: // space
             $(this).find('input')[0].click();
+            break;
+          case 32: // space
+            if (self.options.selectOnSpace) {
+              $(this).find('input')[0].click();
+            }
             break;
         }
       })
       .delegate('label', 'keyup.multiselect', function(e) {
+        if (self.options.selectOnSpace) {
           e.preventDefault();
+        }
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e, extraParameters) {
         var $this = $(this);
@@ -560,20 +572,30 @@
     // set button width
     _setButtonWidth: function () {
       var o = this.options;
+      var width;
+      
       if (typeof o.width === 'undefined') {
-        var width = this.element.outerWidth();
+        width = this.element.outerWidth();
 
-        if (/\d/.test(o.minWidth) && width < o.minWidth) {
+        if (o.minWidth === "auto") {
+          width = o.minWidth;
+        }
+        else if ( /\d(%|em)/.test( o.minWidth ) ) {
+          width = o.minWidth;
+        }
+        else if (/\d/.test(o.minWidth) && width < o.minWidth) {
           width = o.minWidth;
         }
 
         // set widths
         this.button.outerWidth(width);
       } else {
-        var width = typeof o.width === 'function' ? o.width() : o.width;
+        width = typeof o.width === 'function' ? o.width() : o.width;
         if (/\d$/.test(width)) width = width+'px';
-        this.button.css('width',width);
       }
+
+      // set widths
+      this.button.outerWidth(width);
     },
 
     // set menu width
@@ -582,7 +604,7 @@
       var o = this.options;
       var width;
 
-      if(/\d/.test(o.menuWidth)) {
+      if(o.menuWidth && /\d/.test(o.menuWidth)) {
         width = o.menuWidth;
       } else {
         width = this.button.outerWidth();
@@ -831,11 +853,13 @@
     },
 
     checkAll: function (e) {
+      this._trigger('beforeCheckAll');
       this._toggleChecked(true);
       this._trigger('checkAll');
     },
 
     uncheckAll: function () {
+      this._trigger('beforeUncheckAll');
       this._toggleChecked(false);
       this._trigger('uncheckAll');
     },
@@ -939,23 +963,24 @@
         case 'height':
           menu.find('div').last().height(parseInt(value, 10));
           break;
-        case 'menuWidth':
-          this.options[key] = parseInt(value, 10);
-          this._setMenuWidth();
-          break;
         case 'minWidth':
-          this.options[key] = parseInt(value, 10);
+          this.options[key] = value;
           this._setButtonWidth();
           this._setMenuWidth();
           break;
+        case 'menuWidth':
+          this.options[key] = value;
+          this._setMenuWidth();
+          break;
         case 'minMenuWidth':
-          this.options[key] = parseInt(value, 10);
+          this.options[key] = value;
           this._setMenuWidth();
           break;
         case 'selectedText':
         case 'selectedList':
         case 'noneSelectedText':
         case 'selectedListSeparator':
+        case 'allSelectedText':
           this.options[key] = value; // these all needs to update immediately for the update() call
           this.update();
           break;
@@ -967,6 +992,10 @@
           this.options.multiple = value;
           this.element[0].multiple = value;
           this.refresh();
+          break;
+        case 'selectOnSpace':
+        case 'bShowAllSelectedText':
+          this.options[key] = !!value;
           break;
         case 'position':
           this.position();
