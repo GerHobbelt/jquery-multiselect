@@ -165,7 +165,7 @@
     },
 
     _init: function () {
-      if (this.options.header === false) {
+      if (!this.options.header) {
         this.header.hide();
       }
       if (!this.options.multiple) {
@@ -343,7 +343,7 @@
     // this exists as a separate method so that the developer
     // can easily override it.
     _setButtonValue: function (value) {
-      if (this.options.htmlButtonValue === true) {
+      if (this.options.htmlButtonValue) {
         this.buttonlabel.html(value);
       } else {
         this.buttonlabel.text(value);
@@ -488,12 +488,12 @@
         var clickArguments = { value: val, text: this.title, checked: checked };
 
         // if trigger sent extra parameters we pass them on.
-        if(extraParameters) {
+        if (extraParameters) {
           clickArguments.extraParameters = extraParameters;
         }
 
         // bail if this input is disabled or the event is cancelled
-        if(this.disabled || self._trigger('click', e, clickArguments) === false) {
+        if (this.disabled || self._trigger('click', e, clickArguments) === false) {
           e.preventDefault();
           return;
         }
@@ -535,10 +535,10 @@
 
         // fire change on the select box
 		if (self.options.fireChangeOnClose) {
-			self.didChanged = true;
+		  self.didChanged = true;
 		}
 		else {
-			self.element.trigger("change");
+		  self.element.trigger("change");
 		}
 
         // setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
@@ -743,6 +743,7 @@
           .parent().nextUntil('li.ui-multiselect-optgroup-label').removeClass("ui-multiselect-collapsed");
       }
     },
+
     //get select value
     getSelectValue: function () {
       var o = this.options;
@@ -758,6 +759,7 @@
         }
         return value;
     },
+
     // open the menu
     open: function (e) {
       var self = this;
