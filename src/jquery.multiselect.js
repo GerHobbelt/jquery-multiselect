@@ -321,7 +321,8 @@
         if ($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if (/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          value = $checked.map(function () {
+          // Call text() method rather than html(), as the setButtonValue will call text() too.
+          value = $checked.map(function() { return $(this).next().html(); }).get().join(', ');
             if ($(this).attr("data-image")) {
               var html = '<img src="' + $(this).attr("data-image") + '" class="data-image" />';
               html += $(this).next().text();
@@ -966,15 +967,13 @@
       case 'height':
         menu.find('div').last().height(parseInt(value, 10));
         break;
+      case 'width':
       case 'minWidth':
         this.options[key] = value;
         this._setButtonWidth();
         this._setMenuWidth();
         break;
       case 'menuWidth':
-        this.options[key] = value;
-        this._setMenuWidth();
-        break;
       case 'minMenuWidth':
         this.options[key] = value;
         this._setMenuWidth();
