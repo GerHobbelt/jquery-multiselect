@@ -104,13 +104,18 @@
 
       if (!o.appendTo) { o.appendTo = document.body; }
 
+      // bump unique ID
+      multiselectID++;
+
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
+
+      this.uniqueID = 'multiselect' + multiselectID;
 
       // create a unique namespace for events that the widget
       // factory cannot unbind automatically. Use eventNamespace if on
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
-      this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
+      this._namespaceID = this.eventNamespace || this.uniqueID;
 
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
@@ -166,9 +171,6 @@
       if (!o.multiple) {
         menu.addClass('ui-multiselect-single');
       }
-
-      // bump unique ID
-      multiselectID++;
     },
 
     _init: function () {
@@ -194,9 +196,10 @@
       var checkboxContainer = this.checkboxContainer;
       var optgroups = [];
       var html = "";
-      var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
+      var id = el.attr('id') || this.uniqueID; // unique ID for the label & option tags
       var inOptGroup = false;
       var inUl = false;
+      var optName = el.attr('name') || id;
 
       // build items
       el.find('option').each(function (i) {
@@ -205,13 +208,12 @@
         var title = $this.text(); // this.innerHTML;
         var description = o.withTitle ? (this.title || title) : '';
         var value = this.value;
-        var inputID = 'ui-multiselect-' + multiselectID + '-' + (this.id || id + '-option-' + i);
+        var inputID = 'ui-multiselect-' + id + '-' + (this.id || 'option-' + i);
         var isDisabled = this.disabled;
         var isSelected = this.selected;
         var labelClasses = ['ui-corner-all'];
         var liClasses = (isDisabled ? 'ui-multiselect-disabled ' : ' ') + this.className;
         var optLabel;
-        var optName = $this.attr('name');
 
         // is this an optgroup?
         if (parent.tagName.toLowerCase() === 'optgroup') {
@@ -265,7 +267,7 @@
           html += '<img src="' + $this.attr("data-image") + '" class="data-image" />';
         }
 
-        html += '<input id="' + inputID + '" name="' + (optName ? optName : 'multiselect_' + id) + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
+        html += '<input id="' + inputID + '" name="' + optName + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
         if ($this.attr("data-image")) {
           html += 'data-image="' + $this.attr("data-image") + '"';
         }
@@ -329,7 +331,7 @@
         if ($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if (/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          // Call text() method rather than html(), as the setButtonValue will call text() too.
+          // Call `.text()` method rather than `.html()`, as the setButtonValue will call `.text()` too.
           value = $checked.map(function() {
             if ($(this).attr("data-image")) {
               var html = '<img src="' + $(this).attr("data-image") + '" class="data-image" />';
@@ -366,7 +368,11 @@
       var button = this.button;
 
       function clickHandler() {
-        self[self._isOpen ? 'close' : 'open']();
+        if (self._isOpen) {
+          self.close();
+        } else {
+          self.open();
+        }
         return false;
       }
 
@@ -556,12 +562,12 @@
         }
 
         // fire change on the select box
-		if (self.options.fireChangeOnClose) {
-		  self.didChanged = true;
-		}
-		else {
-		  self.element.trigger("change");
-		}
+        if (self.options.fireChangeOnClose) {
+          self.didChanged = true;
+        }
+        else {
+          self.element.trigger("change");
+        }
 
         // setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
         // http://bugs.jquery.com/ticket/3827
@@ -789,7 +795,7 @@
       var o = this.options;
       var args = [];
 
-      // bail if the multiselectopen event returns false, this widget is disabled, or is already open
+      // bail if the multiselect open event returns false, this widget is disabled, or is already open
       if (this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen) {
         return;
       }
@@ -814,7 +820,7 @@
       // set the scroll of the checkbox container
       $container.scrollTop(0).height(o.height);
 
-      // positon
+      // position
       this.position();
 
       // show the menu, maybe with a speed/effect combo
