@@ -72,8 +72,8 @@
       minMenuWidth: 225,
       menuWidth: null,
       classes: '',
-      checkAllText: 'Check all',
-      uncheckAllText: 'Uncheck all',
+      checkAllText: 'Check all',           // set to falsey value (e.g. null) to remove this checkbox entirely
+      uncheckAllText: 'Uncheck all',       // set to falsey value (e.g. null) to remove this checkbox entirely
       noneSelectedText: 'Select options',  // may be text or function which produces text
       allSelectedText: 'All selected',     // may be text or function which produces text
       selectedText: '# selected',          // may be text or function which produces text
@@ -135,7 +135,14 @@
           .addClass('ui-helper-reset')
           .html(function () {
             if (o.header === true) {
-              return '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li><li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+              var header_html = '';
+              if (o.checkAllText) {
+                header_html += '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
+              }
+              if (o.uncheckAllText) {
+                header_html += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+              }
+              return header_html;
             } else if (typeof o.header === "string") {
               return '<li>' + o.header + '</li>';
             } else {
