@@ -108,6 +108,7 @@
       highlightSelected: false,
       enableCloseIcon: true,
       appendTo: "body",
+      menuId: "multiselectMenu",
       icons: {
         close: 'ui-icon-circle-close',
         activeHeader: "ui-icon-triangle-1-s",
@@ -151,6 +152,7 @@
         menu = (this.menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
+          .attr('id', o.menuId)
           .appendTo($(o.appendTo)),
 
         header = (this.header = $('<div />'))
