@@ -329,7 +329,7 @@
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if (/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
           // Call text() method rather than html(), as the setButtonValue will call text() too.
-          value = $checked.map(function() { return $(this).next().html(); }).get().join(', ');
+          value = $checked.map(function() {
             if ($(this).attr("data-image")) {
               var html = '<img src="' + $(this).attr("data-image") + '" class="data-image" />';
               html += $(this).next().text();
@@ -484,8 +484,21 @@
         }
       })
       .delegate('label', 'keyup.multiselect', function (e) {
-        if (self.options.selectOnSpace) {
-          e.preventDefault();
+        switch (e.which) {
+          case 9: // tab
+          case 27: // esc
+          case 38: // up
+          case 40: // down
+          case 37: // left
+          case 39: // right
+          case 13: // enter
+            e.preventDefault();
+            break;
+          case 32: // space
+            if (self.options.selectOnSpace) {
+              e.preventDefault();
+            }
+            break;
         }
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function (e, extraParameters) {
@@ -594,9 +607,6 @@
         else if (/\d/.test(o.minWidth) && width < o.minWidth) {
           width = o.minWidth;
         }
-
-        // set widths
-        this.button.outerWidth(width);
       } else {
         width = typeof o.width === 'function' ? o.width() : o.width;
         if (/\d$/.test(width)) { width = width + 'px'; }
