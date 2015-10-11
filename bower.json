@@ -4,7 +4,7 @@
   "version": "1.15.0",
   "homepage": "https://github.com/GerHobbelt/jquery-multiselect",
   "authors": [
-    "Eric Hynds"
+    "Eric Hynds <eric@hynds.net>"
   ],
   "keywords": [
     "jquery",
@@ -12,20 +12,25 @@
     "select",
     "widget"
   ],
-  "licenses": [
-    {
-      "type": "mixed: MIT or GPL",
-      "url": "https://github.com/..../blob/master/LICENSE"
-    }
+  "main": [
+    "src/jquery.multiselect.js",
+    "jquery.multiselect.css"
   ],
-  "main": "./src/jquery.multiselect.js",
+  "moduleType": [
+    "globals"
+  ],
+  "license": [
+    "MIT",
+    "GPL"
+  ],
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests",
-    "demos"
+    "demos",
+    "screenshot.gif"
   ],
   "dependencies": {
     "jquery": ">= 2.1.1",
