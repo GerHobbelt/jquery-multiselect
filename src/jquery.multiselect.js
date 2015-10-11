@@ -696,9 +696,9 @@
         // move to the first/last
         label = this.menu.find('li:visible label');
         if (moveToLast) {
-          label = last();
+          label = label.last();
         } else {
-          label = first();
+          label = label.first();
         }
         label.find('input').focus();
         label.trigger('mouseover');
