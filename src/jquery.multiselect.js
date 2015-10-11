@@ -1024,10 +1024,10 @@
         }
         break;
       case 'checkAllText':
-        menu.find('a.ui-multiselect-all span').eq(-1).text(value);
+        menu.find('a.ui-multiselect-all span').eq(-1).html(value);
         break;
       case 'uncheckAllText':
-        menu.find('a.ui-multiselect-none span').eq(-1).text(value);
+        menu.find('a.ui-multiselect-none span').eq(-1).html(value);
         break;
       case 'height':
         menu.find('div').last().height(parseInt(value, 10));
