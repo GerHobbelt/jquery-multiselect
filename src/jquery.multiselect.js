@@ -60,6 +60,14 @@
   // save temp select value
   var beforeSelOpts = "";
 
+  function addOrRemoveDisabledClass(el, add) {
+    if (add) {
+      el.addClass('ui-state-disabled');
+    } else {
+      el.removeClass('ui-state-disabled');
+    }
+  }
+
   $.widget("ech.multiselect", {
 
     // default options
@@ -120,7 +128,11 @@
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
-        .attr({ 'title': el.attr('title'), 'aria-haspopup': true, 'tabIndex': el.attr('tabIndex') })
+        .attr({ 
+          'title': el.attr('title'), 
+          'aria-haspopup': true, 
+          'tabIndex': el.attr('tabIndex') 
+        })
         .insertAfter(el),
 
         buttonlabel = (this.buttonlabel = $('<span />'))
@@ -423,7 +435,11 @@
 
           // check all / uncheck all
         } else {
-          self[$(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll']();
+          if ($(this).hasClass('ui-multiselect-all')) {
+            self.checkAll();
+          } else {
+            self.uncheckAll();
+          }
         }
 
         e.preventDefault();
@@ -649,14 +665,26 @@
       var label;
 
       // select the first li that isn't an optgroup label / disabled
-      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label):visible')[moveToLast ? 'last' : 'first']();
+      var $next;
+      var $parent = $start.parent();
+      /* @const */ var selector = 'li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label):visible';
+      if (moveToLast) {
+        $next = $parent.prevAll(selector).last();
+      } else {
+        $next = $parent.nextAll(selector).first();
+      }
 
       // if at the first/last element
       if (!$next.length) {
         var $container = this.menu.find('ul').last();
 
         // move to the first/last
-        label = this.menu.find('li:visible label')[ moveToLast ? 'last' : 'first' ]();
+        label = this.menu.find('li:visible label');
+        if (moveToLast) {
+          label = last();
+        } else {
+          label = first();
+        }
         label.find('input').focus();
         label.trigger('mouseover');
 
@@ -728,7 +756,11 @@
     },
 
     _toggleDisabled: function (flag) {
-      this.button.attr({ 'disabled': flag, 'aria-disabled': flag })[flag ? 'addClass' : 'removeClass']('ui-state-disabled');
+      var btn = this.button.attr({ 
+        'disabled': flag, 
+        'aria-disabled': flag 
+      });
+      addOrRemoveDisabledClass(btn, flag);
 
       var inputs = this.menu.find('input');
       var key = "ech-multiselect-disabled";
@@ -743,9 +775,13 @@
         }).removeData(key);
       }
 
-      inputs
-        .attr({ 'disabled': flag, 'arial-disabled': flag })
-        .parent()[flag ? 'addClass' : 'removeClass']('ui-state-disabled');
+      var parent = inputs
+        .attr({ 
+          'disabled': flag, 
+          'aria-disabled': flag 
+        })
+        .parent();
+      addOrRemoveDisabledClass(parent, flag);
 
       this.element.attr({
         'disabled': flag,
@@ -980,7 +1016,12 @@
 
       switch (key) {
       case 'header':
-        menu.find('div.ui-multiselect-header')[value ? 'show' : 'hide']();
+        var $header = menu.find('div.ui-multiselect-header');
+        if (value) {
+          $header.show();
+        } else {
+          $header.hide();
+        }
         break;
       case 'checkAllText':
         menu.find('a.ui-multiselect-all span').eq(-1).text(value);
