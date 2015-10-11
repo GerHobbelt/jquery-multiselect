@@ -68,11 +68,20 @@
     }
   }
 
+  // take this option value and convert it to a string, whether it is itself a function or a string
+  function produceString(el, f_or_v) {
+    if (typeof f_or_v === 'function') {
+      return f_or_v.call(el) || "";
+    } else {
+      return f_or_v || "";
+    }
+  }
+
   $.widget("ech.multiselect", {
 
     // default options
     options: {
-      header: true,
+      header: true,                       // may be boolean, text or function which produces text; when true then the header is the combination of `checkAllText` and `uncheckAllText`
       withTitle: true,
       height: 175,
       width: undefined,
@@ -80,8 +89,8 @@
       minMenuWidth: 225,
       menuWidth: null,
       classes: '',
-      checkAllText: 'Check all',           // set to falsey value (e.g. null) to remove this checkbox entirely
-      uncheckAllText: 'Uncheck all',       // set to falsey value (e.g. null) to remove this checkbox entirely
+      checkAllText: 'Check all',           // set to falsey value (e.g. null) to remove this checkbox entirely; may be text or function which produces text
+      uncheckAllText: 'Uncheck all',       // set to falsey value (e.g. null) to remove this checkbox entirely; may be text or function which produces text
       noneSelectedText: 'Select options',  // may be text or function which produces text
       allSelectedText: 'All selected',     // may be text or function which produces text
       selectedText: '# selected',          // may be text or function which produces text
@@ -136,7 +145,7 @@
         .insertAfter(el),
 
         buttonlabel = (this.buttonlabel = $('<span />'))
-          .html($.isFunction(o.noneSelectedText) ? (o.noneSelectedText.call(el) || "") : o.noneSelectedText)
+          .html(produceString(el, o.noneSelectedText))
           .appendTo(button),
 
         menu = (this.menu = $('<div />'))
@@ -154,14 +163,14 @@
             if (o.header === true) {
               var header_html = '';
               if (o.checkAllText) {
-                header_html += '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
+                header_html += '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + produceString(el, o.checkAllText) + '</span></a></li>';
               }
               if (o.uncheckAllText) {
-                header_html += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+                header_html += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + produceString(el, o.uncheckAllText) + '</span></a></li>';
               }
               return header_html;
-            } else if (typeof o.header === "string") {
-              return '<li>' + o.header + '</li>';
+            } else if (typeof o.header === "string" || typeof o.header === "function") {
+              return '<li>' + produceString(el, o.header) + '</li>';
             } else {
               return '';
             }
@@ -186,13 +195,14 @@
     },
 
     _init: function () {
-      if (!this.options.header) {
+      var o = this.options;
+      if (!o.header) {
         this.header.hide();
       }
-      if (!this.options.multiple) {
+      if (!o.multiple) {
         this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
       }
-      if (this.options.autoOpen) {
+      if (o.autoOpen) {
         this.open();
       }
       if (this.element.is(':disabled')) {
@@ -336,18 +346,18 @@
       var value;
 
       if (numChecked === 0) {
-        value = $.isFunction(o.noneSelectedText) ? (o.noneSelectedText.call(this) || "") : o.noneSelectedText;
+        value = produceString(this, o.noneSelectedText);
       } else if (numChecked === numTotal && o.showAllSelectedText) {
-        value = $.isFunction(o.allSelectedText) ? (o.allSelectedText.call(this) || "") : o.allSelectedText;
+        value = produceString(this, o.allSelectedText);
       } else {
         if ($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if (/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
           // Call `.text()` method rather than `.html()`, as the setButtonValue will call `.text()` too.
           value = $checked.map(function() {
-            if ($(this).attr("data-image")) {
+            if (o.htmlButtonValue && $(this).attr("data-image")) {
               var html = '<img src="' + $(this).attr("data-image") + '" class="data-image" />';
-              html += $(this).next().text();
+              html += $(this).next().html();
               return html;
             } else {
               return $(this).next().text();
