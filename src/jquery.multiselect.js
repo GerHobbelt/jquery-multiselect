@@ -93,8 +93,8 @@
       uncheckAllText: 'Uncheck all',       // set to falsey value (e.g. null) to remove this checkbox entirely; may be text or function which produces text
       noneSelectedText: 'Select options',  // may be text or function which produces text
       allSelectedText: 'All selected',     // may be text or function which produces text
-      selectedText: '# selected',          // may be text or function which produces text
-      selectedList: 0,
+      selectedText: '# selected',          // may be text or function which produces text; when a string, the first `#` is replaced by the number of options selected, the second `#` in the string will be replaced by the number of available options
+      selectedList: 0,                     // number: the maximum number of options listed as a separator-separated list; larger sets are reported as '# of #' via `selectedText` 
       selectedListSeparator: ', ',
       htmlButtonValue: false,
       show: null,
@@ -108,7 +108,8 @@
       highlightSelected: false,
       enableCloseIcon: true,
       appendTo: "body",
-      menuId: "multiselectMenu",
+      uniqueId: 'multiselect-#',            // the `#` is replaced by the `uniqueID` number assigned to this multiselect instance at run-time
+      menuId: "multiselectMenu-#",          // the `#` is replaced by the `uniqueID` number assigned to this multiselect instance at run-time 
       icons: {
         close: 'ui-icon-circle-close',
         activeHeader: "ui-icon-triangle-1-s",
@@ -128,12 +129,14 @@
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
 
-      this.uniqueID = 'multiselect' + multiselectID;
+      this.uniqueID = multiselectID;
+      o.uniqueId = o.uniqueId.replace('#', this.uniqueID);
+      o.menuId = o.menuId.replace('#', this.uniqueID);
 
       // create a unique namespace for events that the widget
       // factory cannot unbind automatically. Use eventNamespace if on
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
-      this._namespaceID = this.eventNamespace || this.uniqueID;
+      this._namespaceID = this.eventNamespace || o.uniqueId;
 
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
@@ -220,7 +223,7 @@
       var checkboxContainer = this.checkboxContainer;
       var optgroups = [];
       var html = "";
-      var id = el.attr('id') || this.uniqueID; // unique ID for the label & option tags
+      var id = el.attr('id') || o.uniqueId; // unique ID for the label & option tags
       var inOptGroup = false;
       var inUl = false;
       var optName = el.attr('name') || id;
