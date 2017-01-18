@@ -102,4 +102,10 @@
 * html .ui-multiselect-checkboxes label {
   border: none;
 }
+
+@media print {
+    .ui-multiselect-menu {
+		display: none;
+	}   
+}
 /*# sourceMappingURL=jquery.multiselect.css.map */

@@ -118,7 +118,7 @@
     },
 
     _create: function () {
-      var el = this.element.hide();
+      var el = this.element;
       var o = this.options;
 
       if (!o.appendTo) { o.appendTo = document.body; }
@@ -197,6 +197,7 @@
       if (!o.multiple) {
         menu.addClass('ui-multiselect-single');
       }
+      el.hide();
     },
 
     _init: function () {
@@ -232,7 +233,7 @@
       el.find('option').each(function (i) {
         var $this = $(this);
         var parent = this.parentNode;
-        var title = $this.text(); // this.innerHTML;
+        var title = this.title === "" ? this.textContent : this.title;
         var description = o.withTitle ? (this.title || title) : '';
         var value = this.value;
         var inputID = 'ui-multiselect-' + id + '-' + (this.id || 'option-' + i);
@@ -256,7 +257,13 @@
 
             optLabel = parent.getAttribute('label');
             if (optLabel) {
-              html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><span class="ui-multiselect-header-icon ui-icon ' + o.icons.activeHeader + '"></span><a href="#">' + optLabel + '</a></li>';
+              var optLabelEscaped = optLabel.replace(/&/g, '&amp;')
+                .replace(/>/g, '&gt;')
+                .replace(/</g, '&lt;')
+                .replace(/'/g, '&#39;')
+                .replace(/\//g, '&#x2F;')
+                .replace(/"/g, '&quot;');
+              html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><span class="ui-multiselect-header-icon ui-icon ' + o.icons.activeHeader + '"></span><a href="#">' + optLabelEscaped + '</a></li>';
             }
           }
         } else if (inOptGroup) {
@@ -606,7 +613,7 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + this._namespaceID + ' touchstart.' + this._namespaceID, function (event) {
+      $doc.bind('mousedown.' + self._namespaceID + ' touchstart.' + self._namespaceID, function (event) {
         var target = event.target;
 
         if (self._isOpen
@@ -663,10 +670,10 @@
       if (o.menuWidth && /\d/.test(o.menuWidth)) {
         width = o.menuWidth;
       } else {
-        width = this.button.outerWidth();
+        width = (this.button.outerWidth() <= 0) ? o.minWidth : this.button.outerWidth();
       }
 
-      if (/\d/.test(o.minMenuWidth) && width < o.minMenuWidth) {
+      if (/\d/.test(o.minMenuWidth) && /\d/.test(width) && width < o.minMenuWidth) {
         width = o.minMenuWidth;
       }
 

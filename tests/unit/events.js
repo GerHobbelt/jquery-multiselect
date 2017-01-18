@@ -142,7 +142,7 @@
                 equal(this, el[0], "option: context of callback");
                 equal(e.type, 'multiselectclick', 'option: event type in callback');
                 equal(ui.value, "2", "option: ui.value equals");
-                equal(ui.text, "Option 2", "option: ui.title equals");
+                equal(ui.text, "Option 2", "option: ui.text equals");
 
                 if(times === 0) {
                     equal(ui.checked, true, "option: ui.checked equals");
@@ -157,7 +157,7 @@
             ok(true, 'event: triggering the click event on the second checkbox triggers multiselectclick');
             equal(this, el[0], 'event: context of event');
             equal(ui.value, "2", "event: ui.value equals");
-            equal(ui.text, "Option 2", "event: ui.title equals");
+            equal(ui.text, "Option 2", "event: ui.text equals");
 
             if(times === 0) {
                 equal(ui.checked, true, "option: ui.checked equals");
@@ -209,7 +209,7 @@
                 equal(this, el[0], "option: context of callback");
                 equal(e.type, 'multiselectclick', 'option: event type in callback');
                 equal(ui.value, "2", "option: ui.value equals");
-                equal(ui.text, "Option 2", "option: ui.title equals");
+                equal(ui.text, "Option 2", "option: ui.text equals");
                 equal(ui.extraParameters, "test parameter", "option: ui.extraParameters equals");
             }
         })
@@ -217,7 +217,7 @@
             ok(true, 'event: triggering the click event on the second checkbox triggers multiselectclick');
             equal(this, el[0], 'event: context of event');
             equal(ui.value, "2", "event: ui.value equals");
-            equal(ui.text, "Option 2", "event: ui.title equals");
+            equal(ui.text, "Option 2", "event: ui.text equals");
             equal(ui.extraParameters, "test parameter", "option: ui.extraParameters equals");
         })
         .bind("change", function(e){

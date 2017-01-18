@@ -127,8 +127,8 @@
             .multiselect({ selectedList: 1 });
 
         equal(button().text(), 'A&E');
-		el.multiselect("destroy").remove();
-	});
+        el.multiselect("destroy").remove();
+    });
 
     test("selectedList - custom separator", function () {
         expect(2);
@@ -159,7 +159,7 @@
         var height = 234;
 
         el = $("select").multiselect({ height: height }).multiselect("open");
-        equal(height, menu().find(".ui-multiselect-checkboxes").height(), 'height after opening propertly set to '+height);
+        equal(height, menu().find(".ui-multiselect-checkboxes").height(), 'height after opening property set to '+height);
 
         // change height and re-test
         height = 333;
@@ -203,6 +203,22 @@
         el.multiselect("option", "minWidth", minWidth);
         var outerWidth = button().outerWidth();
         ok(minWidth !== outerWidth, 'changing value through api to '+minWidth+' (too small), outerWidth is actually ' + outerWidth);
+
+        el.multiselect("destroy");
+    });
+    
+    test("menuWidth", function(){
+        expect(2);
+        var width = 50;
+
+        el = $("select").multiselect({ minWidth: 100, menuWidth:width }).multiselect("open");
+
+        equals( menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'width after opening, property set to '+width );
+
+        // change height and re-test
+        width = 300;
+        el.multiselect("option", "menuWidth", width).multiselect('refresh');
+        equals( menu().parent().find(".ui-multiselect-menu").outerWidth(), width,  'changing value through api to '+width );
 
         el.multiselect("destroy");
     });
