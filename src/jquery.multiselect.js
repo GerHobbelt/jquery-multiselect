@@ -94,7 +94,7 @@
       noneSelectedText: 'Select options',  // may be text or function which produces text
       allSelectedText: 'All selected',     // may be text or function which produces text
       selectedText: '# selected',          // may be text or function which produces text; when a string, the first `#` is replaced by the number of options selected, the second `#` in the string will be replaced by the number of available options
-      selectedList: 0,                     // number: the maximum number of options listed as a separator-separated list; larger sets are reported as '# of #' via `selectedText` 
+      selectedList: 0,                     // number: the maximum number of options listed as a separator-separated list; larger sets are reported as '# of #' via `selectedText`
       selectedListSeparator: ', ',
       htmlButtonValue: false,
       show: null,
@@ -109,7 +109,7 @@
       enableCloseIcon: true,
       appendTo: "body",
       uniqueId: 'multiselect-#',            // the `#` is replaced by the `uniqueID` number assigned to this multiselect instance at run-time
-      menuId: "multiselectMenu-#",          // the `#` is replaced by the `uniqueID` number assigned to this multiselect instance at run-time 
+      menuId: "multiselectMenu-#",          // the `#` is replaced by the `uniqueID` number assigned to this multiselect instance at run-time
       icons: {
         close: 'ui-icon-circle-close',
         activeHeader: "ui-icon-triangle-1-s",
@@ -145,7 +145,7 @@
           'title': el.attr('title'),
           'aria-haspopup': true,
           'tabIndex': el.attr('tabIndex'),
-	  'id': el.attr('id') + '_ms'
+          'id': el.attr('id') + '_ms'
         })
         .insertAfter(el),
 
@@ -788,9 +788,9 @@
     },
 
     _toggleDisabled: function (flag) {
-      var btn = this.button.prop({ 
-        'disabled': flag, 
-        'aria-disabled': flag 
+      var btn = this.button.prop({
+        'disabled': flag,
+        'aria-disabled': flag
       });
       addOrRemoveDisabledClass(btn, flag);
 
@@ -808,9 +808,9 @@
       }
 
       var parent = inputs
-        .prop({ 
-          'disabled': flag, 
-          'aria-disabled': flag 
+        .prop({
+          'disabled': flag,
+          'aria-disabled': flag
         })
         .parent();
       addOrRemoveDisabledClass(parent, flag);

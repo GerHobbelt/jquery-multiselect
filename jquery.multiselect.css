@@ -1,6 +1,6 @@
 /*!
  * jQuery MultiSelect v1.15.0 (http://multiselect.com)
- * Copyright 2011-2015 Eric Hynds
+ * Copyright 2011-2017 Eric Hynds
  * mixed: MIT or GPL (https://github.com/..../blob/master/LICENSE)
  */
 
@@ -102,10 +102,9 @@
 * html .ui-multiselect-checkboxes label {
   border: none;
 }
-
 @media print {
-    .ui-multiselect-menu {
-		display: none;
-	}   
+  .ui-multiselect-menu {
+    display: none;
+  }
 }
 /*# sourceMappingURL=jquery.multiselect.css.map */
