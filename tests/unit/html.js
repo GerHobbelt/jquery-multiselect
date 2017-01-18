@@ -1,10 +1,11 @@
 (function($){
-    var el, widget, elems;
+    var el, widget, elems, btn;
 
     module("html", {
         setup: function() {
             el = $("select").multiselect();
             widget = el.multiselect("widget");
+            btn = el.multiselect("getButton");
         }
     });
 
@@ -28,6 +29,12 @@
         expect(1);
 
         equal(widget.find('input[value="9"]').parents('li:first').hasClass('optionClass'),true,'Extra class is present');
+    });
+    
+    test("pull in select's ID and adds _ms", function() {
+        expect(1);
+	
+        equal(btn.attr("id"), el.attr("id") + "_ms", "Id is taken from select and _ms is appended");
     });
 
     test("verify ul/li counts", function() {

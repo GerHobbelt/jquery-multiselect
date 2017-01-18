@@ -1,6 +1,6 @@
 /* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
- * jQuery MultiSelect UI Widget 1.14pre
+ * jQuery MultiSelect UI Widget 1.15
  * Copyright (c) 2012 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -141,10 +141,11 @@
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
-        .attr({ 
-          'title': el.attr('title'), 
-          'aria-haspopup': true, 
-          'tabIndex': el.attr('tabIndex') 
+        .attr({
+          'title': el.attr('title'),
+          'aria-haspopup': true,
+          'tabIndex': el.attr('tabIndex'),
+	  'id': el.attr('id') + '_ms'
         })
         .insertAfter(el),
 
@@ -228,6 +229,15 @@
       var inOptGroup = false;
       var inUl = false;
       var optName = el.attr('name') || id;
+
+      // update header link container visibility if needed
+      if (this.options.header) {
+        if(!this.options.multiple) {
+          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
+        } else {
+          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
+        }
+      }
 
       // build items
       el.find('option').each(function (i) {
@@ -569,7 +579,7 @@
         $this.focus();
 
         // toggle aria state
-        $this.attr('aria-selected', checked);
+        $this.prop('aria-selected', checked);
 
         // if selected, add the highlight class to the label class list.
         if (self.options.highlightSelected) {
@@ -778,7 +788,7 @@
     },
 
     _toggleDisabled: function (flag) {
-      var btn = this.button.attr({ 
+      var btn = this.button.prop({ 
         'disabled': flag, 
         'aria-disabled': flag 
       });
@@ -798,14 +808,14 @@
       }
 
       var parent = inputs
-        .attr({ 
+        .prop({ 
           'disabled': flag, 
           'aria-disabled': flag 
         })
         .parent();
       addOrRemoveDisabledClass(parent, flag);
 
-      this.element.attr({
+      this.element.prop({
         'disabled': flag,
         'aria-disabled': flag
       });
@@ -1056,13 +1066,10 @@
         break;
       case 'width':
       case 'minWidth':
-        this.options[key] = value;
-        this._setButtonWidth();
-        this._setMenuWidth();
-        break;
       case 'menuWidth':
       case 'minMenuWidth':
         this.options[key] = value;
+        this._setButtonWidth();
         this._setMenuWidth();
         break;
       case 'selectedText':
