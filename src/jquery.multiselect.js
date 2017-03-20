@@ -540,12 +540,8 @@
     },
     // set button width
     _setButtonWidth: function() {
-      var width = this.element.outerWidth();
-      var minVal = this._getMinWidth();
+      var width = this._getMinWidth();
 
-      if(width < minVal) {
-        width = minVal;
-      }
       // set widths
       this.button.outerWidth(width);
     },
