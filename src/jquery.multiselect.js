@@ -87,7 +87,7 @@
         .prop('aria-haspopup', true)
         .insertAfter(el);
 
-        this.buttonlabel = $('<span />')
+        this.buttonlabel = $('<span />').addClass('button-label')
           .html(o.noneSelectedText)
           .appendTo(button);
 
@@ -99,27 +99,6 @@
         this.header = $('<div />')
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
           .appendTo(this.menu);
-
-        this.headerLinkContainer = $('<ul />')
-          .addClass('ui-helper-reset')
-          .html(function() {
-            if(o.header === true) {
-              var header_lis = '';
-              if(o.showCheckAll) {
-                header_lis = '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
-              }
-              if(o.showUncheckAll) {
-                header_lis += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
-              }
-              return header_lis;
-            } else if(typeof o.header === "string") {
-              return '<li>' + o.header + '</li>';
-            } else {
-              return '';
-            }
-          })
-          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon '+o.closeIcon+'"></span></a></li>')
-          .appendTo(this.header);
 
         var checkboxContainer = (this.checkboxContainer = $('<ul />'))
           .addClass('ui-multiselect-checkboxes ui-helper-reset')
@@ -141,11 +120,6 @@
     _init: function() {
       if(this.options.header === false) {
         this.header.hide();
-      }
-      if(!this.options.multiple) {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
-      } else {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
       }
       if(this.options.autoOpen) {
         this.open();
@@ -232,15 +206,6 @@
       this.inputIdCounter = 0;
 
 
-      // update header link container visibility if needed
-      if (this.options.header) {
-        if(!this.options.multiple) {
-          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
-        } else {
-          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
-        }
-      }
-
       this._buildOptionList(el, $dropdown);
 
       this.menu.find(".ui-multiselect-checkboxes").remove();
@@ -249,8 +214,6 @@
       // cache some moar useful elements
       this.labels = menu.find('label');
       this.inputs = this.labels.children('input');
-
-      this._setButtonWidth();
 
       this.update(true);
 
@@ -266,21 +229,27 @@
       var $inputs = this.inputs;
       var $checked = $inputs.filter(':checked');
       var numChecked = $checked.length;
-      var value;
+      var value, title;
 
       if(numChecked === 0) {
         value = o.noneSelectedText;
       } else {
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
-        } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          value = $checked.map(function() { return $(this).next().text(); }).get().join(o.selectedListSeparator);
         } else {
-          value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
+          title = $checked.map(function(){ return $(this).next().html(); }).get().join(', ');
+          if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
+            value = title
+          } else {
+            value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
+          }
         }
       }
 
       this._setButtonValue(value);
+      if(title) {
+        this.button.attr('title', title);
+      }
       if(isDefault) {
         this.button[0].defaultValue = value;
       }
@@ -579,7 +548,6 @@
     },
 
     _resizeMenu: function() {
-      this._setMenuWidth();
       this._setMenuHeight();
     },
 
@@ -877,8 +845,8 @@
 
     position: function() {
       var pos = {
-        my: "top",
-        at: "bottom",
+        my: "left top",
+        at: "left bottom",
         of: this.button
       };
       if(!$.isEmptyObject(this.options.position)) {
@@ -903,9 +871,6 @@
         case 'header':
           if(typeof value === 'boolean') {
             this.header[value ? 'show' : 'hide']();
-          } else if(typeof value === 'string') {
-            this.headerLinkContainer.children("li:not(:last-child)").remove();
-            this.headerLinkContainer.prepend("<li>" + value + "</li>");
           }
           break;
         case 'checkAllText':
@@ -917,12 +882,6 @@
         case 'height':
           this.options[key] = value;
           this._setMenuHeight();
-          break;
-        case 'minWidth':
-        case 'menuWidth':
-          this.options[key] = value;
-          this._setButtonWidth();
-          this._setMenuWidth();
           break;
         case 'selectedText':
         case 'selectedList':

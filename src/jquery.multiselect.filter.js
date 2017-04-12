@@ -103,7 +103,9 @@
         this.updateCache();
         this._handler();
       }, this));
-      this.wrapper = $("<div/>").addClass("ui-multiselect-filter").text(opts.label).append(this.input).prependTo(this.header);
+      this.wrapper = $("<div/>").addClass("ui-multiselect-filter")
+        .html('<i class="icon icon-search-in-dropdown"></i>')
+        .append(opts.label).append(this.input).prependTo(this.header);
 
       // reference to the actual inputs
       this.inputs = this.instance.menu.find('input[type="checkbox"], input[type="radio"]');
