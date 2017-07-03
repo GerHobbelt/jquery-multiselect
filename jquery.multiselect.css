@@ -11,7 +11,7 @@
 .ui-multiselect-header span.ui-icon { float:left; }
 .ui-multiselect-header .ui-multiselect-close { float:right; padding-right:0; text-align:right; }
 
-.ui-multiselect-menu { display:none; padding:3px; position:absolute; text-align: left; }
+.ui-multiselect-menu { display:none; padding:3px; position:absolute; text-align: left; z-index: 9999999; }
 .ui-multiselect-checkboxes { overflow-y:auto; position:relative; }
 .ui-multiselect-checkboxes label { border:1px solid transparent; cursor:default; display:block; padding:3px 1px; }
 .ui-multiselect-checkboxes label input { position:relative; top:1px }
@@ -22,4 +22,91 @@
 
 @media print{
     .ui-multiselect-menu {display: none;}
+}
+
+
+/* stile dei dropdownchecklist, altrimenti rimene quello di default del tema corrente jquery */
+
+.dropdown .ui-state-default
+{
+    border-top: 1px solid #999;
+    border-left: 1px solid #999;
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    background: #fff url(/images/dropdown.png) no-repeat center right;
+    border-radius: 0px;
+    font-weight: normal;
+    vertical-align: middle;
+    font-size: 13px;
+    padding-left: 5px;
+    color: #000;
+    height: 22px;;
+}
+.dropdown .ui-widget-content .ui-state-default,
+.dropdown .ui-widget-header .ui-state-default {
+    border: none;
+    background: #fff;
+    font-weight: normal;
+    color: #000;
+}
+
+.dropdown .ui-state-default a,
+.dropdown .ui-state-default a:link,
+.dropdown .ui-state-default a:visited {
+    color: #000;
+    text-decoration: none;
+}
+.dropdown .ui-state-hover {
+    border-top: 1px solid #666;
+    border-left: 1px solid #666;
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    background: #fff url(/images/dropdown.png) no-repeat center right;
+    font-weight: normal;
+    color: #000;
+}
+
+.dropdown .ui-widget-content .ui-state-hover,
+.dropdown .ui-widget-header .ui-state-hover,
+.dropdown .ui-state-focus,
+.dropdown .ui-widget-content .ui-state-focus,
+.dropdown .ui-widget-header .ui-state-focus {
+
+    font-weight: normal;
+    color: #000;
+}
+.dropdown .ui-state-hover a,
+.dropdown .ui-state-hover a:hover,
+.dropdown .ui-state-hover a:link,
+.dropdown .ui-state-hover a:visited {
+    color: #1d5987;
+    text-decoration: none;
+}
+.dropdown .ui-state-active {
+    border-top: 1px solid #999;
+    border-left: 1px solid #999;
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    background: #fff url(/images/dropdown.png) no-repeat center right;
+    font-weight: normal;
+    color: #000;
+}
+.dropdown .ui-widget-content .ui-state-active,
+.dropdown .ui-widget-header .ui-state-active {
+    border: none;
+    background: #fff;
+    font-weight: normal;
+    color: #000;
+}
+.dropdown .ui-state-active a,
+.dropdown .ui-state-active a:link,
+.dropdown .ui-state-active a:visited {
+    color: #000;
+    text-decoration: none;
+}
+
+.dropdown button span:not(.ui-icon){
+    display: block;
+    height: 15px;
+    overflow: hidden;
 }
